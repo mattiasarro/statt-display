@@ -3,10 +3,15 @@ source 'https://rubygems.org'
 ruby '1.9.3'
 gem 'rails', '3.2.8'
 
-gem "thin" # use this for dev & production
-gem "mongoid", "~> 3.0.0"
+gem 'thin' # use this for dev & production
+gem 'mongoid', "~> 3.0.0"
 
-gem "haml-rails"
+gem 'inherited_resources'
+gem 'haml-rails'
+
+group :test do
+  gem 'factory_girl_rails'
+end
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
