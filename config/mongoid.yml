@@ -18,9 +18,7 @@ test:
       hosts:
           - localhost:27017
 
-<% if ENV['MONGOLAB_URI'] %>
-  production:
-    sessions:
-      default:
-        uri: <%= ENV['MONGOLAB_URI'] %>
-<% end %>
+production:
+  sessions:
+    default:
+      uri: <%= ENV['MONGOLAB_URI'] %>
