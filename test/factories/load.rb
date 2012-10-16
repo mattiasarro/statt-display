@@ -4,6 +4,12 @@ end
 
 FactoryGirl.define do
   
+  factory :load do
+    ip { random_ip }
+    user_id "john-doe"
+    time { Time.now }
+  end
+  
   factory :user_load do
     ip { random_ip }
     user_id "john-doe"

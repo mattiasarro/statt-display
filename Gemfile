@@ -5,12 +5,14 @@ gem 'rails', '3.2.8'
 
 gem 'thin' # use this for dev & production
 gem 'mongoid', "~> 3.0.0"
+gem 'database_cleaner'
 
 gem 'inherited_resources'
 gem 'haml-rails'
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'rspec-rails'
 end
 
 group :assets do
