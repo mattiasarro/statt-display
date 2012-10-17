@@ -6,19 +6,19 @@ FactoryGirl.define do
   
   factory :load do
     ip { random_ip }
-    user_id "john-doe"
+    cl_user_id "john-doe"
     time { Time.now }
   end
   
   factory :user_load do
     ip { random_ip }
-    user_id "john-doe"
+    cl_user_id "john-doe"
     time { Time.now }
   end
   
   factory :visitor_load do
     ip  { random_ip } # random IP
-    user_id ""
+    cl_user_id ""
     time { Time.now }
   end
   

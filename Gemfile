@@ -13,7 +13,8 @@ gem 'quiet_assets'
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'rspec-rails'
+  gem 'turn'
+  gem 'minitest-spec-rails'
 end
 
 group :assets do
