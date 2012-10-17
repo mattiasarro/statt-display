@@ -9,6 +9,7 @@ gem 'database_cleaner'
 
 gem 'inherited_resources'
 gem 'haml-rails'
+gem 'quiet_assets'
 
 group :test do
   gem 'factory_girl_rails'

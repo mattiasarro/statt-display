@@ -5,7 +5,7 @@
     %th IP
     %th User ID
     %th Time
-  - @loads.each do |load|
+  - @loads.desc(:time).each do |load|
     %tr.load
       %td= load.ip
       %td= load.user_id
