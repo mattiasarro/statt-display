@@ -1,0 +1,16 @@
+table.visitors {
+  width: 100%;
+  margin-top: 50px;
+}
+
+table.visitors tr td {
+  border-top: 1px solid #ccc;
+}
+
+tr.odd td {
+  background: #ccc;
+}
+
+tr.even td {
+  background: inherit;
+}

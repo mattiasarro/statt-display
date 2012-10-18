@@ -1,6 +1,6 @@
 Display::Application.routes.draw do
-  resources :loads
-  root :to => 'loads#index'
+  resources :visitors
+  root :to => 'visitors#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

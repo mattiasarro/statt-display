@@ -36,10 +36,6 @@ describe Visitor do
     visitors_total_loads.must_equal 7
   end
   
-  def visitors_total_loads
-    Visitor.all.inject(0) {|sum,v| sum + v.loads.size }
-  end
-  
   it "should create Visitor db entry with track_page_load" do
     visitor = FactoryGirl.build(:visitor)
     load = FactoryGirl.create(:load)
@@ -93,4 +89,7 @@ describe Visitor do
     load.reload.visitor_id.must_equal visitor.id
   end
   
+  def visitors_total_loads
+    Visitor.all.inject(0) {|sum,v| sum + v.loads.size }
+  end
 end

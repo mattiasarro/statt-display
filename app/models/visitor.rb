@@ -4,7 +4,7 @@ class Visitor
   has_many :loads
   
   field :cl_user_id
-  field :cookie_ids, type: Array
+  field :cookie_ids, type: Array # used only for looking up Visitors
   
   def self.refresh_from_loads(attr = {})
     from, to = attr[:from], (attr[:to] || Time.now)
@@ -33,6 +33,10 @@ class Visitor
     self.loads << load
     self.cl_user_id = load.cl_user_id
     self.save && load.save
+  end
+  
+  def to_s
+    cl_user_id.try(:empty?) ? loads.last.ip : cl_user_id
   end
   
 end

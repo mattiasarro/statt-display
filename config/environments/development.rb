@@ -1,4 +1,7 @@
 Display::Application.configure do
+  
+  config.collect_host = 'http://localhost:9393'
+  
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on

@@ -1,0 +1,16 @@
+%table.loads
+  %tr
+    %th IP
+    %th User ID
+    %th Time
+    %th Time on Page
+    %th Cookie ID
+  - loads.desc(:time).each do |load|
+    %tr.load
+      %td= load.ip
+      %td= load.cl_user_id
+      %td
+        = time_ago_in_words load.time, include_seconds: true
+        ago
+      %td= load.time_on_page
+      %td= load.cookie_id

@@ -1,5 +1,6 @@
 // = require base
 // = require_self
+// = require visitors
 // = require loads
 
 body {

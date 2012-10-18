@@ -6,7 +6,9 @@ class Load
   field :ip
   field :cl_user_id # optional
   field :cookie_id
-  field :http_referrer
   field :time, type: Time
   
+  field :http_referrer
+  field :path
+  field :query_parameters
 end

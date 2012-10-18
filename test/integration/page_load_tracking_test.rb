@@ -4,7 +4,9 @@ require 'net/http'
 class PageLoadTrackingTest < ActionDispatch::IntegrationTest
   
   test "track a single page load" do
-    base = "http://localhost:9394/track?env=test&"
+    base  = Rails.configuration.collect_host
+    base += '/track?env=test&'
+    
     collector_query = base + FactoryGirl.attributes_for(:load).to_query
 
     assert_equal 0, Load.all.size
