@@ -1,16 +1,18 @@
 %table.loads
   %tr
     %th IP
-    %th User ID
+    %th Path
+    %th QF
     %th Time
     %th Time on Page
     %th Cookie ID
   - loads.desc(:time).each do |load|
     %tr.load
       %td= load.ip
-      %td= load.cl_user_id
+      %td= load.path
+      %td= load.query.to_s + load.fragment.to_s
       %td
         = time_ago_in_words load.time, include_seconds: true
         ago
-      %td= load.time_on_page
+      %td= distance_of_time_in_words load.time_on_page
       %td= load.cookie_id

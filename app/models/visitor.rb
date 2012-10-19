@@ -27,11 +27,11 @@ class Visitor
     visitor || self.new
   end
   
-  # Update visitor's cookie_ids, cl_user_id and loads 1:many references
   def track_page_load(load)
     self.add_to_set :cookie_ids, load.cookie_id
     self.loads << load
     self.cl_user_id = load.cl_user_id
+    load.set_previous
     self.save && load.save
   end
   

@@ -3,6 +3,11 @@ table.visitors {
   margin-top: 50px;
 }
 
+table.visitors tr.visitor td {
+  font-size: 1.1em;
+  padding-left: 20px;
+}
+
 table.visitors tr td {
   border-top: 1px solid #ccc;
 }

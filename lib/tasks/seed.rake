@@ -6,28 +6,32 @@ mattias = [
     cl_user_id: 'mattias-arro',
     cookie_id: '1',
     time: Time.at(60.seconds.ago),
-    path: '/blog/article-on-rails?pg=2'
+    uri_string: 'http://mysite.com/blog/article-on-rails?pg=2',
+    http_referer: "http://mysite.com/blog/article-on-rails"
   },
   {
     ip: '6.234.228.145',
     cl_user_id: 'mattias-arro',
     cookie_id: '1',
     time: Time.at(230.seconds.ago),
-    path: '/blog/article-on-rails'
+    uri_string: 'http://mysite.com/blog/article-on-rails',
+    http_referer: "http://mysite.com/blog"
   },
   {
     ip: '6.234.228.145',
     cl_user_id: 'mattias-arro',
     cookie_id: '1',
     time: Time.at(280.seconds.ago),
-    path: '/blog'
+    uri_string: 'http://mysite.com/blog',
+    http_referer: "http://mysite.com/"
   },
   {
     ip: '6.234.228.145',
     cl_user_id: 'mattias-arro',
     cookie_id: '1',
     time: Time.at(300.seconds.ago),
-    path: '/'
+    uri_string: 'http://mysite.com/',
+    http_referer: "http://google.com/search?q=asdf"
   }
 ]
 
@@ -37,28 +41,32 @@ john = [
     cl_user_id: 'johnnydoe',
     cookie_id: '2',
     time: Time.at(5.minutes.ago),
-    path: '/categories/keyboards/products/logitech-aspier-2398'
+    uri_string: 'http://mysite.com/categories/keyboards/products/logitech-aspier-2398',
+    http_referer: "http://mysite.com/categories/keyboards/products"
   },
   {
     ip: '33.27.174.114',
     cl_user_id: 'johnnydoe',
     cookie_id: '2',
     time: Time.at(6.minutes.ago),
-    path: '/categories/keyboards/products'
+    uri_string: 'http://mysite.com/categories/keyboards/products',
+    http_referer: "http://mysite.com/categories"
   },
   {
     ip: '33.27.174.114',
     cl_user_id: 'johnnydoe',
     cookie_id: '2',
     time: Time.at(8.minutes.ago),
-    path: '/categories'
+    uri_string: 'http://mysite.com/categories',
+    http_referer: "http://mysite.com/"
   },
   {
     ip: '33.27.174.114',
     cl_user_id: 'johnnydoe',
     cookie_id: '2',
     time: Time.at(9.minutes.ago),
-    path: '/'
+    uri_string: 'http://mysite.com/',
+    http_referer: "http://google.com/search?q=asdf"
   }
 ]
 laura = [
@@ -67,14 +75,16 @@ laura = [
     cl_user_id: '',
     cookie_id: '3',
     time: Time.at(30.minutes.ago),
-    path: '/contact'
+    uri_string: 'http://mysite.com/contact',
+    http_referer: "http://mysite.com/"
   },
   {
     ip: '67.46.150.111',
     cl_user_id: '',
     cookie_id: '3',
     time: Time.at(90.minutes.ago),
-    path: '/'
+    uri_string: 'http://mysite.com/',
+    http_referer: "http://google.com/search?q=asdf"
   }
 ]
 
