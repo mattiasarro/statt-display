@@ -13,8 +13,16 @@ gem 'quiet_assets'
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'turn'
   gem 'minitest-spec-rails'
+  gem 'turn' # highlighting test output
+
+  gem 'guard-minitest'
+  gem 'rb-fsevent', :require => false
+  # # tab1: bundle exec guard
+  # # tab2: autotest
+  # gem 'guard-spork'    # [ensure Spork running]
+  # gem 'spork-minitest' # MiniTest runner for Spork
+  # gem 'rb-fsevent', '~> 0.9.1'
 end
 
 group :assets do
