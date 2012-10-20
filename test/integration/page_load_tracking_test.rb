@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + "/../minitest_helper"
 require 'net/http'
 
 class PageLoadTrackingTest < ActionDispatch::IntegrationTest

@@ -16,7 +16,7 @@ gem 'quiet_assets'
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'minitest-spec-rails'
+  gem 'minitest-rails'
   gem 'turn' # highlighting test output
 
   gem 'guard-minitest'

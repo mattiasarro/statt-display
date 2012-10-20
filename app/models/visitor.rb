@@ -8,7 +8,7 @@ class Visitor
   
   def self.refresh_from_loads(attr = {})
     from, to = attr[:from], (attr[:to] || Time.now)
-    loads = Load.where(load_id: nil)
+    loads = Load.where(load_id: nil).asc(:time) # asc(:time) needed, visitor.loads later uses this to find the previous load 
     loads = loads.where(:time.gt => from, :time.lt => to) if (from && to)
     loads.each do |load|
       visitor = find_by_user_or_cookie_id(load.cl_user_id, 

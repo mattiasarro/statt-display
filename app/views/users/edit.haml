@@ -4,5 +4,18 @@
       %td.r1 Name:
       %td.r2= @user.name
     %tr
+      %td.r1 Provider:
+      %td.r2= @user.provider
+    %tr
+      %td.r1 User ID:
+      %td.r2= @user.uid
+    %tr
+      %td.r1 E-mail:
+      %td.r2
+        - if @user.provider == "twitter"
+          = f.text_field :email
+        - else
+          = @user.email
+    %tr
       %td.r1
       %td.r2= f.submit "Save Changes"

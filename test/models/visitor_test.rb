@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + "/../test_helper"
+require File.dirname(__FILE__) + "/../minitest_helper"
 
-describe Visitor do
+class VisitorTest < MiniTest::Rails::ActiveSupport::TestCase
   
   it "should generate Visitors array of the correct length based on timeframe" do
     Visitor.where(:time.gt => 30.minutes.ago).must_be_empty

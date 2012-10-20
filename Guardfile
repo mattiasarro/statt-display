@@ -1,4 +1,5 @@
-guard 'minitest', test_folders: 'test/unit', test_file_patterns: '*_test.rb' do
+test_folders = ['test/models', 'test/controllers', 'test/integration', 'test/performance']
+guard 'minitest', test_folders: test_folders, test_file_patterns: '*_test.rb' do
 
   # with Minitest::Unit
   watch(%r|^test/(.*)\/?(.*)_test\.rb|)
