@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :user_logged_in?
+  helper_method :correct_user?
+  helper_method :ensure_correct_user!
 
   private
   
@@ -18,6 +20,12 @@ class ApplicationController < ActionController::Base
 
   def user_logged_in?
     current_user ? true : false
+  end
+  
+  def ensure_correct_user!
+    unless correct_user?
+      redirect_to root_url, :alert => "You are not allowed to access that #{correct_user?.inspect}"
+    end
   end
   
   def correct_user?

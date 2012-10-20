@@ -1,7 +1,5 @@
 class UsersController < ApplicationController
   
-  before_filter :correct_user?, except: :index
-  
   def index
     unless user_logged_in? and current_user.admin?
       redirect_to root_url
@@ -10,5 +8,7 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
+    ensure_correct_user!
   end
+
 end
