@@ -1,7 +1,7 @@
 class User
   include Mongoid::Document
   
-  attr_protected :provider, :uid, :name, :email
+  attr_protected :provider, :uid, :name
   
   field :provider
   field :uid

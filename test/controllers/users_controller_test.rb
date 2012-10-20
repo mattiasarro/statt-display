@@ -37,4 +37,19 @@ describe UsersController do
     assert_response :success      # while logged in as :user2
   end
   
+  it "must update the e-mail for twitter-based users" do
+    @u1 = login(:user)    
+    put :update, id: @u1.to_param, user: { email: "new@email.com" }
+    assert_redirected_to edit_user_path(assigns(:user))
+    @u1.reload.email.must_equal "new@email.com"
+  end
+  
+  it "won't update the e-mail for non-twitter users" do
+    @u1 = login(:user)
+    @u1.update_attribute :provider, "twonker"
+    put :update, id: @u1.to_param, user: { email: "even-newer@email.com" }
+    assert_redirected_to edit_user_path(assigns(:user))
+    @u1.reload.email.wont_equal "even-newer@email.com"
+  end
+  
 end

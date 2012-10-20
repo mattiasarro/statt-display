@@ -9,4 +9,5 @@ describe User do
     @user = FactoryGirl.create(:user)
     refute @user.admin?
   end
+  
 end
