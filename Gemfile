@@ -7,6 +7,9 @@ gem 'thin' # use this for dev & production
 gem 'mongoid', "~> 3.0.0"
 gem 'database_cleaner'
 
+gem 'omniauth'
+gem 'omniauth-twitter'
+
 gem 'inherited_resources'
 gem 'haml-rails'
 gem 'quiet_assets'

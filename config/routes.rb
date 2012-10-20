@@ -1,6 +1,16 @@
 Display::Application.routes.draw do
-  resources :visitors
-  root :to => 'visitors#index'
+  get "users/index"
+
+  get "root/index"
+  
+  resources :users # application users
+  resources :visitors # visitors of tracked websites
+  root :to => 'root#index'
+  
+  match '/auth/:provider/callback' => 'sessions#create'
+  match '/auth/failure' => 'sessions#failure'
+  match '/log_out' => 'sessions#destroy', as: :log_out
+  match '/log_in' => 'sessions#new', as: :log_in
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
