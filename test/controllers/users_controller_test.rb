@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + "/../minitest_helper"
-require 'controller_test_helpers'
 
 describe UsersController do
   include ControllerTestHelpers

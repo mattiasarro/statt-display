@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + "/../minitest_helper"
-require 'controller_test_helpers'
 
 describe SitesController do
   include ControllerTestHelpers
@@ -80,7 +79,7 @@ describe SitesController do
 
     it "must update site" do
       put :update, id: @site1.to_param, site: @site1.attributes
-      assert_redirected_to site_path(assigns(:site))
+      assert_redirected_to edit_site_path(assigns(:site))
     end
 
     it "must destroy site" do

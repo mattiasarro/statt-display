@@ -18,7 +18,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'minitest-rails'
   gem 'minitest-spec-context'
-  gem 'turn' # highlighting test output
+  # gem 'turn' # highlighting test output; alternative to 'pride'
 
   gem 'guard-minitest'
   gem 'rb-fsevent', :require => false
