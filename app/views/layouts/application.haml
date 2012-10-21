@@ -10,7 +10,8 @@
     #wrapper
       #header
         #sites
-          Your sites
+          - if user_logged_in?
+            = link_to "Your sites", sites_path
         #auth
           - if user_logged_in?
             = link_to current_user, edit_user_path(current_user)
@@ -19,5 +20,5 @@
           - else
             = link_to "Log in", log_in_path
           
-      = render 'layouts/flashes'
+      = render 'flashes'
       = yield

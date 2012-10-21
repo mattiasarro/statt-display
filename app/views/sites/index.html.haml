@@ -1,0 +1,20 @@
+%h1 Your Sites
+
+%table
+  %tr
+    %th Name
+    %th Domains
+    %th
+
+  - @sites.each do |site|
+    %tr
+      %td= link_to site.name, site_path(site)
+      %td
+        %ul
+          - site.domains.each do |d|
+            %li= d
+      %td= link_to 'Edit', edit_site_path(site)
+
+%br
+
+= link_to 'New Site', new_site_path

@@ -1,5 +1,4 @@
-class UsersController < ApplicationController
-  inherit_resources
+class UsersController < InheritedResources::Base
   respond_to :html
   actions :update
   

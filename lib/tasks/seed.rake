@@ -34,7 +34,6 @@ mattias = [
     http_referer: "http://google.com/search?q=asdf"
   }
 ]
-
 john = [
   {
     ip: '33.27.174.114',
@@ -101,4 +100,8 @@ task :seed => :environment do
   Seeds.each do |attr|
     puts Net::HTTP.get_response(URI(base + attr.to_query)).body
   end
+  
+  User.create(email: 'mattias.arro@gmail.com',
+              provider: 'twitter',
+              uid: '14820811')
 end

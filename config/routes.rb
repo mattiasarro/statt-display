@@ -1,10 +1,10 @@
 Display::Application.routes.draw do
-  get "users/index"
-
-  get "root/index"
   
+  resources :sites
   resources :users # application users
   resources :visitors # visitors of tracked websites
+  
+  get "root/index"
   root :to => 'root#index'
   
   match '/auth/:provider/callback' => 'sessions#create'

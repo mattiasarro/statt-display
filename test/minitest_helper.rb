@@ -12,6 +12,7 @@ require "minitest/rails"
 
 class MiniTest::Rails::ActiveSupport::TestCase
   setup :clean_mongodb
+  teardown :clean_mongodb
   
   def clean_mongodb
     DatabaseCleaner.strategy = :truncation

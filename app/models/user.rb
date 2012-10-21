@@ -1,8 +1,9 @@
 class User
   include Mongoid::Document
   
-  attr_protected :provider, :uid, :name
+  has_and_belongs_to_many :sites
   
+  attr_protected :provider, :uid, :name
   field :provider
   field :uid
   field :name

@@ -1,12 +1,8 @@
 require File.dirname(__FILE__) + "/../minitest_helper"
+require 'controller_test_helpers'
 
 describe UsersController do
-  
-  def login(factory_symbol)
-    @current_user = FactoryGirl.create(factory_symbol)
-    session[:user_id] = @current_user.id
-    return @current_user
-  end
+  include ControllerTestHelpers
   
   it "must show index to admin" do
     login(:admin)
