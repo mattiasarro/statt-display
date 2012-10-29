@@ -3,6 +3,7 @@ require 'uri'
 class Load
   include Mongoid::Document
   
+  embedded_in :site
   belongs_to :visitor
   belongs_to :previous, class_name: "Load", inverse_of: :next
   belongs_to :next, class_name: "Load", inverse_of: :previous

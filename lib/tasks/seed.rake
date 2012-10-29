@@ -97,11 +97,20 @@ task :seed => :environment do
   base  = Rails.configuration.collect_host
   base += '/track?'
   
+  u = User.create(email: 'mattias.arro@gmail.com')
+  u.name = 'Mattias Arro'
+  u.provider = 'twitter'
+  u.uid = '14820811'
+  u.save
+
+  s = Site.create(name: "Example Site")
+  s.domains.create(name: "example.com")
+  u.sites << s
+  u.save && s.save
+  
   Seeds.each do |attr|
+    attr[:site_id] = s.id
     puts Net::HTTP.get_response(URI(base + attr.to_query)).body
   end
   
-  User.create(email: 'mattias.arro@gmail.com',
-              provider: 'twitter',
-              uid: '14820811')
 end

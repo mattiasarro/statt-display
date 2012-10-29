@@ -6,17 +6,18 @@
     %tr
       %td.r1= f.label :name
       %td.r2= f.text_field :name
-    %tr
-      %td.r1= f.label "Existing domains"
-      %td.r2
-        - if params[:action] == 'edit'
+    - if params[:action] == 'edit'
+      %tr
+        %td.r1= f.label "Existing domains"
+        %td.r2
           = f.fields_for :domains do |df|
             .edit-domain
               = df.text_field :name
               = df.check_box :_destroy
               %a.destroy-domain{href: "#"} Delete domain
     %tr
-      %td.r1= f.label "Add domain"
+      %td.r1
+        = f.label (params[:action] == "edit" ? "Add domain" : "Domain")
       %td.r2
         = f.fields_for :domains, @site.domains.build do |df|
           = df.text_field :name, value: ""

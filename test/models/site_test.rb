@@ -6,7 +6,7 @@ class SiteTest < MiniTest::Rails::ActiveSupport::TestCase
     @u = User.create
     @u.sites.create(title: "asdf")
     
-    @u.reload
+    @u = User.first
     @u.sites.size.must_equal 1
     @u.sites.first.users.must_include @u
   end

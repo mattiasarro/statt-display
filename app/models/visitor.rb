@@ -1,36 +1,29 @@
 class Visitor
   include Mongoid::Document
   
-  has_many :loads
+  embedded_in :site
+  
+  # mimicking has_many :loads
+  def loads
+    site.loads.where(visitor: self)
+  end
   
   field :cl_user_id
   field :cookie_ids, type: Array # used only for looking up Visitors
   
-  def self.refresh_from_loads(attr = {})
-    from, to = attr[:from], (attr[:to] || Time.now)
-    loads = Load.where(load_id: nil).asc(:time) # asc(:time) needed, visitor.loads later uses this to find the previous load 
-    loads = loads.where(:time.gt => from, :time.lt => to) if (from && to)
-    loads.each do |load|
-      visitor = find_by_user_or_cookie_id(load.cl_user_id, 
-                                          load.cookie_id)
-      visitor.track_page_load(load)
-    end
-  end
-  
   # Tries finding a visitor based on cl_user_id, then cookie_id or build the visitor.
   def self.find_by_user_or_cookie_id(cl_user_id, cookie_id)
     if cl_user_id
-      visitor = find_by(cl_user_id: cl_user_id)
+      find_by(cl_user_id: cl_user_id)
     else
-      visitor = where(:cookie_ids.in => [cookie_id]).first
+      where(:cookie_ids.in => [cookie_id]).first
     end
-    visitor || self.new
   end
   
   def track_page_load(load)
     self.add_to_set :cookie_ids, load.cookie_id
-    self.loads << load
     self.cl_user_id = load.cl_user_id
+    load.visitor = self
     load.set_previous
     self.save && load.save
   end

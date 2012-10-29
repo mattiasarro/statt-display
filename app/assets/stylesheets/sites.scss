@@ -1,3 +1,20 @@
 .edit-domain input[type=checkbox] {
   display: none;
 }
+.sites {
+  width: 100%;
+}
+
+.sites tr:first-child {
+  background: #DADADA;
+}
+
+.sites td {
+  text-align: left;
+}
+
+.sites .domains ul, .sites .domains li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}

@@ -3,8 +3,9 @@ class SitesController < InheritedResources::Base
   actions :all
   
   before_filter :authenticate_user!
-  before_filter  :ensure_ownership!, except: [:index, :new, :create]
+  before_filter :ensure_ownership!, except: [:index, :new, :create]
   before_filter :do_not_create_empty_domain, only: :update
+  before_filter lambda { @site.refresh_visitors }, :only => :show
     
   def update
     do_not_create_empty_domain

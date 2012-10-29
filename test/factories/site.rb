@@ -2,11 +2,11 @@ FactoryGirl.define do
   
   factory :site do
     name 'My Sample Site'
-    # domains ['example.com', 'www.example.com']
+    domains { [FactoryGirl.build(:domain)] }
   end
   
-  # factory :domain, class: Domain do
-  #   
-  # end
+  factory :domain do
+    name 'example.com'
+  end
   
 end

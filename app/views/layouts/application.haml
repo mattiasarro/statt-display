@@ -10,7 +10,9 @@
     #wrapper
       #header
         #sites
+          %a{href: '/'} Home
           - if user_logged_in?
+            = '::'
             = link_to "Your sites", sites_path
         #auth
           - if user_logged_in?

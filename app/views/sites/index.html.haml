@@ -1,20 +1,21 @@
 %h1 Your Sites
 
-%table
+%table.sites
   %tr
     %th Name
     %th Domains
+    %th Last Page Load
     %th
 
   - @sites.each do |site|
     %tr
-      %td= link_to site.name, site_path(site)
-      %td
+      %td.name= link_to site.name, site_path(site)
+      %td.domains
         %ul
           - site.domains.each do |d|
             %li= d
-      %td= link_to 'Edit', edit_site_path(site)
-
+      %td
+      %td= link_to 'Settings', edit_site_path(site)
 %br
 
-= link_to 'New Site', new_site_path
+= link_to 'Add a website to track', new_site_path
