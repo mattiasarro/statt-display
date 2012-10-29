@@ -10,7 +10,11 @@ class SitesController < InheritedResources::Base
   def update
     do_not_create_empty_domain
     update! { edit_site_path(resource) }
-  end  
+  end
+  
+  def tracking_code
+    @last_load = @site.loads.desc(:time).first
+  end
     
   protected
   

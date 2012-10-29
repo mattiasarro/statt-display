@@ -1,0 +1,17 @@
+%h2 Tracking Code
+
+
+
+%div 
+  Last load at:
+  - if @last_load
+    = @last_load.time
+  - else
+    never
+
+%h3 Add this code immediately before your &lt;/body&gt; tag:
+
+#tracking_code><= display_tracking_code(0.1)
+
+%br
+= link_to 'Back', @site

@@ -81,7 +81,12 @@ describe SitesController do
       put :update, id: @site1.to_param, site: @site1.attributes
       assert_redirected_to edit_site_path(assigns(:site))
     end
-
+    
+    it "must get tracking code" do
+      get :tracking_code, id: @site1.to_param
+      assert_response :success
+    end
+    
     it "must destroy site" do
       assert_difference('Site.count', -1) do
         delete :destroy, id: @site1.to_param
@@ -107,7 +112,12 @@ describe SitesController do
     end
     
     it "must redirect from edit" do
-      get :edit, id: @site2.to_param      
+      get :edit, id: @site2.to_param
+      assert_redirected_to root_url
+    end
+    
+    it "must redirect from tracking_code" do
+      get :tracking_code, id: @site2.to_param
       assert_redirected_to root_url
     end
     
