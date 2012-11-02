@@ -1,7 +1,36 @@
 require 'net/http'
 
+# seed
+# UI
+# tests
+
+conf = {
+  mattias: {
+    visitor_id: Moped::BSON::ObjectId.new,
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4",
+    screenx: 1440,
+    browserx: 1170,
+    browsery: 501
+  },
+  john: {
+    visitor_id: Moped::BSON::ObjectId.new,
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4",
+    screenx: 1440,
+    browserx: 1170,
+    browsery: 501
+  },
+  laura: {
+    visitor_id: Moped::BSON::ObjectId.new,
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4",
+    screenx: 1440,
+    browserx: 1170,
+    browsery: 501
+  }
+}
+
 mattias = [
   {
+    title: "Article on Rails page 2",
     ip: '6.234.228.145',
     cl_user_id: 'mattias-arro',
     cookie_id: '1',
@@ -10,6 +39,7 @@ mattias = [
     http_referer: "http://mysite.com/blog/article-on-rails"
   },
   {
+    title: "Article on Rails",
     ip: '6.234.228.145',
     cl_user_id: 'mattias-arro',
     cookie_id: '1',
@@ -18,6 +48,7 @@ mattias = [
     http_referer: "http://mysite.com/blog"
   },
   {
+    title: "Blog",
     ip: '6.234.228.145',
     cl_user_id: 'mattias-arro',
     cookie_id: '1',
@@ -26,6 +57,7 @@ mattias = [
     http_referer: "http://mysite.com/"
   },
   {
+    title: "MySite :: Home",
     ip: '6.234.228.145',
     cl_user_id: 'mattias-arro',
     cookie_id: '1',
@@ -36,6 +68,7 @@ mattias = [
 ]
 john = [
   {
+    title: "Logitech Aspire #2398",
     ip: '33.27.174.114',
     cl_user_id: 'johnnydoe',
     cookie_id: '2',
@@ -44,6 +77,7 @@ john = [
     http_referer: "http://mysite.com/categories/keyboards/products"
   },
   {
+    title: 'Keyboards',
     ip: '33.27.174.114',
     cl_user_id: 'johnnydoe',
     cookie_id: '2',
@@ -52,6 +86,7 @@ john = [
     http_referer: "http://mysite.com/categories"
   },
   {
+    title: 'Product Categories',
     ip: '33.27.174.114',
     cl_user_id: 'johnnydoe',
     cookie_id: '2',
@@ -60,6 +95,7 @@ john = [
     http_referer: "http://mysite.com/"
   },
   {
+    title: 'MySite :: Home Page',
     ip: '33.27.174.114',
     cl_user_id: 'johnnydoe',
     cookie_id: '2',
@@ -70,6 +106,7 @@ john = [
 ]
 laura = [
   {
+    title: 'Contact Us',
     ip: '67.46.150.111',
     cl_user_id: '',
     cookie_id: '3',
@@ -78,6 +115,7 @@ laura = [
     http_referer: "http://mysite.com/"
   },
   {
+    title: "MySite :: Home Page",
     ip: '67.46.150.111',
     cl_user_id: '',
     cookie_id: '3',
@@ -87,15 +125,13 @@ laura = [
   }
 ]
 
-Seeds = [ mattias, john, laura].flatten
+users = [ :mattias, :laura, :john ]
+Seeds = { mattias: mattias, laura: laura, john: john }
 
 task :seed => :environment do
   DatabaseCleaner.strategy = :truncation
   DatabaseCleaner.orm = "mongoid"
   DatabaseCleaner.clean
-  
-  base  = Rails.configuration.collect_host
-  base += '/track?'
   
   u = User.create(email: 'mattias.arro@gmail.com')
   u.name = 'Mattias Arro'
@@ -108,9 +144,17 @@ task :seed => :environment do
   u.sites << s
   u.save && s.save
   
-  Seeds.each do |attr|
-    attr[:site_id] = s.id
-    puts Net::HTTP.get_response(URI(base + attr.to_query)).body
+  host = Rails.configuration.collect_host
+  base = host + "/sites/#{s.id}/"
+  users.each do |u|
+    create_visitor_url = base + "new_visitor.png?visitor_id=#{conf[u][:visitor_id]}"
+    puts Net::HTTP.get_response(URI(create_visitor_url))
+
+    Seeds[u].each do |attr|
+      attr.merge!(conf[u])
+      track_url = base + "track.png?" + attr.to_query
+      puts Net::HTTP.get_response(URI(track_url)).body
+    end
   end
   
 end

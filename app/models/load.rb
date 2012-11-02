@@ -8,7 +8,7 @@ class Load
   belongs_to :previous, class_name: "Load", inverse_of: :next
   belongs_to :next, class_name: "Load", inverse_of: :previous
   
-  field :resource
+  field :uri_string
   field :http_referer
   field :title
   field :user_agent
@@ -19,17 +19,21 @@ class Load
   
   field :ip
   field :cl_user_id # optional
+  field :query_parameters
+  
   field :time, type: Time
   field :time_on_page, type: Integer # in seconds
-  
-  field :uri_string
-  field :query_parameters
   
   attr_accessor :uri
   after_initialize do
     self.uri = URI(uri_string) if uri_string
   end
   delegate :path, :query, :fragment, to: :uri
+  
+  def visitor
+    return @visitor if @visitor
+    @visitor = site.visitors.find(visitor_id)
+  end
   
   def time_on_page
     unless (ret = super).nil?
