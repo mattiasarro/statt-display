@@ -9,18 +9,18 @@ class LoadTest < MiniTest::Rails::ActiveSupport::TestCase
   end
   
   it "should have no :previous load if referer outside the site" do
-    load = @loads.create FactoryGirl.attributes_for(:load, http_referer: "http://google.com/search?id=asdf", visitor: @visitor)
+    load = @loads.create FactoryGirl.attributes_for(:load, http_referer: "http://google.com/search?id=asdf", visitor_id: @visitor.id)
     assert load.previous.nil?
   end
   
   it "should have a :previous load if referer from this site; :previous should have :next" do
     uri = "http://mysite.com/"
-    from = @loads.create FactoryGirl.attributes_for(:load, uri_string: uri, http_referer: "http://google.com/search?id=asdf", visitor: @visitor)
-    to   = @loads.create FactoryGirl.attributes_for(:load, http_referer: uri, uri_string: "http://mysite.com/blog/", visitor: @visitor)
+    from = @loads.create FactoryGirl.attributes_for(:load, uri_string: uri, http_referer: "http://google.com/search?id=asdf", visitor_id: @visitor.id)
+    to   = @loads.create FactoryGirl.attributes_for(:load, http_referer: uri, uri_string: "http://mysite.com/blog/", visitor_id: @visitor.id)
     
     @site.reload.loads.size.must_equal 2
-    to.previous.must_equal from
     from.next.must_equal to
+    to.previous.must_equal from
   end
   
   it "should set the correct :previous load in case of multiple loads with same referer" do
