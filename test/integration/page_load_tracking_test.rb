@@ -3,9 +3,15 @@ require 'net/http'
 
 class PageLoadTrackingTest < ActionDispatch::IntegrationTest
   
+  
+  test "add a visitor" do
+    
+  end
+  
   test "track a single page load" do
+    skip
     base  = Rails.configuration.collect_host
-    base += '/track?env=test&'
+    base += "/sites/#{@site.id}/" '/track.png?'
     
     @site = FactoryGirl.create :site
     attr = FactoryGirl.attributes_for(:load)

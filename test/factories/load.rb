@@ -8,8 +8,11 @@ FactoryGirl.define do
     ip { random_ip }
     cl_user_id "john-doe"
     time { Time.now }
+    uri_string "http://example.com/"
+    http_referer "http://google.com/search?q=asdf"
+    title "Example Site :: Home"
   end
-  
+    
   factory :user_load do
     ip { random_ip }
     cl_user_id "john-doe"

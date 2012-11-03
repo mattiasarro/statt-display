@@ -6,11 +6,11 @@ describe SitesController do
   context "when logged in" do
     before do
       @user = login(:user)
-      @site1 = @user.sites.create FactoryGirl.attributes_for(:site)
-      @site2 = @user.sites.create FactoryGirl.attributes_for(:site)
+      @site1 = @user.sites.create FactoryGirl.attributes_for(:site_with_content)
+      @site2 = @user.sites.create FactoryGirl.attributes_for(:site_with_content)
 
       @user2 = FactoryGirl.create(:user2)
-      @site2 = @user2.sites.create FactoryGirl.attributes_for(:site)
+      @site2 = @user2.sites.create FactoryGirl.attributes_for(:site_with_content)
     end
     
     it "must get index" do
@@ -42,7 +42,7 @@ describe SitesController do
   
   context "when not logged in" do
     before do
-      @site = FactoryGirl.create(:site)
+      @site = FactoryGirl.create(:site_with_content)
     end
     
     it "must redirect from index" do
@@ -64,7 +64,7 @@ describe SitesController do
   context "when accessing your own site" do
     before do
       @user = login(:user)
-      @site1 = @user.sites.create FactoryGirl.attributes_for(:site)
+      @site1 = @user.sites.create FactoryGirl.attributes_for(:site_with_content)
     end
     
     it "must show site" do
@@ -99,11 +99,11 @@ describe SitesController do
   context "when accessing someone else's site" do
     before do
       @user = login(:user)
-      @site1 = @user.sites.create FactoryGirl.attributes_for(:site)
-      @site2 = @user.sites.create FactoryGirl.attributes_for(:site)
+      @site1 = @user.sites.create FactoryGirl.attributes_for(:site_with_content)
+      @site2 = @user.sites.create FactoryGirl.attributes_for(:site_with_content)
 
       @user2 = FactoryGirl.create(:user2)
-      @site2 = @user2.sites.create FactoryGirl.attributes_for(:site)
+      @site2 = @user2.sites.create FactoryGirl.attributes_for(:site_with_content)
     end
     
     it "must redirect from show" do

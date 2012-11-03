@@ -4,7 +4,7 @@ class Load
   include Mongoid::Document
   
   embedded_in :site
-  # belongs_to :visitor # comment this out because visitors are embedded under Site as well; let's see how many times we need to use this relation anyway
+  belongs_to :visitor # comment this out because visitors are embedded under Site as well; let's see how many times we need to use this relation anyway
   belongs_to :previous, class_name: "Load", inverse_of: :next
   belongs_to :next, class_name: "Load", inverse_of: :previous
   
@@ -35,15 +35,7 @@ class Load
     @visitor = site.visitors.find(visitor_id)
   end
   
-  def time_on_page
-    unless (ret = super).nil?
-      ret
-    else # time since load
-      (Time.now - self.time).round
-    end
-  end
-  
-  after_create :set_previous
+  after_create :set_previous_and_time_on_page
   after_create :set_cl_user_ids
   
   def set_cl_user_ids
@@ -54,11 +46,10 @@ class Load
     end
   end
   
-  def set_previous
+  def set_previous_and_time_on_page
     previous_loads = visitor.loads.desc(:time)
     self.previous = previous_loads.find_by(uri_string: self.http_referer)
     if self.previous
-
       self.previous.next = self
       self.previous.time_on_page = (self.time - self.previous.time).round
       self.previous.save and self.save
