@@ -12,7 +12,11 @@ class Visitor
   field :cl_user_ids, type: Array
     
   def to_s
-    current_cl_user_id.try(:empty?) ? loads.first.ip : current_cl_user_id
+    if current_cl_user_id.nil? or current_cl_user_id.empty?
+      loads.first.ip
+    else
+      current_cl_user_id
+    end
   end
   
 end

@@ -16,7 +16,9 @@ gem 'quiet_assets'
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'capybara-webkit'
   gem 'minitest-rails'
+  gem 'minitest-rails-capybara'
   gem 'minitest-spec-context'
   # gem 'turn' # highlighting test output; alternative to 'pride'
 

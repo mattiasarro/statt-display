@@ -1,17 +1,16 @@
 require 'net/http'
 
-# seed
-# UI
-# tests
+sample_site_ID  = "50938a641b47f80651000000"
+sample_site2_ID = "50938a641b47f80651002222"
 
 conf = {
-  mattias: {
+  mattias: { 
     visitor_id: Moped::BSON::ObjectId.new,
     user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4",
     screenx: 1440,
     browserx: 1170,
     browsery: 501
-  },
+  }, 
   john: {
     visitor_id: Moped::BSON::ObjectId.new,
     user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4",
@@ -139,7 +138,9 @@ task :seed => :environment do
   u.uid = '14820811'
   u.save
 
-  s = Site.create(name: "Example Site")
+
+  s = create_site(sample_site_ID, "Sample Site")
+  
   s.domains.create(name: "example.com")
   u.sites << s
   u.save && s.save
@@ -149,7 +150,6 @@ task :seed => :environment do
   users.each do |u|
     create_visitor_url = base + "new_visitor.png?visitor_id=#{conf[u][:visitor_id]}"
     puts Net::HTTP.get_response(URI(create_visitor_url))
-
     Seeds[u].each do |attr|
       attr.merge!(conf[u])
       track_url = base + "track.png?" + attr.to_query
@@ -157,4 +157,16 @@ task :seed => :environment do
     end
   end
   
+end
+
+def create_site(sid, name)
+  # cmd = 'db.sites.insert({ "_id": "'+ sid +'", "name": "'+ name +'"});'
+  # Site.collection.database.command("$eval" => cmd, "nolock" => false)
+  # Site.asc(:id).last
+  Site.create(name: name).tap do |s|
+    id_file_location = File.join(Rails.root, "..", "sample_site", "id.txt")
+    File.open(id_file_location, "w") do |f|
+      f.write s.id
+    end
+  end
 end

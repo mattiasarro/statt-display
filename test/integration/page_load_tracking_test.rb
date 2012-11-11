@@ -3,9 +3,13 @@ require 'net/http'
 
 class PageLoadTrackingTest < ActionDispatch::IntegrationTest
   
+  setup do
+    Capybara.current_driver = :webkit
+  end
   
   test "add a visitor" do
-    
+    visit 'http://local.sample_site/'
+    assert page.has_content?("next")
   end
   
   test "track a single page load" do
