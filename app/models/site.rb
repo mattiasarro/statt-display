@@ -2,8 +2,17 @@ class Site
   include Mongoid::Document
   
   has_and_belongs_to_many :users
-  embeds_many :visitors
-  embeds_many :loads
+  
+  has_many :visitorz, class_name: "Visitor", inverse_of: :site
+  has_many :loadz, class_name: "Load", inverse_of: :site
+    
+  def visitors
+    visitorz.with(collection: "site_#{id}_visitors")
+  end
+  
+  def loads
+    loadz.with(collection: "site_#{id}_loads")
+  end
   
   field :name
   embeds_many :domains

@@ -12,7 +12,7 @@ class SitesController < InheritedResources::Base
   end
   
   def tracking_code
-    @last_load = @site.loads.desc(:time).first
+    @last_load = @site.loads.asc(:time).last
   end
     
   protected

@@ -128,10 +128,8 @@ users = [ :mattias, :laura, :john ]
 Seeds = { mattias: mattias, laura: laura, john: john }
 
 task :seed => :environment do
-  DatabaseCleaner.strategy = :truncation
-  DatabaseCleaner.orm = "mongoid"
-  DatabaseCleaner.clean
-  
+  cmd = "db.dropDatabase();"
+  Site.collection.database.command("$eval" => cmd, "nolock" => true)
   u = User.create(email: 'mattias.arro@gmail.com')
   u.name = 'Mattias Arro'
   u.provider = 'twitter'

@@ -12,12 +12,10 @@ require "minitest/pride"
 
 class MiniTest::Rails::ActiveSupport::TestCase
   setup :clean_mongodb
-  teardown :clean_mongodb
   
   def clean_mongodb
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.orm = "mongoid"
-    DatabaseCleaner.clean
+    cmd = "db.dropDatabase();"
+    Site.collection.database.command("$eval" => cmd, "nolock" => true)
   end
 end
 

@@ -1,11 +1,11 @@
 class Visitor
   include Mongoid::Document
   
-  embedded_in :site
+  belongs_to :site, inverse_of: :visitorz
   
   # mimicking has_many :loads
   def loads
-    site.loads.desc(:time).where(visitor_id: self.id)
+    site.loads.where(visitor_id: self.id)
   end
   
   field :current_cl_user_id

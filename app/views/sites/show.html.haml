@@ -12,6 +12,8 @@
   - @site.visitors.each_with_index do |visitor, i|
     - next if visitor.loads.size == 0
     %tr.visitor{"data-id" => visitor.id, class: (i % 2 == 0 ? "odd" : "even")}
-      %td= visitor
+      %td
+        visitor
+        = visitor
     %tr.visitor-loads{id: "visitor-#{visitor.id}-loads"}
       %td= render 'loads/list', loads: visitor.loads
