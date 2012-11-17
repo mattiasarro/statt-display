@@ -128,15 +128,8 @@ users = [ :mattias, :laura, :john ]
 Seeds = { mattias: mattias, laura: laura, john: john }
 
 task :seed => :environment do
-  cmd = "db.dropDatabase();"
-  Site.collection.database.command("$eval" => cmd, "nolock" => true)
-  u = User.create(email: 'mattias.arro@gmail.com')
-  u.name = 'Mattias Arro'
-  u.provider = 'twitter'
-  u.uid = '14820811'
-  u.save
-
-
+  drop_database
+  u = create_user
   s = create_site(sample_site_ID, "Sample Site")
   
   s.domains.create(name: "example.com")
@@ -144,17 +137,35 @@ task :seed => :environment do
   u.save && s.save
   
   host = Rails.configuration.collect_host
-  base = host + "/sites/#{s.id}/"
+  base = host
   users.each do |u|
-    create_visitor_url = base + "new_visitor.png?visitor_id=#{conf[u][:visitor_id]}"
+    a = {
+      visitor_id: conf[u][:visitor_id],
+      site_id: s.id
+    }
+    create_visitor_url = base + "/new_visitor.png?" + a.to_query
     puts Net::HTTP.get_response(URI(create_visitor_url))
     Seeds[u].each do |attr|
       attr.merge!(conf[u])
-      track_url = base + "track.png?" + attr.to_query
+      attr.merge!({site_id: s.id})
+      track_url = base + "/track.png?" + attr.to_query
       puts Net::HTTP.get_response(URI(track_url)).body
     end
   end
   
+end
+
+def drop_database
+  cmd = "db.dropDatabase();"
+  Site.collection.database.command("$eval" => cmd, "nolock" => true)
+end
+
+def create_user
+  u = User.create(email: 'mattias.arro@gmail.com')
+  u.name = 'Mattias Arro'
+  u.provider = 'twitter'
+  u.uid = '14820811'
+  u.save
 end
 
 def create_site(sid, name)
