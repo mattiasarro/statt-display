@@ -5,7 +5,7 @@ class Visitor
   
   # mimicking has_many :loads
   def loads
-    site.loads.where(visitor_id: Moped::BSON::ObjectId(self.id))
+    site.loads.where(visitor_id: Moped::BSON::ObjectId(self.id)).desc(:time)
   end
   
   field :current_cl_user_id

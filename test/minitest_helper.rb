@@ -12,7 +12,7 @@ require "minitest/pride"
 
 class MiniTest::Rails::ActiveSupport::TestCase
   setup :clean_mongodb
-  teardown :clean_mongodb
+  # teardown :clean_mongodb
   
   def clean_mongodb
     cmd = "db.dropDatabase();"
@@ -53,6 +53,7 @@ module IntegrationTestHelpers
       uri  = base_uri + "new_visitor.png?" + attr.to_query
       # puts "visiting #{uri}"
       visit uri
+      sleep(1)
     end
   end
   
@@ -61,5 +62,6 @@ module IntegrationTestHelpers
     uri = base_uri + "track.png?" + attr.to_query
     # puts "visiting #{uri}"
     visit uri
+    sleep(1)
   end
 end
