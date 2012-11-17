@@ -14,6 +14,11 @@ gem 'inherited_resources'
 gem 'haml-rails'
 gem 'quiet_assets'
 
+group :development do
+  gem 'pry'
+  gem 'pry-doc'
+end
+
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara-webkit'

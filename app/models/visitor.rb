@@ -2,6 +2,7 @@ class Visitor
   include Mongoid::Document
   
   belongs_to :site, inverse_of: :visitorz
+  has_many :loads
   
   # mimicking has_many :loads
   def loads

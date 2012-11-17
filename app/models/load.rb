@@ -4,6 +4,7 @@ class Load
   include Mongoid::Document
   
   belongs_to :site, inverse_of: :loadz
+  belongs_to :visitor
   
   # build a Criteria manually!
   belongs_to :previous, class_name: "Load" # this is buggy due to our funky collection
