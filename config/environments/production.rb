@@ -1,5 +1,5 @@
 Display::Application.configure do
-  config.collect_host = 'http://statt-collector.herokuapp.com'
+  config.collect_host = 'http://statt-collect.herokuapp.com'
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests

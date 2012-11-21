@@ -13,6 +13,4 @@
       %td
         = time_ago_in_words load.time, include_seconds: true
         ago
-      %td
-        - if load.time_on_page
-          = distance_of_time_in_words load.time_on_page
+      %td= format_time_on_page load.time_on_page
