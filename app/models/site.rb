@@ -3,6 +3,11 @@ class Site
   
   has_and_belongs_to_many :users
   
+  # Since Model.collection is a class method, any solutions patching the collector
+  # will have problems when there is more than one instance of that model. One option
+  # remains, trying to make the model_instance.collection return a instance-specific result,
+  # though this solution must be "good enough" for now.
+  
   has_many :visitorz, class_name: "Visitor", inverse_of: :site
   has_many :loadz, class_name: "Load", inverse_of: :site
     

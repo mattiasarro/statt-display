@@ -166,6 +166,7 @@ def create_user
   u.provider = 'twitter'
   u.uid = '14820811'
   u.save
+  u
 end
 
 def create_site(sid, name)
