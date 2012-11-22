@@ -15,5 +15,6 @@
       %td
         visitor
         = visitor
+        (#{visitor.id})
     %tr.visitor-loads{id: "visitor-#{visitor.id}-loads"}
       %td= render 'loads/list', loads: visitor.loads
