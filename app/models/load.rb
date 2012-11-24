@@ -3,7 +3,7 @@ require 'uri'
 class Load
   include Mongoid::Document
   
-  belongs_to :site, inverse_of: :loadz
+  belongs_to :site, class_name: "SiteBase"
   belongs_to :visitor
   
   # build a Criteria manually!
