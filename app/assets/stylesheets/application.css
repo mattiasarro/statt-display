@@ -4,7 +4,7 @@
 // = require loads
 // = require users
 // = require sites
-// = require root
+// = require chart
 
 body {
   font-size: 0.9em;
@@ -32,7 +32,7 @@ h2 {
 }
 
 #wrapper {
-  width: 700px;
+  width: 720px;
   margin: 50px auto;
 }
 

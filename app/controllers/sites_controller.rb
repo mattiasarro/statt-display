@@ -5,7 +5,12 @@ class SitesController < InheritedResources::Base
   before_filter :authenticate_user!
   before_filter :ensure_ownership!, except: [:index, :new, :create]
   before_filter :do_not_create_empty_domain, only: :update
-    
+  
+  def show
+    @graph = Graph.factory(params[:graph])
+    @graph.site = @site
+  end
+  
   def update
     do_not_create_empty_domain
     update! { edit_site_path(resource) }

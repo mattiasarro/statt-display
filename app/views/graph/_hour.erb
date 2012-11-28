@@ -1,0 +1,11 @@
+<script type="text/javascript">
+  
+  nr_bars = 60;
+  data = [
+    <% 59.times.each do |i| %>
+      {time: <%= i %>, value: <%= data[i] %>},
+    <% end %>
+      {time: 60, value: <%= data[59] %>}
+  ];
+  
+</script>

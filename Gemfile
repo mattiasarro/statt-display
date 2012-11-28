@@ -14,6 +14,7 @@ gem 'inherited_resources'
 gem 'haml-rails'
 gem 'quiet_assets'
 
+gem 'faker'
 group :development do
   gem 'pry'
   gem 'pry-doc'

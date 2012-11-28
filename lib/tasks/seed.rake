@@ -1,5 +1,26 @@
 require 'net/http'
 
+# come up with a random generator that would populate a month
+
+class Randomer
+  def initialize(attr)
+    @nr_visitors = attr[:visitors]
+    @nr_loads = attr[:loads]
+    @from = attr[:from]
+    @to = attr[:to]
+    # create visitors
+    # for each visitor, randomly take a chunk of nr_pages
+  end
+end
+Randomer.new(
+  nr_visitors: 4,
+  nr_pages: 30,
+  from: Time.at(60.minutes.ago),
+  to: Time.at(Time.now),
+  site: s # move to where s is set
+  
+)
+
 sample_site_ID  = "50938a641b47f80651000000"
 sample_site2_ID = "50938a641b47f80651002222"
 

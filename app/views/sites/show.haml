@@ -1,0 +1,20 @@
+%h1= @site.name
+
+= link_to "Settings", edit_site_path(@site)
+\|
+= link_to "Tracking code", action: :tracking_code
+
+#chart
+  .explain
+    Showing
+    = form_for @graph, {url: "."} do |f|
+      = f.select :type, options_for_select([["60 minutes", "hour"]])
+      beginning at
+      = f.datetime_select :from, order: [:day, :month, :year, :hour, :minute]
+      = f.submit "Update graph"
+  
+  = render "graph/#{@graph.type}", data: @graph.data
+
+%p
+  Group by visitors?
+  = check_box :asdf, :asdf
