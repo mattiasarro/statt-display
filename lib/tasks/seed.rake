@@ -1,25 +1,5 @@
 require 'net/http'
-
-# come up with a random generator that would populate a month
-
-class Randomer
-  def initialize(attr)
-    @nr_visitors = attr[:visitors]
-    @nr_loads = attr[:loads]
-    @from = attr[:from]
-    @to = attr[:to]
-    # create visitors
-    # for each visitor, randomly take a chunk of nr_pages
-  end
-end
-Randomer.new(
-  nr_visitors: 4,
-  nr_pages: 30,
-  from: Time.at(60.minutes.ago),
-  to: Time.at(Time.now),
-  site: s # move to where s is set
-  
-)
+require 'randomer'
 
 sample_site_ID  = "50938a641b47f80651000000"
 sample_site2_ID = "50938a641b47f80651002222"
@@ -157,23 +137,38 @@ task :seed => :environment do
   u.sites << s
   u.save && s.save
   
-  host = Rails.configuration.collect_host
-  base = host
-  users.each do |u|
-    a = {
-      visitor_id: conf[u][:visitor_id],
-      site_id: s.id
-    }
-    create_visitor_url = base + "/new_visitor.png?" + a.to_query
-    puts Net::HTTP.get_response(URI(create_visitor_url))
-    Seeds[u].each do |attr|
-      attr.merge!(conf[u])
-      attr.merge!({site_id: s.id})
-      track_url = base + "/track.png?" + attr.to_query
-      puts Net::HTTP.get_response(URI(track_url)).body
-    end
+  @base = Rails.configuration.collect_host
+  
+  @randomer = Randomer.new(
+    nr_visitors: 20,
+    nr_loads: 500,
+    from: Time.at(60.minutes.ago),
+    to: Time.at(Time.now),
+    site: s
+  )
+  
+  @randomer.visitors.each do |visitor_attr|
+    create_visitor(@base, visitor_attr)
   end
   
+  @randomer.loads.each do |load_attr|
+    create_load(@base, load_attr)
+  end
+  
+  # users.each do |u|
+  #   visitor_attr = {
+  #     visitor_id: conf[u][:visitor_id],
+  #     site_id: s.id
+  #   }
+  #   create_visitor(@base, visitor_attr)
+  #   
+  #   Seeds[u].each do |attr|
+  #     attr.merge!(conf[u])
+  #     attr.merge!({site_id: s.id})
+  #     
+  #     create_load(@base, attr)
+  #   end
+  # end
 end
 
 def drop_database
@@ -200,4 +195,16 @@ def create_site(sid, name)
       f.write s.id
     end
   end
+end
+
+def create_visitor(base, attr)
+  url = base + "/new_visitor.png?" + attr.to_query
+  puts "#{url}\n"
+  puts Net::HTTP.get_response(URI(url))
+end
+
+def create_load(base, attr)
+  url = base + "/track.png?" + attr.to_query
+  puts "#{url}\n"
+  puts Net::HTTP.get_response(URI(url)).body
 end

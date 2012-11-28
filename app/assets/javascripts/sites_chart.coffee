@@ -1,10 +1,5 @@
 $(document).ready () ->
   
-  # time could be a range, e.g. a 3h bar
-  # {"time": 1297110663, "value": 56},
-  # {"time": 1297110664, "value": 53},
-  # {"time": 1297110665, "value": 58},
-  # {"time": 1297110666, "value": 58},
   chart_width = 720
   chart_height = 80
   bar_width = chart_width / nr_bars # 12
@@ -14,7 +9,7 @@ $(document).ready () ->
   .range([0, bar_width])
   
   y = d3.scale.linear()
-  .domain([0, 100]) # data.value
+  .domain([0, 30]) # data.value
   .rangeRound([0, chart_height]) # rangeRound() means values are rounded to Int
   
   chart = d3.select("#chart}").append("svg")
