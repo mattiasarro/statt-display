@@ -1,5 +1,5 @@
 class Graph
-  attr_accessor :type, :from, :to, :site, :nr_bars
+  attr_accessor :type, :from, :to, :site, :nr_bars, :bar_duration
   
   def self.factory(params)
     case params[:graph][:type]
@@ -48,9 +48,11 @@ class Graph
   
   protected
   
+  # get the timestamp since epoch to the beginning of the bar
   def calculate_index(load)
-    seconds_since_graph_start = load["time"] - from
-    (seconds_since_graph_start / @bar_duration).floor
+    seconds_since_graph_start = (load["time"] - from).to_i
+    seconds_inside_bar = (seconds_since_graph_start % @bar_duration).to_i
+    time_at_bar_start = load["time"].to_i - seconds_inside_bar
   end
   
   def loads

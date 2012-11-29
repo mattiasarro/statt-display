@@ -5,7 +5,7 @@ $(document).ready () ->
   bar_width = chart_width / nr_bars # 12
   
   x = d3.scale.linear() # index * bar_width
-  .domain([0, 1])
+  .domain([0, bar_duration])
   .range([0, bar_width])
   
   y = d3.scale.linear()
@@ -14,21 +14,33 @@ $(document).ready () ->
   
   chart = d3.select("#chart_container}").append("svg")
   .attr("class", "chart")
-  .attr("width", bar_width * data.length - 1)
+  .attr("width", chart_width)
   .attr("height", chart_height)
   
   draw = ->
-    bar_x = (d,i) -> (x(i) - .5)
-      
+    key_function = (d) -> (typeof d == undefined ? 0 : d.time) 
+    bar_x = (d,i) -> (x(d.time - from) - .5)
+    bar_y = (d) -> 
+      if typeof d == undefined
+        0
+      else 
+        chart_height - y(d.value) - 1
+        
+    bar_height = (d) -> 
+      if typeof d == undefined
+        0
+      else
+        y(d.value)
+    
     bars = chart.selectAll("rect")
-    .data(data, (d) -> d.time) # key function is d.time
+    .data(data, key_function)
     
     bars.enter().insert("rect", "line")
     # .attr("x", (d,i) -> (x(i+1) - .5)) # entering bars all shifted to the right
     .attr("x", bar_x)
-    .attr("y", (d) -> (chart_height - y(d.value) - .5))
+    .attr("y", bar_y)
     .attr("width", bar_width)
-    .attr("height", (d) -> y(d.value))
+    .attr("height", bar_height)
     .transition() # fade the entering bar in
     .duration(1000)
     .attr("x", bar_x) # shift it to current position
@@ -53,8 +65,8 @@ $(document).ready () ->
   # x-axis line
   chart.append("line")
   .attr("x1", 0)
-  .attr("x2", bar_width * data.length)
+  .attr("x2", bar_width * nr_bars)
   .attr("y1", chart_height - .5)
   .attr("y2", chart_height - .5)
-  .style("stroke", "#000}")
+  .style("stroke", "steelblue")
   
