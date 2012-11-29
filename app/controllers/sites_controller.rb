@@ -7,7 +7,7 @@ class SitesController < InheritedResources::Base
   before_filter :do_not_create_empty_domain, only: :update
   
   def show
-    @graph = Graph.factory(params[:graph])
+    @graph = Graph.factory(params)
     @graph.site = @site
   end
   

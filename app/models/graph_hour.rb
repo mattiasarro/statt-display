@@ -1,13 +1,18 @@
 class GraphHour < Graph
   
   def initialize(attr)
-    attr ||= {}
     super
-    self.type = :hour
-  end
-  
-  def from
-    to - 60.minutes
+    @type = :hour
+    attr ||= {}
+                             
+    @to = attr[:to] || Time.now
+    @from = attr[:from] || (@to - 60.minutes)
+    
+    # from/to not constructed from the date/month/year strings, search how rails does that
+    
+    puts "attr[:from]: #{attr[:from]}"
+    puts "\n@from: #{@from}\n"
+    puts "\n@to: #{@to}\n"
   end
   
   def data
@@ -20,7 +25,7 @@ class GraphHour < Graph
     end
   end
   
-  private
+  # private
   
   def loads_within_range
     loads.find({

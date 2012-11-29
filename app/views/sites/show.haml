@@ -7,13 +7,13 @@
 #chart
   .explain
     Showing
-    = form_for @graph, {url: "."} do |f|
+    = form_for @graph, {url: site_path(@site), method: :get} do |f|
       = f.select :type, options_for_select([["60 minutes", "hour"]])
       beginning at
       = f.datetime_select :from, order: [:day, :month, :year, :hour, :minute]
       = f.submit "Update graph"
   
-  = render "graph/#{@graph.type}", data: @graph.data
+  = render "graph_data/#{@graph.type}", data: @graph.data
 
 %p
   Group by visitors?
