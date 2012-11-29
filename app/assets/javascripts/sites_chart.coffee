@@ -9,10 +9,10 @@ $(document).ready () ->
   .range([0, bar_width])
   
   y = d3.scale.linear()
-  .domain([0, 30]) # data.value
+  .domain([0, max_value]) # data.value
   .rangeRound([0, chart_height]) # rangeRound() means values are rounded to Int
   
-  chart = d3.select("#chart}").append("svg")
+  chart = d3.select("#chart_container}").append("svg")
   .attr("class", "chart")
   .attr("width", bar_width * data.length - 1)
   .attr("height", chart_height)

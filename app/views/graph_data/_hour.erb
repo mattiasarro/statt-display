@@ -1,11 +1,14 @@
 <script type="text/javascript">
   
-  nr_bars = 60;
-  data = [
-    <% 59.times.each do |i| %>
-      {time: <%= i %>, value: <%= data[i] %>},
-    <% end %>
-      {time: 60, value: <%= data[59] %>}
-  ];
+  nr_bars = <%= graph.nr_bars %>;
+  max_value = <%= graph.data.values.max || 0 %>;
   
+  <% "can't do graph.data.each because we need to fill out empty bars as well" %>
+  data = [
+    <% graph.nr_bars.times.each do |i| %>
+      
+      {time: <%= i %>, value: <%= graph.data[i] %>}
+      <%= ',' unless i == graph.nr_bars %>
+    <% end %>
+  ];
 </script>

@@ -1,34 +1,27 @@
-#chart {
+#chart_container {
   margin-top: 40px;
   margin-bottom: 30px;
 }
 
-#chart .explain form, #chart .explain select {
+#chart_container .explain form, #chart_container .explain select {
   display: inline;
 }
-.chart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white;
-  
-  clear:both;
-}
 
-.chart text {
+svg.chart {
+  margin-top: 40px;
+}
+svg.chart text {
   font-size: 10px;
   font-family: sans-serif;
 }
-.chart rect {
+svg.chart rect {
   stroke: white;
   fill: steelblue;
 }
-.chart .values {
+svg.chart .values {
   fill: #fff;
 }
 
-.chart .rule {
+svg.chart .rule {
   fill: #7C7C7C;
 }

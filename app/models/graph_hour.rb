@@ -1,39 +1,23 @@
 class GraphHour < Graph
   
-  def initialize(attr)
+  def initialize(params)
     super
+    
     @type = :hour
-    attr ||= {}
-                             
-    @to = attr[:to] || Time.now
-    @from = attr[:from] || (@to - 60.minutes)
+    @graph_duration = 60.minutes # 60 * 60
+    @nr_bars = 60
+    @bar_duration = @graph_duration / @nr_bars # 1 minute
     
-    # from/to not constructed from the date/month/year strings, search how rails does that
-    
-    puts "attr[:from]: #{attr[:from]}"
-    puts "\n@from: #{@from}\n"
-    puts "\n@to: #{@to}\n"
+    init_from_to(params)
   end
   
-  def data
-    Hash.new(0).tap do |h|
-      loads_within_range.each do |load|
-        seconds_since_graph_start = load["time"] - from
-        i = (seconds_since_graph_start / 60).floor
-        h[i] = (h[i] || 0) + 1
-      end
+  def init_from_to(params)
+    if @from
+      @to = @from + @graph_duration
+    else
+      @to = Time.now
+      @from = @to - @graph_duration
     end
-  end
-  
-  # private
-  
-  def loads_within_range
-    loads.find({
-      time: { 
-        "$gt" => from,
-        "$lt" => to,
-      }
-    }) 
   end
   
 end
