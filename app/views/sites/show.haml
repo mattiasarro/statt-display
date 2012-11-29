@@ -7,13 +7,17 @@
 #chart_container
   .explain
     Showing
-    = form_for @graph, {url: site_path(@site), method: :get} do |f|
-      = f.select :type, options_for_select([["60 minutes", "hour"]])
+    - # params[graph] instead of params[graph_hour]
+    = form_tag site_path(@site), method: :get do
+      = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
+      = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
+      = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
+      %br
       beginning at
-      = f.datetime_select :from, order: [:day, :month, :year, :hour, :minute]
-      = f.submit "Update graph"
+      = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
+      = submit_tag "Update graph"
   
-  = render "graph_data/#{@graph.type}", graph: @graph
+  = render "graph/data", graph: @graph
 
 %p
   Group by visitors?

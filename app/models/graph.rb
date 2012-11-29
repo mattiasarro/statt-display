@@ -1,16 +1,19 @@
 class Graph
-  # Imitate ActiveRecord object to be able to have form_for
-  include ActiveModel::Conversion
-  include ActiveModel::Validations  
-  extend ActiveModel::Naming
-  def persisted?; false; end
-  
   attr_accessor :type, :from, :to, :site, :nr_bars
   
   def self.factory(params)
-    if params[:graph_hour]
-      GraphHour.new(params[:graph_hour])
+    case params[:graph][:type]
+    when "hour" then GraphHour.new(params[:graph])
+    when "day" then GraphDay.new(params[:graph])
+    else GraphHour.new(params[:graph])
     end
+  end
+  
+  def self.options_for_select
+    [
+      ["60 minutes", :hour],
+      ["24 hours", :day]
+    ]
   end
   
   def initialize(params)
@@ -24,6 +27,23 @@ class Graph
         h[calculate_index(load)] += 1
       end
     end
+  end
+  
+  def query_params(sym)
+    if sym == :prev
+      @new_from_time = @from - @graph_duration
+    elsif sym == :next
+      @new_from_time = @from + @graph_duration
+    end
+    {
+          "type" => @type,
+      "from(1i)" => @new_from_time.year,
+      "from(2i)" => @new_from_time.month,
+      "from(3i)" => @new_from_time.day,
+      "from(4i)" => @new_from_time.hour,
+      "from(5i)" => @new_from_time.min,
+      "from(6i)" => @new_from_time.sec
+    }
   end
   
   protected
@@ -49,7 +69,16 @@ class Graph
       }
     }) 
   end
-    
+  
+  def init_from_to(params)
+    if @from
+      @to = @from + @graph_duration
+    else
+      @to = Time.now
+      @from = @to - @graph_duration
+    end
+  end
+  
   def parse_time(params, sym)
     return unless params["#{sym}(1i)"]
     t = Time.new(
