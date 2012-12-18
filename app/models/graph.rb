@@ -2,7 +2,7 @@ class Graph
   attr_accessor :type, :from, :to, :site, :nr_bars, :bar_duration
   
   def self.factory(params)
-    case params[:graph][:type]
+    case (params && params[:graph] && params[:graph][:type]) ? params[:graph][:type] : nil
     when "hour" then GraphHour.new(params[:graph])
     when "day" then GraphDay.new(params[:graph])
     else GraphHour.new(params[:graph])
@@ -17,8 +17,10 @@ class Graph
   end
   
   def initialize(params)
-    parse_time params, :from
-    parse_time params, :to
+    if params
+      parse_time params, :from
+      parse_time params, :to
+    end
   end
   
   def data
