@@ -1,0 +1,112 @@
+<html>
+<head>
+<script src="/assets/jquery.js"></script>
+<link href="/jquery-ui-1.9.2/css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet">
+<script type="text/javascript" src="/jquery-ui-1.9.2/js/jquery-ui-1.9.2.custom.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	console.log("begin");
+	
+	var dp = $("#datepicker").datepicker({
+		inline: true
+	});
+	
+	
+	dragging = false;
+	
+	dp.mousedown(function(e){
+		var a = $(".ui-state-hover");
+		var td = a.parent();
+		var is_day = (td.attr("data-handler") == "selectDay");
+		
+		if (is_day == true) {
+			var day = parseInt(a.text());
+			var month = td.attr("data-month");
+			var year = td.attr("data-year");
+			
+			dragging = true;
+			day_begin = day;
+			console.log("day_begin: " + day_begin);
+		}
+	});
+	
+	$("#datepicker td a").hover(function() {
+		if (dragging == true) {
+			var a = $(this);
+			var td = a.parent()
+			
+			var hover_day = parseInt(a.text());
+			var hover_month = td.attr("data-month");
+			var hover_year = td.attr("data-year");
+			
+			var all_tds = $("#datepicker td[data-month="+ hover_month +"]");
+			console.log("loop");
+			all_tds.each(function(i,e){
+				var a = $($(this).children()[0]);
+				var day = parseInt(a.text());
+				
+				if (day_begin < hover_day) {
+					var start = day_begin;
+					var end = hover_day;
+				} else {
+					var start = hover_day;
+					var end = day_begin;
+				}
+				
+				if ((start <= day) && (day <= end)) {
+					a.parent().addClass("mySelected");
+				} else {
+					a.parent().removeClass("mySelected");
+				}
+				
+				// console.log(e);
+			});
+			
+			
+			// if (hover_date == selected_date) {
+			// 	td.addClass("mySelected");
+			// }
+			// console.log(a);
+		}
+	});
+	
+	
+	dp.selectable({
+		stop: function(event, ui) {
+			dragging = false;
+			var a = $(".ui-state-hover");
+			var td = a.parent();
+			var is_day = (td.attr("data-handler") == "selectDay");
+
+			if (is_day == true) {
+				var day = a.text();
+				var month = td.attr("data-month");
+				var year = td.attr("data-year");
+
+					console.log("END: " + day + "." + month + "." + year);
+			}
+			
+			// console.log(event);
+			// console.log(ui);
+			// 
+			// console.log("set form.date_end: ");
+		}
+	});
+	
+	
+	
+	console.log("end");
+});
+</script>
+<style type="text/css">
+td.mySelected a, td.mySelected a.ui-state-default, td.mySelected a.ui-selectee, td.mySelected a.ui-selected {
+	background: #F2B272;
+}
+.ui-selectable-helper { border:0px; }
+</style>
+</head>
+<body>
+	<div id="datepicker"></div>
+</body>
+</html>
