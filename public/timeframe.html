@@ -6,92 +6,105 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	console.log("begin");
-	
-	var dp = $("#datepicker").datepicker({
-		inline: true
+	$("td#dp2").hover(function() {
+		$("#datepicker2").show();
+	}, function() {
+		$("#datepicker2").hide();//datepicker("destroy");
 	});
 	
-	$("td#dp2").hover(function() {
-		$("#datepicker2").datepicker({
+	dragging = false;
+	
+	function defineDatepicker(selector) {
+		var dp = $(selector).datepicker({
 			inline: true
 		});
 		
-		var newDate = $("#datepicker").datepicker("getDate");
-			newDate.setMonth(newDate.getMonth() + 1);
-		$("#datepicker2").datepicker("setDate", newDate);
-	}, function() {
-		$("#datepicker2").datepicker("destroy");
-	});
-	
-	dragging = false;	
-	dp.mousedown(function(e){
-		var a = $(".ui-state-hover");
-		var td = a.parent();
-		var is_day = (td.attr("data-handler") == "selectDay");
-		
-		if (is_day == true) {
-			var day = parseInt(a.text());
-			var month = td.attr("data-month");
-			var year = td.attr("data-year");
+		dp.mousedown(function(e){
+			var a = $(selector + " .ui-state-hover");
 			
-			dragging = true;
-			day_begin = day;
-			console.log("day_begin: " + day_begin);
-		}
-	});
+			var td = a.parent();
+			var is_day = (td.attr("data-handler") == "selectDay");
+
+			if (is_day == true) {
+				var day = parseInt(a.text());
+				var month = td.attr("data-month");
+				var year = td.attr("data-year");
+
+				dragging = true;
+				begin_date = new Date(year, month, day);
+				// console.log("day_begin: " + begin);
+			}
+		});
+		
+		dp.selectable({
+			stop: function(event, ui) {
+				dragging = false;
+				var a = $(selector +" .ui-state-hover");
+				var td = a.parent();
+				var is_day = (td.attr("data-handler") == "selectDay");
+
+				if (is_day == true) {
+					var day = a.text();
+					var month = td.attr("data-month");
+					var year = td.attr("data-year");
+
+						console.log("END: " + day + "." + month + "." + year);
+				}
+			}
+		});
+	}
 	
-	$("#datepicker td a").hover(function() {
+	function getDate(a) {
+		var td = a.parent()
+
+		var day = a.text();
+		var month = td.attr("data-month");
+		var year = td.attr("data-year");
+		var date = new Date(year, month, day);
+		return(date);
+	}
+	
+	defineDatepicker("#datepicker");
+	
+
+	defineDatepicker("#datepicker2");
+	var newDate = $("#datepicker").datepicker("getDate");
+		newDate.setMonth(newDate.getMonth() + 1);
+	$("#datepicker2").datepicker("setDate", newDate);
+		
+	$("td a").hover(function() {
+
 		if (dragging == true) {
 			var a = $(this);
-			var td = a.parent()
+			var hover_date = getDate(a)
 			
-			var hover_day = parseInt(a.text());
-			var hover_month = td.attr("data-month");
-			var hover_year = td.attr("data-year");
-			
-			var all_tds = $("#datepicker td[data-month="+ hover_month +"]");
-			all_tds.each(function(i,e){
-				var a = $($(this).children()[0]);
-				var day = parseInt(a.text());
+			var all_anchors = $("td[data-handler=selectDay] a");
+			all_anchors.each(function(i,e){
+				console.log("internal loop");
+				var a = $(this);
+				var current_date = getDate(a);
 				
-				if (day_begin < hover_day) {
-					var start = day_begin;
-					var end = hover_day;
+				if (begin_date < hover_date) {
+					var start = begin_date;
+					var end = hover_date;
 				} else {
-					var start = hover_day;
-					var end = day_begin;
+					var start = hover_date;
+					var end = begin_date;
 				}
 				
-				if ((start <= day) && (day <= end)) {
+				// console.log(end);
+				
+				if ((start <= current_date) && (current_date <= end)) {
 					a.parent().addClass("mySelected");
 				} else {
 					a.parent().removeClass("mySelected");
 				}
 			});
+		} else {
+			console.log("not dragging");
 		}
 	});
 	
-	dp.selectable({
-		stop: function(event, ui) {
-			dragging = false;
-			var a = $(".ui-state-hover");
-			var td = a.parent();
-			var is_day = (td.attr("data-handler") == "selectDay");
-
-			if (is_day == true) {
-				var day = a.text();
-				var month = td.attr("data-month");
-				var year = td.attr("data-year");
-
-					console.log("END: " + day + "." + month + "." + year);
-			}
-		}
-	});
-	
-	
-	
-	console.log("end");
 });
 </script>
 <style type="text/css">
