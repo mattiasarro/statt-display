@@ -12,9 +12,19 @@ $(document).ready(function() {
 		inline: true
 	});
 	
+	$("td#dp2").hover(function() {
+		$("#datepicker2").datepicker({
+			inline: true
+		});
+		
+		var newDate = $("#datepicker").datepicker("getDate");
+			newDate.setMonth(newDate.getMonth() + 1);
+		$("#datepicker2").datepicker("setDate", newDate);
+	}, function() {
+		$("#datepicker2").datepicker("destroy");
+	});
 	
-	dragging = false;
-	
+	dragging = false;	
 	dp.mousedown(function(e){
 		var a = $(".ui-state-hover");
 		var td = a.parent();
@@ -41,7 +51,6 @@ $(document).ready(function() {
 			var hover_year = td.attr("data-year");
 			
 			var all_tds = $("#datepicker td[data-month="+ hover_month +"]");
-			console.log("loop");
 			all_tds.each(function(i,e){
 				var a = $($(this).children()[0]);
 				var day = parseInt(a.text());
@@ -59,18 +68,9 @@ $(document).ready(function() {
 				} else {
 					a.parent().removeClass("mySelected");
 				}
-				
-				// console.log(e);
 			});
-			
-			
-			// if (hover_date == selected_date) {
-			// 	td.addClass("mySelected");
-			// }
-			// console.log(a);
 		}
 	});
-	
 	
 	dp.selectable({
 		stop: function(event, ui) {
@@ -86,11 +86,6 @@ $(document).ready(function() {
 
 					console.log("END: " + day + "." + month + "." + year);
 			}
-			
-			// console.log(event);
-			// console.log(ui);
-			// 
-			// console.log("set form.date_end: ");
 		}
 	});
 	
@@ -104,9 +99,24 @@ td.mySelected a, td.mySelected a.ui-state-default, td.mySelected a.ui-selectee, 
 	background: #F2B272;
 }
 .ui-selectable-helper { border:0px; }
+#dp2{
+	width: 500px;
+}
 </style>
 </head>
 <body>
-	<div id="datepicker"></div>
+	<table>
+		<tr>
+			<td>
+				<div id="datepicker"></div>
+			</td>
+			<td id="dp2">
+				<div id="datepicker2"></div>
+			</td>
+		</tr>
+	</table>
+	<div id="dp_wrapper">
+		
+	</span>
 </body>
 </html>
