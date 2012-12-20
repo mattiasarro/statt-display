@@ -1,21 +1,32 @@
 $(document).ready () ->
   
-  chart_width = 720
-  chart_height = 80
-  bar_width = chart_width / nr_bars # 12
+  chart_width = 720  # including padding
+  chart_height = 100 # including padding
+  padding = 10
+  bar_width = (chart_width - (2 * padding)) / nr_bars # 12
   
   x = d3.scale.linear() # index * bar_width
   .domain([0, bar_duration])
-  .range([0, bar_width])
+  .range([padding, bar_width + padding])
   
   y = d3.scale.linear()
   .domain([0, max_value]) # data.value
-  .rangeRound([0, chart_height]) # rangeRound() means values are rounded to Int
+  .rangeRound([padding, chart_height + padding]) # rangeRound() means values are rounded to Int
   
   chart = d3.select("#chart_container}").append("svg")
   .attr("class", "chart")
   .attr("width", chart_width)
   .attr("height", chart_height)
+  .append("g")
+  .attr("transform", "translate(" + padding + "," + padding + ")")
+  
+  xAxis = d3.svg.axis().scale(y).orient("left")
+  xAxis.ticks(5)
+  
+  
+  chart.append("g")
+  .attr("class", "axis")
+  .call(xAxis)
   
   draw = ->
     key_function = (d) -> (typeof d == undefined ? 0 : d.time) 
@@ -35,7 +46,7 @@ $(document).ready () ->
     bars = chart.selectAll("rect")
     .data(data, key_function)
     
-    bars.enter().insert("rect", "line")
+    bars.enter().insert("rect")
     # .attr("x", (d,i) -> (x(i+1) - .5)) # entering bars all shifted to the right
     .attr("x", bar_x)
     .attr("y", bar_y)
@@ -62,11 +73,11 @@ $(document).ready () ->
   #   draw()
   # , 3000 # interval has to be slightly bigger than internal transitions' speed
   
-  # x-axis line
-  chart.append("line")
-  .attr("x1", 0)
-  .attr("x2", bar_width * nr_bars)
-  .attr("y1", chart_height - .5)
-  .attr("y2", chart_height - .5)
-  .style("stroke", "steelblue")
+  # # x-axis line
+  # chart.append("line")
+  # .attr("x1", 0)
+  # .attr("x2", bar_width * nr_bars)
+  # .attr("y1", chart_height - .5)
+  # .attr("y2", chart_height - .5)
+  # .style("stroke", "steelblue")
   
