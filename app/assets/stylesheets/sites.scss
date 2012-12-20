@@ -1,3 +1,19 @@
+//= require jquery.ui.core
+//= require jquery.ui.theme
+//= require jquery.ui.datepicker
+//= require jquery.ui.selectable
+//= require daterange_selector.scss
+
+.picker:after { clear:both; }
+.picker:before,
+.picker:after {
+  content:"";
+  display: table;
+}
+.hasDatepicker {
+    float: left;
+}
+
 .edit-domain input[type=checkbox] {
   display: none;
 }

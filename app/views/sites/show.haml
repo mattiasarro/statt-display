@@ -6,6 +6,8 @@
 
 #chart_container
   .explain
+    .picker
+      #datepicker
     = form_tag site_path(@site), method: :get do
       = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
       = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)

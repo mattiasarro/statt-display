@@ -1,0 +1,13 @@
+.ui-datepicker td span, .ui-datepicker td a, .ui-datepicker td {
+    padding: 0;
+}
+
+td.within_selected_range a.ui-state-default, 
+td.within_selected_range a.ui-selectee, 
+td.within_selected_range a.ui-selected,
+td.ui-datepicker-current-day a.ui-state-active
+{
+    background: #F2B272;
+}
+.ui-selectable-helper { border:0px; }
+.ui-datepicker-prev, .ui-datepicker-next { display: none; }
