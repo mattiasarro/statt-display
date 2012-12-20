@@ -17,10 +17,8 @@ class Graph
   end
   
   def initialize(params)
-    if params
-      parse_time params, :from
-      parse_time params, :to
-    end
+    parse_time params, :from
+    parse_time params, :to
   end
   
   def data
@@ -84,7 +82,7 @@ class Graph
   end
   
   def parse_time(params, sym)
-    return unless params["#{sym}(1i)"]
+    return unless params and params["#{sym}(1i)"]
     t = Time.new(
       params["#{sym}(1i)"].to_i, 
       params["#{sym}(2i)"].to_i,

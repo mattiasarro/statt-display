@@ -37,10 +37,6 @@ DaterangeSelector = function(attr) {
         dp.mousedown(function(e){
             dragging = true;
             begin_date = dateUnderCursor();
-                            
-            if (typeof attr.start_date !== 'undefined') {
-                attr.start_date(begin_date);
-            }
             $(".ui-state-hover").parent().addClass("within_selected_range");
         });
         
@@ -48,8 +44,15 @@ DaterangeSelector = function(attr) {
             stop: function(event, ui) {
                 dragging = false;
                 end_date = dateUnderCursor();
+                
+                if (typeof attr.start_date !== 'undefined') {
+                    var start = new Date(Math.min(begin_date, end_date));
+                    attr.start_date(start);
+                }
+                
                 if (typeof attr.end_date !== 'undefined') {
-                    attr.end_date(end_date);
+                    var end = new Date(Math.max(begin_date, end_date));
+                    attr.end_date(end);
                 }
                 $(".ui-state-active").removeClass("ui-state-active");
             }
