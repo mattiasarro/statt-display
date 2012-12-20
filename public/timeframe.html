@@ -6,16 +6,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
     
-    // $("td#dp2").hover(function() {
-    //  $("#datepicker2").show();
-    // }, function() {
-    //  $("#datepicker2").hide();//datepicker("destroy");
-    // });
-    
-    
-    // jquery-ui-datepicker
-    // drag-selectable
-    
     DaterangeSelector = function(attr) {
         var selector = attr.selector;
         var nr_months = typeof attr.nr_months !== 'undefined' ? attr.nr_months : 1;
@@ -24,30 +14,42 @@ $(document).ready(function() {
         // Set up 1 or more datepicker widgets
         defineDatepicker(selector);
         var newDate = $(selector).datepicker("getDate");
+        var prevSelector = selector;
         for (i=2; i <= nr_months; i++) {
             var new_selector = selector + i;
             var new_id = new_selector.replace('#', '');
-            $('<div id="'+new_id+'"></div>').insertAfter($(selector));
+            $('<div id="'+new_id+'"></div>').insertAfter($(prevSelector));
             
             defineDatepicker(new_selector);
             $(new_selector).datepicker(
                 "setDate",
                 (new Date(newDate.setMonth(newDate.getMonth() + 1)))
             );
+            prevSelector = new_selector;
         }
         
+        // On page load, this is set on the first calendar, causing a bug
+        // because dateUnderCursor() gets day numbers from both months
+        $(".ui-state-hover").removeClass("ui-state-hover");
+        $(".ui-state-active").removeClass("ui-state-active");
+        
         function defineDatepicker(selector) {
-            var dp = $(selector).datepicker({});
-                     
+            var dp = $(selector).datepicker({
+                firstDay: 1,
+                onSelect: function() {
+                    $(".ui-state-active").removeClass("ui-state-active");
+                    $(".within_selected_range").removeClass("within_selected_range");
+                }
+            });
+            
             dp.mousedown(function(e){
                 dragging = true;
                 begin_date = dateUnderCursor();
-                
-                // $(".ui-state-hover").trigger("hover");
-                
+                                
                 if (typeof attr.start_date !== 'undefined') {
                     attr.start_date(begin_date);
                 }
+                $(".ui-state-hover").parent().addClass("within_selected_range");
             });
             
             dp.selectable({
@@ -57,11 +59,13 @@ $(document).ready(function() {
                     if (typeof attr.end_date !== 'undefined') {
                         attr.end_date(end_date);
                     }
+                    $(".ui-state-active").removeClass("ui-state-active");
                 }
             });
         }
         
-        $("table.ui-datepicker-calendar td a").hover(function() {
+        // live because after datepicker.onSelect, the fucker stops working
+        $("table.ui-datepicker-calendar td a").live("hover", function() {
             if (dragging == true) {
                 var hover_a = $(this);
                 var hover_date = getDate(hover_a);
@@ -78,7 +82,6 @@ $(document).ready(function() {
                         var start = hover_date;
                         var end   = begin_date;
                     }
-                    
                     
                     if ((start <= current_date) && (current_date <= end)) {
                         a.parent().addClass("within_selected_range");
@@ -117,7 +120,7 @@ $(document).ready(function() {
     // $("#datepicker").datepicker("setDate", (new Date(2010, 1)));
     DaterangeSelector({
         selector: "#datepicker", 
-        nr_months: 2,
+        nr_months: 3,
         start_date: function (time) {
             console.log("Start date set: " + time);
         },
@@ -125,10 +128,7 @@ $(document).ready(function() {
             console.log("End date set: " + time);
         }
     });
-    
-    // On page load, this is set on the first calendar, causing a bug
-    // because dateUnderCursor() gets day numbers from both months
-    $(".ui-state-hover").removeClass("ui-state-hover");
+
 });
 </script>
 <style type="text/css">
@@ -136,28 +136,22 @@ $(document).ready(function() {
 .ui-datepicker td span, .ui-datepicker td a, .ui-datepicker td {
     padding: 0;
 }
-table, table.ui-datepicker-calendar {
-    border-spacing: 0;
-}
 
-/*tr.ui-datepicker-unselectable */
-td.within_selected_range a, 
 td.within_selected_range a.ui-state-default, 
 td.within_selected_range a.ui-selectee, 
-td.within_selected_range a.ui-selected 
+td.within_selected_range a.ui-selected,
+td.ui-datepicker-current-day a.ui-state-active
 {
     background: #F2B272;
 }
 .ui-selectable-helper { border:0px; }
-#datepicker, #datepicker2 {
+.ui-datepicker-prev, .ui-datepicker-next { display: none; }
+
+
+.hasDatepicker {
     float: left;
 }
-.ui-state-disabled {
-    
-}
-tr.ui-datepicker-unselectable {
-    
-}
+
 </style>
 </head>
 <body>
