@@ -5,131 +5,164 @@
 <script type="text/javascript" src="/jquery-ui-1.9.2/js/jquery-ui-1.9.2.custom.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	
-	$("td#dp2").hover(function() {
-		$("#datepicker2").show();
-	}, function() {
-		$("#datepicker2").hide();//datepicker("destroy");
-	});
-	
-	dragging = false;
-	
-	function defineDatepicker(selector) {
-		var dp = $(selector).datepicker({
-			inline: true
-		});
-		
-		dp.mousedown(function(e){
-			var a = $(selector + " .ui-state-hover");
-			
-			var td = a.parent();
-			var is_day = (td.attr("data-handler") == "selectDay");
-
-			if (is_day == true) {
-				var day = parseInt(a.text());
-				var month = td.attr("data-month");
-				var year = td.attr("data-year");
-
-				dragging = true;
-				begin_date = new Date(year, month, day);
-				// console.log("day_begin: " + begin);
-			}
-		});
-		
-		dp.selectable({
-			stop: function(event, ui) {
-				dragging = false;
-				var a = $(selector +" .ui-state-hover");
-				var td = a.parent();
-				var is_day = (td.attr("data-handler") == "selectDay");
-
-				if (is_day == true) {
-					var day = a.text();
-					var month = td.attr("data-month");
-					var year = td.attr("data-year");
-
-						console.log("END: " + day + "." + month + "." + year);
-				}
-			}
-		});
-	}
-	
-	function getDate(a) {
-		var td = a.parent()
-
-		var day = a.text();
-		var month = td.attr("data-month");
-		var year = td.attr("data-year");
-		var date = new Date(year, month, day);
-		return(date);
-	}
-	
-	defineDatepicker("#datepicker");
-	
-
-	defineDatepicker("#datepicker2");
-	var newDate = $("#datepicker").datepicker("getDate");
-		newDate.setMonth(newDate.getMonth() + 1);
-	$("#datepicker2").datepicker("setDate", newDate);
-		
-	$("td a").hover(function() {
-
-		if (dragging == true) {
-			var a = $(this);
-			var hover_date = getDate(a)
-			
-			var all_anchors = $("td[data-handler=selectDay] a");
-			all_anchors.each(function(i,e){
-				console.log("internal loop");
-				var a = $(this);
-				var current_date = getDate(a);
-				
-				if (begin_date < hover_date) {
-					var start = begin_date;
-					var end = hover_date;
-				} else {
-					var start = hover_date;
-					var end = begin_date;
-				}
-				
-				// console.log(end);
-				
-				if ((start <= current_date) && (current_date <= end)) {
-					a.parent().addClass("mySelected");
-				} else {
-					a.parent().removeClass("mySelected");
-				}
-			});
-		} else {
-			console.log("not dragging");
-		}
-	});
-	
+    
+    // $("td#dp2").hover(function() {
+    //  $("#datepicker2").show();
+    // }, function() {
+    //  $("#datepicker2").hide();//datepicker("destroy");
+    // });
+    
+    
+    // jquery-ui-datepicker
+    // drag-selectable
+    
+    DaterangeSelector = function(attr) {
+        var selector = attr.selector;
+        var nr_months = typeof attr.nr_months !== 'undefined' ? attr.nr_months : 1;
+        dragging = false;
+        
+        // Set up 1 or more datepicker widgets
+        defineDatepicker(selector);
+        var newDate = $(selector).datepicker("getDate");
+        for (i=2; i <= nr_months; i++) {
+            var new_selector = selector + i;
+            var new_id = new_selector.replace('#', '');
+            $('<div id="'+new_id+'"></div>').insertAfter($(selector));
+            
+            defineDatepicker(new_selector);
+            $(new_selector).datepicker(
+                "setDate",
+                (new Date(newDate.setMonth(newDate.getMonth() + 1)))
+            );
+        }
+        
+        function defineDatepicker(selector) {
+            var dp = $(selector).datepicker({});
+                     
+            dp.mousedown(function(e){
+                dragging = true;
+                begin_date = dateUnderCursor();
+                
+                // $(".ui-state-hover").trigger("hover");
+                
+                if (typeof attr.start_date !== 'undefined') {
+                    attr.start_date(begin_date);
+                }
+            });
+            
+            dp.selectable({
+                stop: function(event, ui) {
+                    dragging = false;
+                    end_date = dateUnderCursor();
+                    if (typeof attr.end_date !== 'undefined') {
+                        attr.end_date(end_date);
+                    }
+                }
+            });
+        }
+        
+        $("table.ui-datepicker-calendar td a").hover(function() {
+            if (dragging == true) {
+                var hover_a = $(this);
+                var hover_date = getDate(hover_a);
+                var all_anchors = $("td[data-handler=selectDay] a");
+                
+                all_anchors.each(function(i,e){
+                    var a = $(this);
+                    var current_date = getDate(a);
+                    
+                    if (begin_date < hover_date) {
+                        var start = begin_date;
+                        var end   = hover_date;
+                    } else {
+                        var start = hover_date;
+                        var end   = begin_date;
+                    }
+                    
+                    
+                    if ((start <= current_date) && (current_date <= end)) {
+                        a.parent().addClass("within_selected_range");
+                    } else {
+                        a.parent().removeClass("within_selected_range");
+                    }
+                });
+            }
+        });
+        
+        // Helpers
+        
+        function dateUnderCursor() {
+            var a = $(".ui-state-hover");
+            var td = a.parent();
+            var is_day = (td.attr("data-handler") == "selectDay");
+            if (is_day == true) {
+                var day = parseInt(a.text());
+                var month = td.attr("data-month");
+                var year = td.attr("data-year");
+                return(new Date(year, month, day));
+            }
+        };
+        
+        function getDate(a) {
+            var td = a.parent()
+            var day = a.text();
+            var month = td.attr("data-month");
+            var year = td.attr("data-year");
+            var date = new Date(year, month, day);
+            return(date);
+        }
+    }
+    
+    // $("#datepicker").datepicker({});
+    // $("#datepicker").datepicker("setDate", (new Date(2010, 1)));
+    DaterangeSelector({
+        selector: "#datepicker", 
+        nr_months: 2,
+        start_date: function (time) {
+            console.log("Start date set: " + time);
+        },
+        end_date: function (time) {
+            console.log("End date set: " + time);
+        }
+    });
+    
+    // On page load, this is set on the first calendar, causing a bug
+    // because dateUnderCursor() gets day numbers from both months
+    $(".ui-state-hover").removeClass("ui-state-hover");
 });
 </script>
 <style type="text/css">
-td.mySelected a, td.mySelected a.ui-state-default, td.mySelected a.ui-selectee, td.mySelected a.ui-selected {
-	background: #F2B272;
+
+.ui-datepicker td span, .ui-datepicker td a, .ui-datepicker td {
+    padding: 0;
+}
+table, table.ui-datepicker-calendar {
+    border-spacing: 0;
+}
+
+/*tr.ui-datepicker-unselectable */
+td.within_selected_range a, 
+td.within_selected_range a.ui-state-default, 
+td.within_selected_range a.ui-selectee, 
+td.within_selected_range a.ui-selected 
+{
+    background: #F2B272;
 }
 .ui-selectable-helper { border:0px; }
-#dp2{
-	width: 500px;
+#datepicker, #datepicker2 {
+    float: left;
+}
+.ui-state-disabled {
+    
+}
+tr.ui-datepicker-unselectable {
+    
 }
 </style>
 </head>
 <body>
-	<table>
-		<tr>
-			<td>
-				<div id="datepicker"></div>
-			</td>
-			<td id="dp2">
-				<div id="datepicker2"></div>
-			</td>
-		</tr>
-	</table>
-	<div id="dp_wrapper">
-		
-	</span>
+    
+    <div id="datepicker"></div>
+    
 </body>
 </html>
