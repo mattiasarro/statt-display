@@ -1,36 +1,4 @@
-%html
-  %head
-    %title sta.tt
-    = stylesheet_link_tag    "root", :media => "all"
-    = javascript_include_tag "root"
-    = csrf_meta_tags
-    
-    %link{rel: "shortcut icon", href: "/favicon.ico?v=2"}
-    %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
-    /[if lt IE 9]
-      %script{src: "http://html5shim.googlecode.com/svn/trunk/html5.js", type: "text/javascript"}
-  %body
-    
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container
-          %a.btn.btn-navbar{"data-toggle" => "collapse", "data-target" => ".nav-collapse"}
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.brand{href: "#"} Some Store
-          .nav-collapse
-            %ul.nav
-              %li= link_to "My Sites", sites_path
-              %li= link_to "Somethin Else", '#'
-    
-    .container
-      .row
-        .span9
-          %h1 Statt
-          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        .span3
-          %h2 About us
-          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    
+.hero-unit
+  %h1 statt web analytics
+  %p See how your visitors are actually interacting with your site
+  %a.btn.btn-primary.btn-large Sign up 2 minutes

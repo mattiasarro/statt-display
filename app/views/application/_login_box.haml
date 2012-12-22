@@ -1,0 +1,10 @@
+- unless user_logged_in?
+  #login-box.modal.fade.hide
+    .modal-header
+      %button.close{"type" => "button", "data-dismiss" => "modal"} &times;
+      %h3 Log in / Sign up
+    .modal-body
+      %a{href: "/auth/twitter"}
+        = image_tag "oauth/sign-in-with-twitter-gray.png"
+    .modal-footer
+      %a.btn{href: "#", "data-dismiss" => "modal"} Close

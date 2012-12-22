@@ -37,14 +37,10 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'jquery-ui-rails'
   
-  # Twitter bootstrap
-  gem 'therubyracer'
-  gem "less-rails"
-  gem 'twitter-bootstrap-rails'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
+  gem "less-rails" # adds .less support for asset pipeline
+  gem 'therubyracer' # allow Ruby programs to call the V8 JS engine
+  gem 'twitter-bootstrap-rails' # vendor/assets/bootstrap.less etc.
+  
   gem 'uglifier', '>= 1.0.3'
 end
 

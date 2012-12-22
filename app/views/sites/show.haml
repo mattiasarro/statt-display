@@ -1,3 +1,6 @@
+= content_for :head do
+  = javascript_include_tag "d3"
+
 %h1= @site.name
 
 = link_to "Settings", edit_site_path(@site)

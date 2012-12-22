@@ -1,29 +1,44 @@
 !!!
-%html
+%html{lang: "en"}
   %head
-    %title Display
+    %title sta.tt
     = stylesheet_link_tag    "application", :media => "all"
-    = javascript_include_tag "d3"
     = javascript_include_tag "application"
     = csrf_meta_tags
+    = yield :head
+    
     %link{rel: "shortcut icon", href: "/favicon.ico?v=2"}
+    /[if lt IE 9]
+      = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     
   %body
     
-    #wrapper
-      #header
-        #sites
-          %a{href: '/'} Home
+    = render "login_box"
+    
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand{href: "/"} statt.apparat
           - if user_logged_in?
-            = '::'
-            = link_to "Your sites", sites_path
-        #auth
-          - if user_logged_in?
-            = link_to current_user, edit_user_path(current_user)
-            = '::'
-            = link_to "Log out", log_out_path
+            %ul.nav.pull-right
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", href: sites_path} My Sites
+                %ul.dropdown-menu
+                  - current_user.sites.each do |site|
+                    %li= link_to site.name, site_path(site)
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+                  = current_user
+                  %b.caret
+                %ul.dropdown-menu
+                  %li= link_to "Edit Account", edit_user_path(current_user)
+                  %li= link_to "Log out", log_out_path
           - else
-            = link_to "Log in", log_in_path
-          
-      = render 'flashes'
+            .nav.pull-right
+              %button.btn{"data-toggle" => "modal", "data-target" => "#login-box"} Log in
+                
+
+    
+    .container
+      = render "flashes"
       = yield
