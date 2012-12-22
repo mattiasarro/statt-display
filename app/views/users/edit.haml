@@ -1,25 +1,7 @@
-= form_for @user, html: {class: "form-horizontal"} do |f|
-  %fieldset
-    %legend User Account Settings
-    
-    .control-group
-      %label.control-label{for: "user_name"} Name:
-      .controls
-        = f.text_field :name, disabled: true
-    .control-group
-      %label.control-label{for: "user_provider"} Authentication provider:
-      .controls
-        = f.text_field :provider, disabled: true
-        
-    .control-group
-      %label.control-label{for: "user_uid"} User ID:
-      .controls
-        = f.text_field :uid, disabled: true
-        
-    .control-group      
-      %label.control-label{for: "user_email"} E-mail:
-      .controls
-        = f.text_field :email
-    .control-group
-      .controls
-        %button.btn{type: "submit"} Save changes
+= bootstrap_form_for @user do |f|
+  = f.fieldset "User Account Settings" do
+    = f.text_field :name, disabled: true
+    = f.text_field :provider, disabled: true, label: "Authentication provider:"
+    = f.text_field :uid, disabled: true, label: "User ID:"
+    = f.email_field :email, label: "E-mail:"
+    = f.submit "Save changes"
