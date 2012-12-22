@@ -19,10 +19,16 @@ class UsersController < InheritedResources::Base
     
     if @user.provider == "twitter"
       @user.email = params[:user][:email]
-      @user.save
     end
     
-    redirect_to edit_user_path(@user)
+    if @user.valid?
+      @user.save
+      flash[:success] = "Changes saved"
+      redirect_to edit_user_path(@user)
+    else
+      flash[:error] = "There was a problem saving your changes"
+      render :edit
+    end
   end
 
 end
