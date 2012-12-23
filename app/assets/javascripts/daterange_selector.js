@@ -5,35 +5,11 @@ DaterangeSelector = function(attr) {
     
     // Set up 1 or more datepicker widgets
     defineDatepicker(selector);
-    var newDate = $(selector).datepicker("getDate");
-    var prevSelector = selector;
-    for (i=2; i <= nr_months; i++) {
-        var new_selector = selector + i;
-        var new_id = new_selector.replace('#', '');
-        $('<div id="'+new_id+'"></div>').insertAfter($(prevSelector));
-        
-        defineDatepicker(new_selector);
-        $(new_selector).datepicker(
-            "setDate",
-            (new Date(newDate.setMonth(newDate.getMonth() + 1)))
-        );
-        prevSelector = new_selector;
-    }
-    
     initSelected();
-    function initSelected() {
-        // On page load, this is set on the first calendar, causing a bug
-        // because dateUnderCursor() gets day numbers from both months
-        $(".ui-state-hover").removeClass("ui-state-hover");
-        $(".ui-state-active").removeClass("ui-state-active");
-        
-        var start = $(selector).attr("data-start");
-        var end = $(selector).attr("data-end");
-        highlightBetween(Date.parse(start), Date.parse(end));
-    }
     
     function defineDatepicker(selector) {
         var dp = $(selector).datepicker({
+            numberOfMonths: nr_months,
             firstDay: 1,
             onSelect: function() {
                 $(".ui-state-active").removeClass("ui-state-active");
@@ -64,6 +40,17 @@ DaterangeSelector = function(attr) {
                 $(".ui-state-active").removeClass("ui-state-active");
             }
         });
+    }
+    
+    function initSelected() {
+        // On page load, this is set on the first calendar, causing a bug
+        // because dateUnderCursor() gets day numbers from both months
+        $(".ui-state-hover").removeClass("ui-state-hover");
+        $(".ui-state-active").removeClass("ui-state-active");
+        
+        var start = $(selector).attr("data-start");
+        var end = $(selector).attr("data-end");
+        highlightBetween(Date.parse(start), Date.parse(end));
     }
     
     // live because after datepicker.onSelect, the fucker stops working
