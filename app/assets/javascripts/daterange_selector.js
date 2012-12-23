@@ -1,15 +1,19 @@
-DaterangeSelector = function(attr) {
-    var selector = attr.selector;
-    var nr_months = typeof attr.nr_months !== 'undefined' ? attr.nr_months : 1;
-    dragging = false;
+DaterangeSelector = function (attr) {
     
-    // Set up 1 or more datepicker widgets
-    defineDatepicker(selector);
-    initSelected();
+    this.init = function () {
+        this.selector = attr.selector;
+        this.nr_months = typeof attr.nr_months !== 'undefined' ? attr.nr_months : 1;
+        dp_dragging = false;
+        
+        this.defineDatepicker();
+        this.initSelected();
+        this.defineListeners();
+    }
     
-    function defineDatepicker(selector) {
-        var dp = $(selector).datepicker({
-            numberOfMonths: nr_months,
+    
+    this.defineDatepicker = function () {
+        var dp = $(this.selector).datepicker({
+            numberOfMonths: this.nr_months,
             firstDay: 1,
             onSelect: function() {
                 $(".ui-state-active").removeClass("ui-state-active");
@@ -18,14 +22,14 @@ DaterangeSelector = function(attr) {
         });
         
         dp.mousedown(function(e){
-            dragging = true;
+            dp_dragging = true;
             begin_date = dateUnderCursor();
             $(".ui-state-hover").parent().addClass("within_selected_range");
         });
         
         dp.selectable({
             stop: function(event, ui) {
-                dragging = false;
+                dp_dragging = false;
                 end_date = dateUnderCursor();
                 
                 if (typeof attr.start_date !== 'undefined') {
@@ -42,25 +46,27 @@ DaterangeSelector = function(attr) {
         });
     }
     
-    function initSelected() {
+    this.initSelected = function () {
         // On page load, this is set on the first calendar, causing a bug
         // because dateUnderCursor() gets day numbers from both months
         $(".ui-state-hover").removeClass("ui-state-hover");
         $(".ui-state-active").removeClass("ui-state-active");
         
-        var start = $(selector).attr("data-start");
-        var end = $(selector).attr("data-end");
+        var start = $(this.selector).attr("data-start");
+        var end = $(this.selector).attr("data-end");
         highlightBetween(Date.parse(start), Date.parse(end));
     }
     
-    // live because after datepicker.onSelect, the fucker stops working
-    $("table.ui-datepicker-calendar td a").live("hover", function() {
-        if (dragging == true) {
-            var hover_a = $(this);
-            var hover_date = getDate(hover_a);
-            highlightBetween(begin_date, hover_date);
-        }
-    });
+    this.defineListeners = function () {
+        // live because after datepicker.onSelect, the fucker stops working
+        $("table.ui-datepicker-calendar td a").live("hover", function() {
+            if (dp_dragging == true) {
+                var hover_a = $(this);
+                var hover_date = getDate(hover_a);
+                highlightBetween(begin_date, hover_date);
+            }
+        });
+    }
     
     // Helpers
     
@@ -104,4 +110,6 @@ DaterangeSelector = function(attr) {
             }
         });
     }
+    
+    init();
 }
