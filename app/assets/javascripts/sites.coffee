@@ -4,13 +4,6 @@
 //= require daterange_selector
 
 $(document).ready () ->
-  $('.destroy-domain').click () -> 
-    hidden_field = $(this).siblings('input[name$="[_destroy]"][type=hidden]')
-    hidden_field.val(1)
-    $(this).closest("form").submit()
-  
-  
-  
   update_rails_datetime_select = (id, time) ->
     trailing_zero = (num) ->
       if (num < 9) then ("0" + (num + 1).toString()) else (num + 1)
@@ -29,3 +22,10 @@ $(document).ready () ->
       update_rails_datetime_select("#graph_to", time)
     )
   })
+  
+  
+  # # for future reference
+  # $('.destroy-domain').click () -> 
+  #   hidden_field = $(this).siblings('input[name$="[_destroy]"][type=hidden]')
+  #   hidden_field.val(1)
+  #   $(this).closest("form").submit()
