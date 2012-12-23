@@ -20,10 +20,17 @@ DaterangeSelector = function(attr) {
         prevSelector = new_selector;
     }
     
-    // On page load, this is set on the first calendar, causing a bug
-    // because dateUnderCursor() gets day numbers from both months
-    $(".ui-state-hover").removeClass("ui-state-hover");
-    $(".ui-state-active").removeClass("ui-state-active");
+    initSelected();
+    function initSelected() {
+        // On page load, this is set on the first calendar, causing a bug
+        // because dateUnderCursor() gets day numbers from both months
+        $(".ui-state-hover").removeClass("ui-state-hover");
+        $(".ui-state-active").removeClass("ui-state-active");
+        
+        var start = $(selector).attr("data-start");
+        var end = $(selector).attr("data-end");
+        highlightBetween(Date.parse(start), Date.parse(end));
+    }
     
     function defineDatepicker(selector) {
         var dp = $(selector).datepicker({
@@ -64,26 +71,7 @@ DaterangeSelector = function(attr) {
         if (dragging == true) {
             var hover_a = $(this);
             var hover_date = getDate(hover_a);
-            var all_anchors = $("td[data-handler=selectDay] a");
-            
-            all_anchors.each(function(i,e){
-                var a = $(this);
-                var current_date = getDate(a);
-                
-                if (begin_date < hover_date) {
-                    var start = begin_date;
-                    var end   = hover_date;
-                } else {
-                    var start = hover_date;
-                    var end   = begin_date;
-                }
-                
-                if ((start <= current_date) && (current_date <= end)) {
-                    a.parent().addClass("within_selected_range");
-                } else {
-                    a.parent().removeClass("within_selected_range");
-                }
-            });
+            highlightBetween(begin_date, hover_date);
         }
     });
     
@@ -108,5 +96,25 @@ DaterangeSelector = function(attr) {
         var year = td.attr("data-year");
         var date = new Date(year, month, day);
         return(date);
+    }
+    
+    function highlightBetween(start, end) {
+        var all_anchors = $("td[data-handler=selectDay] a");
+        all_anchors.each(function(i,e){
+            var a = $(this);
+            var current_date = getDate(a);
+            
+            if (end < start) {
+                var start_old = start;
+                start = end;
+                end = start_old;
+            }
+            
+            if ((start <= current_date) && (current_date <= end)) {
+                a.parent().addClass("within_selected_range");
+            } else {
+                a.parent().removeClass("within_selected_range");
+            }
+        });
     }
 }

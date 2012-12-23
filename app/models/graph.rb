@@ -1,10 +1,11 @@
 class Graph
-  attr_accessor :type, :from, :to, :site, :nr_bars, :bar_duration
+  attr_accessor :type, :from, :to, :site, :nr_bars, :bar_duration, :graph_duration
   
   def self.factory(params)
     case (params && params[:graph] && params[:graph][:type]) ? params[:graph][:type] : nil
     when "hour" then GraphHour.new(params[:graph])
     when "day" then GraphDay.new(params[:graph])
+    when "custom" then GraphCustom.new(params[:graph])
     else GraphHour.new(params[:graph])
     end
   end
@@ -12,7 +13,8 @@ class Graph
   def self.options_for_select
     [
       ["60 minutes", :hour],
-      ["24 hours", :day]
+      ["24 hours", :day],
+      ["custom", :custom]
     ]
   end
   
@@ -22,7 +24,11 @@ class Graph
   end
   
   def data
-    @data ||= Hash.new(0).tap do |h|
+    @data ||= data_uncached # separate _uncached function for testing purposes
+  end
+  
+  def data_uncached
+    Hash.new(0).tap do |h|
       loads_within_range.each do |load|
         h[calculate_index(load)] += 1
       end

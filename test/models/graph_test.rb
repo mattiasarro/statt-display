@@ -3,33 +3,31 @@ require File.dirname(__FILE__) + "/../minitest_helper"
 class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
   
   before do
-    @site = Site.create
-    @site2 = Site.create
-    @graph = Graph.factory({type: :hour})
-    @graph.site = @site    
-  end
-  
-  it "should get the correct collection objects" do
-    @site.visitors.create
-    @site.loads.create
-    
-    # these should not be counted
-    @site2.visitors.create
-    @site2.visitors.create
-    @site2.loads.create
-    @site2.loads.create
-    
-    visitors = @graph.send :visitors
-    loads = @graph.send :loads
-    
-    visitors.find.count.must_equal 1
-    loads.find.count.must_equal 1
+    @site = Site.create   
   end
   
   context "60 minutes" do
     before do
       @graph = Graph.factory({type: :hour})
       @graph.site = @site
+    end
+    
+    it "should get the correct collection objects" do
+      @site.visitors.create
+      @site.loads.create
+      
+      # these should not be counted
+      @site2 = Site.create
+      @site2.visitors.create
+      @site2.visitors.create
+      @site2.loads.create
+      @site2.loads.create
+      
+      visitors = @graph.send :visitors
+      loads = @graph.send :loads
+      
+      visitors.find.count.must_equal 1
+      loads.find.count.must_equal 1
     end
     
     it "loads_within_range should work" do
@@ -47,17 +45,17 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
       @graph.data.keys.size.must_equal 1
     end
     
-    it "should add bar in the right place" do
+    it "should add correct number of bars" do
       @graph.to = Time.now
       
       @site.loads.create(time: Time.at((60 - 0.5).minutes.ago))
-      @graph.data[0].must_equal 1
+      @graph.data_uncached.size.must_equal 1
       
       @site.loads.create(time: Time.at((60 - 1.5).minutes.ago))
-      @graph.data[1].must_equal 1
+      @graph.data_uncached.size.must_equal 2
       
       @site.loads.create(time: Time.at((0.5).minutes.ago))
-      @graph.data[59].must_equal 1
+      @graph.data_uncached.size.must_equal 3
     end
     
     it "should add bars with correct height" do
@@ -66,14 +64,15 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
       @site.loads.create(time: Time.at((60 - 0.1).minutes.ago))
       @site.loads.create(time: Time.at((60 - 0.5).minutes.ago))
       @site.loads.create(time: Time.at((60 - 0.7).minutes.ago))
-      @graph.data[0].must_equal 3
       
       @site.loads.create(time: Time.at((60 - 1.5).minutes.ago))
-      @graph.data[1].must_equal 1
       
       @site.loads.create(time: Time.at((0.5).minutes.ago))
       @site.loads.create(time: Time.at((0.8).minutes.ago))
-      @graph.data[59].must_equal 2
+      
+      total_bars_height = @graph.data_uncached.inject(0) { |sum, (k,v)| sum += v }
+      @graph.data_uncached.size.must_equal 3
+      total_bars_height.must_equal 6
     end
     
     it "should not add one bar when out of time range" do

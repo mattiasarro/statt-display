@@ -4,22 +4,31 @@
 //= require daterange_selector
 
 $(document).ready () ->
-  update_rails_datetime_select = (id, time) ->
+  update_rails_datetime_select = (id, time, start_end) ->
     trailing_zero = (num) ->
       if (num < 9) then ("0" + (num + 1).toString()) else (num + 1)
-
+    
     $(id + "_3i}").val(time.getDate())
     $(id + "_2i}").val(trailing_zero(time.getMonth()))
     $(id + "_1i}").val(1900 + time.getYear())
+    
+    if (start_end == "start")
+      $(id + "_4i").val("00")
+      $(id + "_5i").val("00")
+    else
+      $(id + "_4i").val("23")
+      $(id + "_5i").val("59")
   
   DaterangeSelector({
     selector: "#datepicker", 
     nr_months: 2,
     start_date: (time) -> (
-      update_rails_datetime_select("#graph_from", time)
+      update_rails_datetime_select("#graph_from", time, "start")
     ),
     end_date: (time) -> (
-      update_rails_datetime_select("#graph_to", time)
+      update_rails_datetime_select("#graph_to", time, "end")
+      $("#graph_type").val("custom")
+      $("#daterange-select-dropdowns form").submit()
     )
   })
   
