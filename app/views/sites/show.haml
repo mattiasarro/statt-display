@@ -8,23 +8,37 @@
 = link_to "Tracking code", action: :tracking_code
 
 #chart_container
-  .explain
-    .picker
-      #datepicker{"data-start" => @graph.from, "data-end" => @graph.to}
-    
-    #daterange-select-dropdowns
-      = form_tag site_path(@site), method: :get do
-        = hidden_field :graph, :nr_bars
-        = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
-        = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
-        = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
-        %div
-          beginning at
-          = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
-        %div
-          ending at
-          = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
-        = submit_tag "Update graph"
+  #picker
+    #datepicker{"data-start" => @graph.from, "data-end" => @graph.to}
+    %a#dp_prev
+      %i.icon-chevron-left
+    %a#dp_next
+      %i.icon-chevron-right
+  
+  #daterange-select-dropdowns
+    = form_tag site_path(@site), method: :get do
+      = hidden_field :graph, :nr_bars
+      = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
+      = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
+      = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
+      %div
+        beginning at
+        = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
+      %div
+        ending at
+        = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
+      = submit_tag "Update graph"
+  
+  .row
+    .span9
+    .span3.right
+      %a.btn#daterange-select
+        %i.icon-calendar
+      .btn-group
+        %a.btn
+          %i.icon-plus
+        %a.btn
+          %i.icon-minus
   
   = render "graph/data", graph: @graph
 

@@ -1,20 +1,17 @@
 //= require jquery.ui.core
 //= require jquery.ui.theme
-//= require jquery.ui.datepicker
 //= require jquery.ui.selectable
+//= require datepicker_override
 //= require daterange_selector.scss
 
-.picker:after { clear:both; }
-.picker:before,
-.picker:after {
+#picker:after { clear:both; }
+#picker:before,
+#picker:after {
   content:"";
   display: table;
 }
 .hasDatepicker {
     float: left;
-}
-.picker {
-  margin-bottom: 20px;
 }
 
 .edit-domain input[type=checkbox] {
@@ -53,4 +50,34 @@
 
 #daterange-select-dropdowns {
   display: none;
+}
+.right {
+  text-align: right;
+}
+
+#picker {
+  display: none;
+}
+#chart_container .popover {
+  width: auto;
+  height: auto;
+}
+#chart_container .popover h3 {
+  display: none;
+}
+
+#picker a {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+#dp_prev {
+  position: absolute;
+  left: 24px;
+  top: 10px;
+}
+#dp_next {
+  position: absolute;
+  right: 24px;
+  top: 10px;
 }

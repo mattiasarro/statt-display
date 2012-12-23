@@ -1,7 +1,7 @@
 $(document).ready () ->
   
-  chart_width = 720  # including padding
-  chart_height = 100 # including padding
+  chart_width = 938  # including padding
+  chart_height = 193 # including padding
   padding = 10
   bar_width = (chart_width - (2 * padding)) / nr_bars # 12
   

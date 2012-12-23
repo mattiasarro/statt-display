@@ -4,6 +4,41 @@
 //= require daterange_selector
 
 $(document).ready () ->
+  daterange_selector = DaterangeSelector({
+    selector: "#datepicker", 
+    nr_months: 2,
+    start_date: (time) -> (
+      update_rails_datetime_select("#graph_from", time, "start")
+    ),
+    end_date: (time) -> (
+      update_rails_datetime_select("#graph_to", time, "end")
+      $("#graph_type").val("custom")
+      $("#daterange-select-dropdowns form").submit()
+    )
+  })
+  
+  $('#daterange-select').popover({
+    html: true,
+    placement: "left",
+    trigger: "click",
+    title: false,
+    content: ->
+      $("#picker").html()
+      $("#picker").show()
+  })
+  
+  $("#dp_prev").click ->
+    date = $("#datepicker").datepicker("getDate")
+    date.setMonth(date.getMonth() - 1)
+    $("#datepicker").datepicker("setDate", date)
+    daterange_selector.initSelected()
+  
+  $("#dp_next").click ->
+    date = $("#datepicker").datepicker("getDate")
+    date.setMonth(date.getMonth() + 1)
+    $("#datepicker").datepicker("setDate", date)
+    daterange_selector.initSelected()
+  
   update_rails_datetime_select = (id, time, start_end) ->
     trailing_zero = (num) ->
       if (num < 9) then ("0" + (num + 1).toString()) else (num + 1)
@@ -18,20 +53,6 @@ $(document).ready () ->
     else
       $(id + "_4i").val("23")
       $(id + "_5i").val("59")
-  
-  DaterangeSelector({
-    selector: "#datepicker", 
-    nr_months: 2,
-    start_date: (time) -> (
-      update_rails_datetime_select("#graph_from", time, "start")
-    ),
-    end_date: (time) -> (
-      update_rails_datetime_select("#graph_to", time, "end")
-      $("#graph_type").val("custom")
-      $("#daterange-select-dropdowns form").submit()
-    )
-  })
-  
   
   # # for future reference
   # $('.destroy-domain').click () -> 

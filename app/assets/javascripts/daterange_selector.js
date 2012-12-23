@@ -21,6 +21,9 @@ DaterangeSelector = function (attr) {
             }
         });
         
+        var selection_start_date = new Date(Date.parse($(this.selector).attr("data-start")));
+        $(this.selector).datepicker("setDate", selection_start_date);
+        
         dp.mousedown(function(e){
             dp_dragging = true;
             begin_date = dateUnderCursor();
@@ -112,4 +115,5 @@ DaterangeSelector = function (attr) {
     }
     
     init();
+    return(this);
 }
