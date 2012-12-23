@@ -11,11 +11,18 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
   %w[text_field text_area email_field password_field collection_select].each do |method_name|
     define_method(method_name) do |name, *args|
       t = @template
-      t.content_tag(:div, class: "control-group") do
+      t.content_tag(:div, class: "control-group #{'error' unless @object.errors[name].empty?}") do
         t.concat(field_label(name, *args))
         t.concat(
           t.content_tag(:div, class: "controls") do
-            super(name, *args)
+            t.concat(super(name, *args))
+            unless @object.errors[name].empty?
+              t.concat(
+                t.content_tag(:span, class: "help-inline") do
+                  @object.errors[name][0]
+                end
+              )
+            end
           end
         )
       end

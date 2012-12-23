@@ -1,3 +1,4 @@
+ActionView::Base.field_error_proc = Proc.new {|html, instance| html }
 module ApplicationHelper
   def bootstrap_form_for(object, options = {}, &block)
     options[:builder] = BootstrapFormBuilder 
