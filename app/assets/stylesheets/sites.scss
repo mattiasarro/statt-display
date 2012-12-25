@@ -35,15 +35,27 @@
   padding: 5px;
 }
 
-#chart_container select {
-  width: 110px;
-}
-
 #daterange-select-dropdowns-container {
   display: none;
 }
-#daterange-select-dropdowns {
-  width: 400px;
+#daterange-select-dropdowns .control-label {
+  width: 60px;
+}
+#daterange-select-dropdowns legend {
+  line-height: 30px;
+  margin-bottom: 8;
+}
+#daterange-select-dropdowns .control-group {
+  margin-bottom: 6px;
+  margin-top: 0;
+}
+
+#daterange-select-dropdowns .btn-control-group {
+  margin-bottom: -10px;
+}
+#daterange-select-dropdowns .controls {
+  margin-left: 70px;
+  width: 350px;
 }
 #daterange-select-dropdowns select {
   font-size: 12px;

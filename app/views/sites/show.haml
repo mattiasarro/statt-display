@@ -48,17 +48,24 @@
 
 #daterange-select-dropdowns-container
   #daterange-select-dropdowns
-    = form_tag site_path(@site), method: :get do
-      = hidden_field :graph, :nr_bars
-      = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
-      = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
-      = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
-      %div
-        beginning at
-        = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
-      %div
-        ending at
-        = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
-      = submit_tag "Update graph"
+    = form_tag site_path(@site), method: :get, class: "form-horizontal" do
+      %fieldset
+        %legend Select a precise timeframe
+        / = hidden_field :graph, :nr_bars
+        / = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
+        / = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
+        / = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
+        .control-group
+          %label.control-label{for: "graph_from_1i"} From:
+          .controls
+            = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
+        .control-group
+          %label.control-label{for: "graph_to_1i"} To:
+          .controls
+            = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
+        .control-group.btn-control-group
+          .controls
+            %button.btn{type: "submit"} Update Graph
+
 = render "graph/data", graph: @graph
 

@@ -70,7 +70,7 @@ $(document).ready () ->
     html: true,
     placement: "left",
     trigger: "manual",
-    title: "Select specific date range to be displayed",
+    title: false,
     content: ->
       $('#daterange-select-dropdowns-container').html()
       $('#daterange-select-dropdowns').show()
