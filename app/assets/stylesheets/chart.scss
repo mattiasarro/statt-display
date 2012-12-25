@@ -1,11 +1,8 @@
-#chart_container {
-  margin-top: 40px;
-  margin-bottom: 30px;
-}
-
 svg.chart {
   margin-top: 10px;
-  border: 1px solid #CC6964;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #F4F4F4;
 }
 svg.chart text {
   font-size: 10px;
@@ -13,7 +10,7 @@ svg.chart text {
 }
 svg.chart rect {
   stroke: white;
-  fill: steelblue;
+  fill: #A2B8CE;
 }
 svg.chart .values {
   fill: #fff;

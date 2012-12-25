@@ -62,6 +62,10 @@
 #daterange-select-dropdowns #graph_to_1i, {
   width: 60px;
 }
+#daterange-select-dropdowns #graph_from_2i,
+#daterange-select-dropdowns #graph_to_2i, {
+  width: 60px;
+}
 
 .right {
   text-align: right;
@@ -70,11 +74,11 @@
 .picker-container {
   display: none;
 }
-#chart_container .popover {
+.popover {
   width: auto;
   height: auto;
 }
-#chart_container .popover h3 {
+.popover h3 {
   display: none;
 }
 #picker:after { clear:both; }
@@ -101,4 +105,17 @@
   position: absolute;
   right: 24px;
   top: 10px;
+}
+.nav-tabs {
+  margin-bottom: 0;
+}
+.tab-content {
+  padding-top: 18px;
+  border-bottom: 1px solid #ddd;
+}
+.tabbable .active a, .tab-content {
+  background: #F4F4F4;
+}
+.pagination {
+  margin: 0;
 }

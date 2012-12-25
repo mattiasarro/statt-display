@@ -11,7 +11,7 @@ $(document).ready () ->
   
   y = d3.scale.linear()
   .domain([0, max_value]) # data.value
-  .rangeRound([padding, chart_height + padding]) # rangeRound() means values are rounded to Int
+  .rangeRound([padding, chart_height]) # rangeRound() means values are rounded to Int
   
   chart = d3.select("#chart_container}").append("svg")
   .attr("class", "chart")

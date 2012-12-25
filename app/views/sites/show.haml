@@ -1,48 +1,64 @@
 = content_for :head do
   = javascript_include_tag "d3"
 
-%h1= @site.name
-
-= link_to "Settings", edit_site_path(@site)
-\|
-= link_to "Tracking code", action: :tracking_code
-
-#chart_container
-  #daterange-select-dropdowns-container
-    #daterange-select-dropdowns
-      = form_tag site_path(@site), method: :get do
-        = hidden_field :graph, :nr_bars
-        = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
-        = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
-        = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
-        %div
-          beginning at
-          = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
-        %div
-          ending at
-          = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
-        = submit_tag "Update graph"
-  
+%br
+.row
+  .span3
+  .span6{style: "text-align:center"}
+    .alert{style: "margin-bottom: 0"}
+      Showing #{distance_of_time_in_words @graph.from, @graph.to } 
+      in #{@graph.nr_bars} bars
+  .span3.right
+    .btn-group
+      %a.btn#daterange-select{"data-toggle" => "button"}
+        %i.icon-calendar
+      %a.btn#daterange-select-form{"data-toggle" => "button"}
+        %i.icon-time
+    / .btn-group
+    /   %a.btn
+    /     %i.icon-plus
+    /   %a.btn
+    /     %i.icon-minus
+.row
+  .span12
+    #chart_container
+%br
+.tabbable
   .row
-    .span3
-    .span6
-      .alert.alert-notice{style: "margin-bottom: 0;"}
-        Showing #{distance_of_time_in_words @graph.from, @graph.to } 
-        in #{@graph.nr_bars} bars
-    .span3.right
-      .btn-group
-        %a.btn#daterange-select{"data-toggle" => "button"}
-          %i.icon-calendar
-        %a.btn#daterange-select-form{"data-toggle" => "button"}
-          %i.icon-time
-      .btn-group
-        %a.btn
-          %i.icon-plus
-        %a.btn
-          %i.icon-minus
-  
-  = render "graph/data", graph: @graph
+    .span4{style: "margin-right:0;"}
+      %ul.nav.nav-tabs
+        %li
+          %a{href: "#"} Visitors
+        %li.active
+          %a{href: "#"} Loads
+        %li
+          %a{href: "#"} Nodes
+    .span8{style: "border-bottom: 1px solid #ddd; margin-left: 0; width: 640px;"}
+      .pagination.pagination-mini.pagination-right{style: "margin-top: 10px;"}
+        %ul
+          %li= link_to "«", '#'
+          %li= link_to "1", '#'
+          %li= link_to "2", '#'
+          %li.active= link_to "3", '#'
+          %li.disabled= link_to "»", '#'
+  .tab-content
+        
+    %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      
 
-%p
-  Group by visitors?
-  = check_box :asdf, :asdf
+#daterange-select-dropdowns-container
+  #daterange-select-dropdowns
+    = form_tag site_path(@site), method: :get do
+      = hidden_field :graph, :nr_bars
+      = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
+      = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
+      = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
+      %div
+        beginning at
+        = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
+      %div
+        ending at
+        = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
+      = submit_tag "Update graph"
+= render "graph/data", graph: @graph
+

@@ -18,7 +18,12 @@
     .navbar.navbar-top
       .navbar-inner
         .container
-          %a.brand{href: "/"} statt.apparat
+          %a.brand{href: site_path(@site)}= @site.name
+          - if @site
+            %ul.nav
+              %li= link_to "Settings", edit_site_path(@site)
+              %li= link_to "Tracking code", action: :tracking_code
+                
           - if user_logged_in?
             %ul.nav.pull-right
               %li.dropdown
@@ -36,8 +41,6 @@
           - else
             .nav.pull-right
               %button.btn{"data-toggle" => "modal", "data-target" => "#login-box"} Log in
-                
-
     
     .container
       = render "flashes"
