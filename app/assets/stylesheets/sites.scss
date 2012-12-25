@@ -39,9 +39,30 @@
   width: 110px;
 }
 
-#daterange-select-dropdowns {
+#daterange-select-dropdowns-container {
   display: none;
 }
+#daterange-select-dropdowns {
+  width: 400px;
+}
+#daterange-select-dropdowns select {
+  font-size: 12px;
+  line-height: 18px;
+  height: 18px;
+}
+#daterange-select-dropdowns #graph_from_3i,
+#daterange-select-dropdowns #graph_from_4i,
+#daterange-select-dropdowns #graph_from_5i,
+#daterange-select-dropdowns #graph_to_3i,
+#daterange-select-dropdowns #graph_to_4i,
+#daterange-select-dropdowns #graph_to_5i {
+  width: 50px;
+}
+#daterange-select-dropdowns #graph_from_1i,
+#daterange-select-dropdowns #graph_to_1i, {
+  width: 60px;
+}
+
 .right {
   text-align: right;
 }

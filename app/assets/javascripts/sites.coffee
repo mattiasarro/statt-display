@@ -65,6 +65,25 @@ $(document).ready () ->
       $(this).popover('show')
       setup_daterange_selector()
   
+  
+  $('#daterange-select-form').popover({
+    html: true,
+    placement: "left",
+    trigger: "manual",
+    title: "Select specific date range to be displayed",
+    content: ->
+      $('#daterange-select-dropdowns-container').html()
+      $('#daterange-select-dropdowns').show()
+  })
+  
+  $('#daterange-select-form').click ->
+    poppedOver = $(this).next('div.popover:visible').length
+    if (poppedOver)
+      $("#daterange-select-dropdowns-container").html($(".popover-content").html())
+      $(this).popover('hide')
+    else
+      $(this).popover('show')
+  
   update_rails_datetime_select = (id, time, start_end) ->
     trailing_zero = (num) ->
       if (num < 9) then ("0" + (num + 1).toString()) else (num + 1)

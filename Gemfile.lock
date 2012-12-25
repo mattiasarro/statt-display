@@ -53,6 +53,8 @@ GEM
     commonjs (0.2.6)
     daemons (1.1.9)
     database_cleaner (0.9.1)
+    dotiw (1.1.1)
+      actionpack (~> 3)
     erubis (2.7.0)
     eventmachine (1.0.0)
     execjs (1.4.0)
@@ -226,6 +228,7 @@ DEPENDENCIES
   capybara-webkit
   coffee-rails (~> 3.2.1)
   database_cleaner
+  dotiw
   factory_girl_rails
   faker
   guard-minitest

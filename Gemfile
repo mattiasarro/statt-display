@@ -13,6 +13,7 @@ gem 'omniauth-twitter'
 gem 'inherited_resources'
 gem 'haml-rails'
 gem 'quiet_assets'
+gem 'dotiw'
 
 gem 'faker'
 group :development do

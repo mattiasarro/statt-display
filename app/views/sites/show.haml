@@ -8,25 +8,33 @@
 = link_to "Tracking code", action: :tracking_code
 
 #chart_container
-  #daterange-select-dropdowns
-    = form_tag site_path(@site), method: :get do
-      = hidden_field :graph, :nr_bars
-      = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
-      = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
-      = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
-      %div
-        beginning at
-        = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
-      %div
-        ending at
-        = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
-      = submit_tag "Update graph"
+  #daterange-select-dropdowns-container
+    #daterange-select-dropdowns
+      = form_tag site_path(@site), method: :get do
+        = hidden_field :graph, :nr_bars
+        = link_to "< previous", site_path(@site, graph: @graph.query_params(:prev))
+        = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
+        = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
+        %div
+          beginning at
+          = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
+        %div
+          ending at
+          = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
+        = submit_tag "Update graph"
   
   .row
-    .span9
+    .span3
+    .span6
+      .alert.alert-notice{style: "margin-bottom: 0;"}
+        Showing #{distance_of_time_in_words @graph.from, @graph.to } 
+        in #{@graph.nr_bars} bars
     .span3.right
-      %a.btn#daterange-select
-        %i.icon-calendar
+      .btn-group
+        %a.btn#daterange-select{"data-toggle" => "button"}
+          %i.icon-calendar
+        %a.btn#daterange-select-form{"data-toggle" => "button"}
+          %i.icon-time
       .btn-group
         %a.btn
           %i.icon-plus
