@@ -20,12 +20,21 @@ $(document).ready () ->
   $('#daterange-select').popover({
     html: true,
     placement: "left",
-    trigger: "click",
+    trigger: "manual",
     title: false,
     content: ->
       $("#picker").html()
       $("#picker").show()
   })
+  
+  $('#daterange-select').click ->
+    poppedOver = $(this).next('div.popover:visible').length
+    if (poppedOver)
+      $(".picker-container").html($(".popover-content").html())
+      $(this).popover('hide')
+    else
+      $(this).popover('show')
+    
   
   $("#dp_prev").click ->
     date = $("#datepicker").datepicker("getDate")
