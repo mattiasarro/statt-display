@@ -8,14 +8,6 @@
 = link_to "Tracking code", action: :tracking_code
 
 #chart_container
-  .picker-container
-    #picker
-      #datepicker{"data-start" => @graph.from, "data-end" => @graph.to}
-      %a#dp_prev
-        %i.icon-chevron-left
-      %a#dp_next
-        %i.icon-chevron-right
-  
   #daterange-select-dropdowns
     = form_tag site_path(@site), method: :get do
       = hidden_field :graph, :nr_bars

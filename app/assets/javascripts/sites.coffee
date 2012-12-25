@@ -4,18 +4,19 @@
 //= require daterange_selector
 
 $(document).ready () ->
-  daterange_selector = DaterangeSelector({
-    selector: "#datepicker", 
-    nr_months: 2,
-    start_date: (time) -> (
-      update_rails_datetime_select("#graph_from", time, "start")
-    ),
-    end_date: (time) -> (
-      update_rails_datetime_select("#graph_to", time, "end")
-      $("#graph_type").val("custom")
-      $("#daterange-select-dropdowns form").submit()
-    )
-  })
+  daterange_selector_function = -> 
+    DaterangeSelector({
+      selector: "#datepicker", 
+      nr_months: 2,
+      start_date: (time) -> (
+        update_rails_datetime_select("#graph_from", time, "start")
+      ),
+      end_date: (time) -> (
+        update_rails_datetime_select("#graph_to", time, "end")
+        $("#graph_type").val("custom")
+        # $("#daterange-select-dropdowns form").submit()
+      )
+    })
   
   $('#daterange-select').popover({
     html: true,
@@ -23,8 +24,11 @@ $(document).ready () ->
     trigger: "manual",
     title: false,
     content: ->
-      $("#picker").html()
-      $("#picker").show()
+      '<div id="picker">
+        <div id="datepicker" data-start="' + data_start + '" data-end="' + data_end + '"></div>
+        <a id="dp_prev"><i class="icon-chevron-left"></i></a>
+        <a id="dp_next"><i class="icon-chevron-right"></i></a>
+      </div>'
   })
   
   $('#daterange-select').click ->
@@ -34,6 +38,7 @@ $(document).ready () ->
       $(this).popover('hide')
     else
       $(this).popover('show')
+      window.daterange_selector = daterange_selector_function()
     
   
   $("#dp_prev").click ->
