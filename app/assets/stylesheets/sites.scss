@@ -4,15 +4,6 @@
 //= require datepicker_override
 //= require daterange_selector.scss
 
-#picker:after { clear:both; }
-#picker:before,
-#picker:after {
-  content:"";
-  display: table;
-}
-.hasDatepicker {
-    float: left;
-}
 
 .edit-domain input[type=checkbox] {
   display: none;
@@ -65,7 +56,16 @@
 #chart_container .popover h3 {
   display: none;
 }
-
+#picker:after { clear:both; }
+#picker:before,
+#picker:after {
+  content:"";
+  display: table;
+}
+#picker {
+  width: 524px;
+  height: 161px;
+}
 #picker a {
   color: black;
   text-decoration: none;

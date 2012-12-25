@@ -21,8 +21,7 @@ DaterangeSelector = function (attr) {
             }
         });
         
-        var selection_start_date = new Date(Date.parse($(this.selector).attr("data-start")));
-        $(this.selector).datepicker("setDate", selection_start_date);
+        $(this.selector).datepicker("setDate", attr.start_date());
         
         dp.mousedown(function(e){
             dp_dragging = true;
@@ -35,14 +34,14 @@ DaterangeSelector = function (attr) {
                 dp_dragging = false;
                 end_date = dateUnderCursor();
                 
-                if (typeof attr.start_date !== 'undefined') {
+                if (typeof attr.start_date_selected !== 'undefined') {
                     var start = new Date(Math.min(begin_date, end_date));
-                    attr.start_date(start);
+                    attr.start_date_selected(start);
                 }
                 
-                if (typeof attr.end_date !== 'undefined') {
+                if (typeof attr.end_date_selected !== 'undefined') {
                     var end = new Date(Math.max(begin_date, end_date));
-                    attr.end_date(end);
+                    attr.end_date_selected(end);
                 }
                 $(".ui-state-active").removeClass("ui-state-active");
             }
@@ -55,9 +54,7 @@ DaterangeSelector = function (attr) {
         $(".ui-state-hover").removeClass("ui-state-hover");
         $(".ui-state-active").removeClass("ui-state-active");
         
-        var start = $(this.selector).attr("data-start");
-        var end = $(this.selector).attr("data-end");
-        highlightBetween(Date.parse(start), Date.parse(end));
+        highlightBetween(attr.start_date(), attr.end_date());
     }
     
     this.defineListeners = function () {
@@ -72,6 +69,7 @@ DaterangeSelector = function (attr) {
     }
     
     // Helpers
+    
     
     function dateUnderCursor() {
         var a = $(".ui-state-hover");

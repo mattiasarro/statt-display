@@ -4,19 +4,44 @@
 //= require daterange_selector
 
 $(document).ready () ->
-  daterange_selector_function = -> 
-    DaterangeSelector({
+  setup_daterange_selector = -> 
+    get_graph_date = (from_to) ->
+      year = $("#graph_#{from_to}_1i").val()
+      month = $("#graph_#{from_to}_2i").val()
+      day = $("#graph_#{from_to}_3i").val()
+      new Date("#{year}-#{month}-#{day}")
+    
+    drs = DaterangeSelector({
       selector: "#datepicker", 
       nr_months: 2,
-      start_date: (time) -> (
+      start_date: () -> (
+        get_graph_date("from")
+      ),
+      end_date: () -> (
+        get_graph_date("to")
+      ),
+      start_date_selected: (time) -> (
         update_rails_datetime_select("#graph_from", time, "start")
       ),
-      end_date: (time) -> (
+      end_date_selected: (time) -> (
         update_rails_datetime_select("#graph_to", time, "end")
         $("#graph_type").val("custom")
-        # $("#daterange-select-dropdowns form").submit()
+        $("#daterange-select-dropdowns form").submit()
       )
     })
+    
+    $("#dp_prev").click ->
+      date = $("#datepicker").datepicker("getDate")
+      date.setMonth(date.getMonth() - 1)
+      $("#datepicker").datepicker("setDate", date)
+      drs.initSelected()
+    
+    $("#dp_next").click ->
+      date = $("#datepicker").datepicker("getDate")
+      date.setMonth(date.getMonth() + 1)
+      $("#datepicker").datepicker("setDate", date)
+      drs.initSelected()
+    
   
   $('#daterange-select').popover({
     html: true,
@@ -38,20 +63,7 @@ $(document).ready () ->
       $(this).popover('hide')
     else
       $(this).popover('show')
-      window.daterange_selector = daterange_selector_function()
-    
-  
-  $("#dp_prev").click ->
-    date = $("#datepicker").datepicker("getDate")
-    date.setMonth(date.getMonth() - 1)
-    $("#datepicker").datepicker("setDate", date)
-    daterange_selector.initSelected()
-  
-  $("#dp_next").click ->
-    date = $("#datepicker").datepicker("getDate")
-    date.setMonth(date.getMonth() + 1)
-    $("#datepicker").datepicker("setDate", date)
-    daterange_selector.initSelected()
+      setup_daterange_selector()
   
   update_rails_datetime_select = (id, time, start_end) ->
     trailing_zero = (num) ->
