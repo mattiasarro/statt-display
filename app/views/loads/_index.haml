@@ -1,21 +1,35 @@
-.tabbable
-  .row
-    .span4{style: "margin-right:0;"}
-      %ul.nav.nav-tabs
-        %li
-          %a{href: "#"} Visitors
-        %li.active
-          %a{href: "#"} Loads
-        %li
-          %a{href: "#"} Nodes
-    .span8{style: "border-bottom: 1px solid #ddd; margin-left: 0; width: 640px;"}
-      .pagination.pagination-mini.pagination-right{style: "margin-top: 10px;"}
-        %ul
-          %li= link_to "«", '#'
-          %li= link_to "1", '#'
-          %li= link_to "2", '#'
-          %li.active= link_to "3", '#'
-          %li.disabled= link_to "»", '#'
-  .tab-content
-        
-    %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+.info-header
+  %ul.nav.nav-tabs
+    %li
+      %a{href: "#"} Visitors
+    %li.active
+      %a{href: "#"} Loads
+    %li
+      %a{href: "#"} Nodes
+  .pagination
+    %ul
+      %li= link_to "«", '#'
+      %li= link_to "1", '#'
+      %li= link_to "2", '#'
+      %li.active= link_to "3", '#'
+      %li.disabled= link_to "»", '#'
+
+.loads
+  .loads-col
+    - 4.times do |i|
+      .load
+        %span.uid &nbsp;
+        %span.time 18:30
+        %span.top /path/to/blog/post
+  .loads-col
+    - 4.times do |i|
+      .load
+        %span.uid &nbsp;
+        %span.time 18:30
+        %span.top /path/to/blog/post
+  .loads-col
+    - 4.times do |i|
+      .load
+        %span.uid &nbsp;
+        %span.time 18:30
+        %span.top /path/to/blog/post

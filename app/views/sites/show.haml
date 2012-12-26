@@ -1,36 +1,26 @@
 = content_for :head do
   = javascript_include_tag "d3"
 
-%br
-.row
-  .span2
-  .span1{style: "text-align: right"}
+.chart-header
+  .prev-container
     %a.btn{href: site_path(@site, graph: @graph.query_params(:prev))}
       %i.icon-chevron-left
-  .span6{style: "text-align:center"}
-    .alert{style: "margin-bottom: 0; padding: 5px 0 5px 0;"}
-      Showing #{distance_of_time_in_words @graph.from, @graph.to } 
-      in #{@graph.nr_bars} bars
-  .span1
+  .info-box
+    Showing #{distance_of_time_in_words @graph.from, @graph.to } 
+    in #{@graph.nr_bars} bars
+  .next-container
     %a.btn{href: site_path(@site, graph: @graph.query_params(:next))}
       %i.icon-chevron-right
-  .span2.right
-    .btn-group
-      %a.btn#daterange-select{"data-toggle" => "button"}
-        %i.icon-calendar
-      %a.btn#daterange-select-form{"data-toggle" => "button"}
-        %i.icon-time
-    / .btn-group
-    /   %a.btn
-    /     %i.icon-plus
-    /   %a.btn
-    /     %i.icon-minus
+  .timeframe-selection-buttons.btn-group
+    %a.btn#daterange-select{"data-toggle" => "button"}
+      %i.icon-calendar
+    %a.btn#daterange-select-form{"data-toggle" => "button"}
+      %i.icon-time
 
 .row
   .span12
     #chart_container
 
-%br
 = render "loads/index"
 
 = render "graph/daterange_select_dropdowns"

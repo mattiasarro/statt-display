@@ -1,0 +1,64 @@
+svg.chart {
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #F4F4F4;
+  
+  text {
+    font-size: 10px;
+    font-family: sans-serif;
+  }
+  
+  rect {
+    stroke: white;
+    fill: #A2B8CE;
+  }
+  
+  .values {
+    fill: #fff;
+  }
+  
+  .rule {
+    fill: #7C7C7C;
+  }
+  
+  .axis {
+    path, line {
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+    text {
+        font-family: sans-serif;
+        font-size: 11px;
+    }
+
+    g line.tick {
+      fill: none;
+      stroke: black;
+    }
+  }
+}
+
+.chart-header {
+  margin-top: 20px;
+  .makeRow();
+  .prev-container {
+    .makeColumn(1,2); /* width 1, offset 2*/
+    text-align: right;
+  }
+  .info-box {
+    .makeColumn(6);
+    .alert;
+    margin: 0 -1px 0 19px; /* -1 and 19px - for the border i guess */
+    padding: 5px 0 5px 0;
+    text-align: center
+  }
+  .next-container {
+    .makeColumn(1);
+  }
+  .timeframe-selection-buttons {
+    .makeColumn(2);
+    text-align: right;
+  }
+}
