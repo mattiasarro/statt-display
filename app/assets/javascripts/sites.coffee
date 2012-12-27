@@ -43,7 +43,7 @@ $(document).ready () ->
       drs.initSelected()
     
   
-  $('#daterange-select').popover({
+  $('a#daterange-calendar-button').popover({
     html: true,
     placement: "left",
     trigger: "manual",
@@ -56,7 +56,7 @@ $(document).ready () ->
       </div>'
   })
   
-  $('#daterange-select').click ->
+  $('a#daterange-calendar-button').click ->
     poppedOver = $(this).next('div.popover:visible').length
     if (poppedOver)
       $(".picker-container").html($(".popover-content").html())
@@ -66,20 +66,20 @@ $(document).ready () ->
       setup_daterange_selector()
   
   
-  $('#daterange-select-form').popover({
+  $('#daterange-select-button').popover({
     html: true,
     placement: "left",
     trigger: "manual",
     title: false,
     content: ->
-      $('#daterange-select-dropdowns-container').html()
+      $('#daterange-select-container').html()
       $('#daterange-select-dropdowns').show()
   })
   
-  $('#daterange-select-form').click ->
+  $('#daterange-select-button').click ->
     poppedOver = $(this).next('div.popover:visible').length
     if (poppedOver)
-      $("#daterange-select-dropdowns-container").html($(".popover-content").html())
+      $("#daterange-select-container").html($(".popover-content").html())
       $(this).popover('hide')
     else
       $(this).popover('show')

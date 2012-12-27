@@ -25,6 +25,41 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
     end
   end
   
+  context "day duration" do
+    before do
+      graph_params = day_params
+      graph_params["nr_bars"] = 60
+    
+      @graph = GraphCustom.new(graph_params)
+      @graph.site = @site
+    end
+    
+    it "should work" do
+      @graph.graph_duration.must_equal (24.hours - 1.minute)
+      @graph.bar_duration.to_i.must_equal 1439
+      @graph.nr_bars.must_equal 60
+    end
+  end
+  
+  def day_params
+    {
+      "from(1i)"=>"2012",
+      "from(2i)"=>"12",
+      "from(3i)"=>"23",
+  
+      "from(4i)"=>"00",
+      "from(5i)"=>"00",
+  
+  
+      "to(1i)"=>"2012",
+      "to(2i)"=>"12",
+      "to(3i)"=>"23",
+  
+      "to(4i)"=>"23",
+      "to(5i)"=>"59"      
+    }
+  end
+  
   def hour_params
     {
       "from(1i)"=>"2012",

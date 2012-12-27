@@ -9,7 +9,7 @@ class SitesController < InheritedResources::Base
   def show
     @graph = Graph.factory(params)
     @graph.site = @site
-    # render action: "show_old"
+    render "graph/show"
   end
   
   def update

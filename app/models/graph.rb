@@ -35,22 +35,7 @@ class Graph
     end
   end
   
-  def query_params(sym)
-    if sym == :prev
-      @new_from_time = @from - @graph_duration
-    elsif sym == :next
-      @new_from_time = @from + @graph_duration
-    end
-    {
-          "type" => @type,
-      "from(1i)" => @new_from_time.year,
-      "from(2i)" => @new_from_time.month,
-      "from(3i)" => @new_from_time.day,
-      "from(4i)" => @new_from_time.hour,
-      "from(5i)" => @new_from_time.min,
-      "from(6i)" => @new_from_time.sec
-    }
-  end
+
   
   protected
   
@@ -87,6 +72,7 @@ class Graph
     end
   end
   
+  # todo: move to helper, call from controller?
   def parse_time(params, sym)
     return unless params and params["#{sym}(1i)"]
     t = Time.new(

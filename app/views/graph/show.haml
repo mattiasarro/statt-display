@@ -1,20 +1,24 @@
 = content_for :head do
   = javascript_include_tag "d3"
 
+.hidden
+  = render "graph/daterange_select"
+  = render "graph/data", graph: @graph
+
 .chart-header
   .prev-container
-    %a.btn{href: site_path(@site, graph: @graph.query_params(:prev))}
+    %a.btn
       %i.icon-chevron-left
   .info-box
     Showing #{distance_of_time_in_words @graph.from, @graph.to } 
     in #{@graph.nr_bars} bars
   .next-container
-    %a.btn{href: site_path(@site, graph: @graph.query_params(:next))}
+    %a.btn
       %i.icon-chevron-right
   .timeframe-selection-buttons.btn-group
-    %a.btn#daterange-select{"data-toggle" => "button"}
+    %a.btn#daterange-calendar-button{"data-toggle" => "button"}
       %i.icon-calendar
-    %a.btn#daterange-select-form{"data-toggle" => "button"}
+    %a.btn#daterange-select-button{"data-toggle" => "button"}
       %i.icon-time
 
 .row
@@ -23,6 +27,4 @@
 
 = render "loads/index"
 
-= render "graph/daterange_select_dropdowns"
-= render "graph/data", graph: @graph
 

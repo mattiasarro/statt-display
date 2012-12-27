@@ -1,9 +1,10 @@
-#daterange-select-dropdowns-container
+#daterange-select-container
   #daterange-select-dropdowns
     = form_tag site_path(@site), method: :get, class: "form-horizontal" do
       %fieldset
         %legend Select a precise timeframe
         = hidden_field :graph, :nr_bars
+        = hidden_field :graph, :type, value: "custom"
         / = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
         / = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
         .control-group
