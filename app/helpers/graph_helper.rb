@@ -1,12 +1,15 @@
 module GraphHelper
   def graph_pagination(graph, direction)
     case direction
-    when :prev then @new_from_time = @from - @graph_duration
-    when :next then @new_from_time = @from + @graph_duration
+    when :prev then @new_from_time = @graph.from - @graph.graph_duration
+    when :next then @new_from_time = @graph.from + @graph.graph_duration
     end
-    @new_to_time = @new_from_time + @graph_duration
+    @new_to_time = @new_from_time + @graph.graph_duration
 
-    ret = { "type" => "custom" } # todo: take from graph_type
+    ret = { 
+      "type" => params[:graph][:type],
+      "nr_bars" => params[:graph][:nr_bars]
+    }
     ret.merge!(pack_time(@new_from_time, :from))
     ret.merge!(pack_time(@new_to_time, :to))
   end
