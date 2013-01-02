@@ -18,11 +18,13 @@
     .navbar.navbar-top
       .navbar-inner
         .container
-          %a.brand{href: site_path(@site)}= @site.name
           - if @site
+            %a.brand{href: site_path(@site)}= @site.name
             %ul.nav
               %li= link_to "Settings", edit_site_path(@site)
               %li= link_to "Tracking code", action: :tracking_code
+          - else
+            %a.brand{href: "/"} statt
                 
           - if user_logged_in?
             %ul.nav.pull-right
