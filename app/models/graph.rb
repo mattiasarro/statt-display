@@ -3,12 +3,10 @@ class Graph
   PER_PAGE = 10
   
   def self.factory(params)
-    case (params && params[:graph] && params[:graph][:type]) ? params[:graph][:type] : nil
-    when "hour" then GraphHour.new(params[:graph])
-    when "day" then GraphDay.new(params[:graph])
-    when "custom" then GraphCustom.new(params[:graph])
-    else GraphHour.new(params[:graph])
-    end
+    return GraphHour.new(nil) if params[:graph].nil?
+    
+    class_name = "Graph" + params[:graph][:type].to_s.titleize
+    class_name.constantize.new(params[:graph])
   end
   
   def self.options_for_select

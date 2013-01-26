@@ -13,7 +13,7 @@ $(document).ready () ->
   .domain([0, max_value]) # data.value
   .rangeRound([padding, chart_height]) # rangeRound() means values are rounded to Int
   
-  chart = d3.select("#chart_container}").append("svg")
+  chart = d3.select("#chart_container").append("svg")
   .attr("class", "chart")
   .attr("width", chart_width)
   .attr("height", chart_height)
