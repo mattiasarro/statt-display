@@ -13,7 +13,8 @@ gem 'omniauth-twitter'
 gem 'inherited_resources'
 gem 'haml-rails'
 gem 'quiet_assets'
-gem 'dotiw'
+gem 'dotiw' # distance of time in words
+gem 'kaminari'
 
 gem 'faker'
 group :development do
