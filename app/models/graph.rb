@@ -40,26 +40,21 @@ class Graph
   
   # get the timestamp since epoch to the beginning of the bar
   def calculate_index(load)
-    seconds_since_graph_start = (load["time"] - from).to_i
+    seconds_since_graph_start = (load.time - from).to_i
     seconds_inside_bar = (seconds_since_graph_start % @bar_duration).to_i
-    time_at_bar_start = load["time"].to_i - seconds_inside_bar
+    time_at_bar_start = load.time.to_i - seconds_inside_bar
   end
   
   def loads
-    @site.loads.collection
+    @site.loads
   end
   
   def visitors
-    @site.visitors.collection
+    @site.visitors
   end
   
   def loads_within_range
-    loads.find({
-      time: { 
-        "$gt" => from,
-        "$lt" => to,
-      }
-    }) 
+    loads.where(:time.gt => from, :time.lt => to)
   end
   
   def init_from_to(params)

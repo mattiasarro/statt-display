@@ -26,22 +26,22 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
       visitors = @graph.send :visitors
       loads = @graph.send :loads
       
-      visitors.find.count.must_equal 1
-      loads.find.count.must_equal 1
+      visitors.size.must_equal 1
+      loads.size.must_equal 1
     end
     
     it "loads_within_range should work" do
       @graph.to = Time.now
       @site.loads.create(time: Time.at(30.minutes.ago))
       
-      @graph.send(:loads).find.count.must_equal 1
-      @graph.send(:loads_within_range).count.must_equal 1
+      @graph.send(:loads).size.must_equal 1
+      @graph.send(:loads_within_range).size.must_equal 1
     end
     
     it "should add one bar" do
       @graph.to = Time.now
       @site.loads.create(time: Time.at(30.minutes.ago))
-      @graph.send(:loads).find.count.must_equal 1
+      @graph.send(:loads).size.must_equal 1
       @graph.data.keys.size.must_equal 1
     end
     
