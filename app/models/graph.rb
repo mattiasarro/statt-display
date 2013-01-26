@@ -1,5 +1,6 @@
 class Graph
   attr_accessor :type, :from, :to, :site, :nr_bars, :bar_duration, :graph_duration
+  PER_PAGE = 10
   
   def self.factory(params)
     case (params && params[:graph] && params[:graph][:type]) ? params[:graph][:type] : nil
@@ -35,6 +36,10 @@ class Graph
     end
   end
   
+  def loads_page(nr)
+    offset = PER_PAGE * (nr - 1)
+    loads_within_range.limit(PER_PAGE).skip(offset)
+  end
   
   protected
   
@@ -46,7 +51,7 @@ class Graph
   end
   
   def loads
-    @site.loads
+    @site.loads.desc(:time)
   end
   
   def visitors

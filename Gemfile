@@ -14,7 +14,6 @@ gem 'inherited_resources'
 gem 'haml-rails'
 gem 'quiet_assets'
 gem 'dotiw' # distance of time in words
-gem 'kaminari'
 
 gem 'faker'
 group :development do

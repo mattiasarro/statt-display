@@ -15,4 +15,13 @@
     data.push({time: <%= k %>, value: <%= v %>});
   <% end %>
   
+  loads = [];
+  <% graph.loads_page(2).each do |load| %>
+    loads.push({ 
+      path: "<%= load.path %>", 
+      time: "<%= load.time %>"
+    });
+  <% end %>
+  
 </script>
+
