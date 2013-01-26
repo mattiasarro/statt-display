@@ -18,8 +18,8 @@ class Graph
   end
   
   def initialize(params)
-    parse_time params, :from
-    parse_time params, :to
+    @from = GraphHelper.parse_time(params, :from)
+    @to   = GraphHelper.parse_time(params, :to)
   end
   
   def data
@@ -60,26 +60,13 @@ class Graph
     loads.where(:time.gt => from, :time.lt => to)
   end
   
-  def init_from_to(params)
+  def init_from_to
     if @from
       @to = @from + @graph_duration
     else
       @to = Time.now
       @from = @to - @graph_duration
     end
-  end
-  
-  # todo: move to helper, call from controller?
-  def parse_time(params, sym)
-    return unless params and params["#{sym}(1i)"]
-    t = Time.new(
-      params["#{sym}(1i)"].to_i, 
-      params["#{sym}(2i)"].to_i,
-      params["#{sym}(3i)"].to_i,
-      params["#{sym}(4i)"].to_i,
-      params["#{sym}(5i)"].to_i
-    )
-    send "#{sym}=", t
   end
 
 end

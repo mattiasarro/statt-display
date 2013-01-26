@@ -24,4 +24,16 @@ module GraphHelper
       "#{sym}(6i)" => time.sec
     }
   end
+  
+  def self.parse_time(params, sym)
+    return unless params and params["#{sym}(1i)"]
+    Time.new(
+      params["#{sym}(1i)"].to_i, 
+      params["#{sym}(2i)"].to_i,
+      params["#{sym}(3i)"].to_i,
+      params["#{sym}(4i)"].to_i,
+      params["#{sym}(5i)"].to_i
+    )
+  end
+  
 end

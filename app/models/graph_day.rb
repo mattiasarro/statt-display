@@ -8,7 +8,7 @@ class GraphDay < Graph
     @nr_bars = 24
     @bar_duration = @graph_duration / @nr_bars # 1 hour
     
-    init_from_to(params) # inherited, no need to overwrite
+    init_from_to
   end
   
 end
