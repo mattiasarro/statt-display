@@ -35,7 +35,6 @@ class Graph
     end
   end
   
-
   
   protected
   
