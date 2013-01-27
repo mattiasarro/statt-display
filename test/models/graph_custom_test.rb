@@ -6,17 +6,15 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
     @site = Site.create
   end
   
-  context "60min duration" do
+  context "hour duration" do
     before do
-      graph_params = hour_params
-      graph_params["nr_bars"] = 60
-
-      @graph = GraphCustom.new(graph_params)
+      @timeframe = Timeframe.new(hour_params.merge({duration: 60.minutes}))
+      @graph = Graph.new({nr_bars: 60}, @timeframe)
       @graph.site = @site
     end
     
     it "should have correct duration" do
-      @graph.graph_duration.must_equal 60.minutes
+      @graph.duration.must_equal 60.minutes
     end
 
     it "should have correct number of bars" do
@@ -27,16 +25,14 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
   
   context "day duration" do
     before do
-      graph_params = day_params
-      graph_params["nr_bars"] = 60
-    
-      @graph = GraphCustom.new(graph_params)
+      @timeframe = Timeframe.new(day_params.merge(duration: 1.day))
+      @graph = Graph.new({nr_bars: 60}, @timeframe)
       @graph.site = @site
     end
     
     it "should work" do
-      @graph.graph_duration.must_equal (24.hours - 1.minute)
-      @graph.bar_duration.to_i.must_equal 1439
+      @graph.duration.must_equal 1.day
+      @graph.bar_duration.to_i.must_equal 1440
       @graph.nr_bars.must_equal 60
     end
   end

@@ -6,9 +6,9 @@
 $(document).ready () ->
   setup_daterange_selector = -> 
     get_graph_date = (from_to) ->
-      year = $("#graph_#{from_to}_1i").val()
-      month = $("#graph_#{from_to}_2i").val()
-      day = $("#graph_#{from_to}_3i").val()
+      year = $("#timeframe_#{from_to}_1i").val()
+      month = $("#timeframe_#{from_to}_2i").val()
+      day = $("#timeframe_#{from_to}_3i").val()
       new Date("#{year}-#{month}-#{day}")
     
     drs = DaterangeSelector({
@@ -21,10 +21,10 @@ $(document).ready () ->
         get_graph_date("to")
       ),
       start_date_selected: (time) -> (
-        update_rails_datetime_select("#graph_from", time, "start")
+        update_rails_datetime_select("#timeframe_from", time, "start")
       ),
       end_date_selected: (time) -> (
-        update_rails_datetime_select("#graph_to", time, "end")
+        update_rails_datetime_select("#timeframe_to", time, "end")
         $("#graph_type").val("custom")
         $("#daterange-select-dropdowns form").submit()
       )

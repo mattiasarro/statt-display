@@ -1,17 +1,17 @@
 module GraphHelper
   def graph_pagination(graph, direction)
-    case direction
-    when :prev then @new_from_time = graph.from - graph.graph_duration
-    when :next then @new_from_time = graph.from + graph.graph_duration
-    end
-    @new_to_time = @new_from_time + graph.graph_duration
-
-    ret = { 
-      "type" => graph.type,
-      "nr_bars" => graph.nr_bars
-    }
-    ret.merge!(pack_time(@new_from_time, :from))
-    ret.merge!(pack_time(@new_to_time, :to))
+    # case direction
+    # when :prev then @new_from_time = graph.from - graph.graph_duration
+    # when :next then @new_from_time = graph.from + graph.graph_duration
+    # end
+    # @new_to_time = @new_from_time + graph.graph_duration
+    # 
+    # ret = { 
+    #   "type" => graph.type,
+    #   "nr_bars" => graph.nr_bars
+    # }
+    # ret.merge!(pack_time(@new_from_time, :from))
+    # ret.merge!(pack_time(@new_to_time, :to))
   end
   
   def pack_time(time, sym)
@@ -25,15 +25,6 @@ module GraphHelper
     }
   end
   
-  def self.parse_time(params, sym)
-    return unless params and params["#{sym}(1i)"]
-    Time.new(
-      params["#{sym}(1i)"].to_i, 
-      params["#{sym}(2i)"].to_i,
-      params["#{sym}(3i)"].to_i,
-      params["#{sym}(4i)"].to_i,
-      params["#{sym}(5i)"].to_i
-    )
-  end
+  
   
 end

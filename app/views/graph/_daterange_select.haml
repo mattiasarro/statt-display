@@ -8,13 +8,13 @@
         / = select :graph, :type, options_for_select(Graph.options_for_select, @graph.type)
         / = link_to "next >", site_path(@site, graph: @graph.query_params(:next))
         .control-group
-          %label.control-label{for: "graph_from_1i"} From:
+          %label.control-label{for: "timeframe_from_1i"} From:
           .controls
-            = datetime_select :graph, :from, order: [:day, :month, :year, :hour, :minute]
+            = datetime_select :timeframe, :from, order: [:day, :month, :year, :hour, :minute]
         .control-group
-          %label.control-label{for: "graph_to_1i"} To:
+          %label.control-label{for: "timeframe_to_1i"} To:
           .controls
-            = datetime_select :graph, :to, order: [:day, :month, :year, :hour, :minute]
+            = datetime_select :timeframe, :to, order: [:day, :month, :year, :hour, :minute]
         .control-group.btn-control-group
           .controls
             %button.btn{type: "submit"} Update Graph

@@ -7,8 +7,12 @@ class SitesController < InheritedResources::Base
   before_filter :do_not_create_empty_domain, only: :update
   
   def show
-    @graph = Graph.factory(params)
+    @timeframe = Timeframe.new(params[:timeframe])
+    
+    @graph = Graph.new(params, @timeframe)
     @graph.site = @site
+    
+    @ui = UserInterface.new(@graph, @timeframe)
     render "graph/show"
   end
   

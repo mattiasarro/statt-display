@@ -1,12 +1,17 @@
 class Graph
-  attr_accessor :type, :from, :to, :site, :nr_bars, :bar_duration, :graph_duration
+  attr_accessor :type, :timeframe, :site, :nr_bars, :bar_duration
+  delegate :from, :to, :duration, to: :timeframe
   
+  DEFAULTS = {
+    nr_bars: 60,
+    duration: 60.minutes
+  }
   
-  def self.factory(params)
-    return GraphHour.new(nil) if params[:graph].nil?
-    
-    class_name = "Graph" + params[:graph][:type].to_s.titleize
-    class_name.constantize.new(params[:graph])
+  def initialize(params, timeframe)
+    @timeframe = timeframe
+    @type = :custom
+    @nr_bars = params[:nr_bars] || DEFAULTS[:nr_bars]
+    @bar_duration = @timeframe.duration / @nr_bars
   end
   
   def self.options_for_select
@@ -17,13 +22,8 @@ class Graph
     ]
   end
   
-  def initialize(params)
-    @from = GraphHelper.parse_time(params, :from)
-    @to   = GraphHelper.parse_time(params, :to)
-  end
-  
   def data
-    @data ||= data_uncached # separate _uncached function for testing purposes
+    @data ||= data_uncached
   end
   
   def data_uncached
@@ -58,17 +58,9 @@ class Graph
   def loads_within_range
     loads.where(:time.gt => from, :time.lt => to)
   end
-  
-  def init_from_to
-    if @from
-      @to = @from + @graph_duration
-    else
-      @to = Time.now
-      @from = @to - @graph_duration
-    end
-  end
-
 end
+
+
 
 class LoadsPage
   PER_PAGE = 30

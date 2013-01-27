@@ -8,7 +8,10 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
   
   context "60 minutes" do
     before do
-      @graph = Graph.factory({type: :hour})
+      @timeframe = Timeframe.new(duration: 60.minutes)
+      @timeframe.from = 60.minutes.ago
+      @timeframe.to = Time.now
+      @graph = Graph.new({nr_bars: 60}, @timeframe)
       @graph.site = @site
     end
     
@@ -31,7 +34,7 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
     end
     
     it "loads_within_range should work" do
-      @graph.to = Time.now
+      @graph.timeframe.to = Time.now
       @site.loads.create(time: Time.at(30.minutes.ago))
       
       @graph.send(:loads).size.must_equal 1
@@ -39,14 +42,14 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
     end
     
     it "should add one bar" do
-      @graph.to = Time.now
+      @graph.timeframe.to = Time.now
       @site.loads.create(time: Time.at(30.minutes.ago))
       @graph.send(:loads).size.must_equal 1
       @graph.data.keys.size.must_equal 1
     end
     
     it "should add correct number of bars" do
-      @graph.to = Time.now
+      @graph.timeframe.to = Time.now
       
       @site.loads.create(time: Time.at((60 - 0.5).minutes.ago))
       @graph.data_uncached.size.must_equal 1
@@ -59,7 +62,7 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
     end
     
     it "should add bars with correct height" do
-      @graph.to = Time.now
+      @graph.timeframe.to = Time.now
       
       @site.loads.create(time: Time.at((60 - 0.1).minutes.ago))
       @site.loads.create(time: Time.at((60 - 0.5).minutes.ago))
@@ -76,7 +79,7 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
     end
     
     it "should not add one bar when out of time range" do
-      @graph.to = Time.now
+      @graph.timeframe.to = Time.now
       @site.loads.create(time: Time.at(90.minutes.ago))
       @site.loads.create(time: Time.at(61.minutes.ago))
       @site.loads.create(time: Time.at(1.minute.from_now))
