@@ -12,8 +12,7 @@ class LoadsPageTest < MiniTest::Rails::ActiveSupport::TestCase
       @timeframe.from = Time.utc(2013,1,1, 22,0)
       @timeframe.to   = Time.utc(2013,1,1, 23,0)
       
-      @graph = Graph.new({nr_bars: 60}, @timeframe)
-      @graph.site = @site
+      @loads = Loads.new(@site, @timeframe)
     end
     
     it "should get only loads from the correct site" do
@@ -25,16 +24,22 @@ class LoadsPageTest < MiniTest::Rails::ActiveSupport::TestCase
       @site2.loads.create
       @site2.loads.create
       
-      loads_columns = @graph.loads_page(1).to_array
+      loads_columns = @loads.page(1).to_array
       loads_columns.flatten.size.must_equal 1 # one load
       loads_columns[0].size.must_equal 1 # one load in the first subarray
       loads_columns.size.must_equal 1 # only one subarray
     end
     
-    # todo don't assume PER_PAGE = 10
+    it "should have a proper Loads object to start with" do
+      @site.loads.create(time: Time.utc(2013,1,1, 22,1))
+      @site.loads.create(time: Time.utc(2013,1,1, 22,2))
+      @site.loads.size.must_equal 2
+      @loads.collection.size.must_equal 2
+    end
+    
     it "should get a proper last page" do
       silence_warnings do
-        LoadsPage::PER_PAGE = 10
+        Loads::PER_PAGE = 10
       end
       @site.loads.create(time: Time.utc(2013,1,1, 22,1))
       @site.loads.create(time: Time.utc(2013,1,1, 22,2))
@@ -57,14 +62,18 @@ class LoadsPageTest < MiniTest::Rails::ActiveSupport::TestCase
       @site.loads.create(time: Time.utc(2013,1,1, 22,18))
       @site.loads.create(time: Time.utc(2013,1,1, 22,19))
       
-      loads_columns = @graph.loads_page(1).to_array
+      @site.loads.size.must_equal 19
+      @loads.page(1).send(:loads_size).must_equal 10
+      @loads.page(2).send(:loads_size).must_equal 9
+      
+      loads_columns = @loads.page(1).to_array
       loads_columns.flatten.size.must_equal 10
       loads_columns.size.must_equal 3
       loads_columns[0].size.must_equal 4
       loads_columns[1].size.must_equal 4
       loads_columns[2].size.must_equal 2
       
-      loads_columns = @graph.loads_page(2).to_array
+      loads_columns = @loads.page(2).to_array
       loads_columns.flatten.size.must_equal 9
       loads_columns.size.must_equal 3
       loads_columns[0].size.must_equal 3
@@ -72,5 +81,18 @@ class LoadsPageTest < MiniTest::Rails::ActiveSupport::TestCase
       loads_columns[2].size.must_equal 3
     end
   end
+  
+  # context "loads within timeframe" do
+  #   before do
+  #     @timeframe = Timeframe.new(duration: 60.minutes)
+  #     @timeframe.from = 60.minutes.ago
+  #     @timeframe.to = Time.now
+  #     @graph = Graph.new({nr_bars: 60}, @timeframe)
+  #     @graph.site = @site
+  #   end
+  #   
+  # 
+  #   
+  # end
   
 end

@@ -9,9 +9,10 @@
   .pagination
     %ul
       %li= link_to "«", '#'
-      %li= link_to "1", '#'
-      %li= link_to "2", '#'
-      %li.active= link_to "3", '#'
+      - @ui.loads_pages.each do |page|
+        %li{class: ('active' if page.current?)}
+          = link_to page.nr, page.uri_hash
+          
       %li.disabled= link_to "»", '#'
 
 .loads

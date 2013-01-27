@@ -28,14 +28,10 @@ class Graph
   
   def data_uncached
     Hash.new(0).tap do |h|
-      loads_within_range.each do |load|
+      loads.within_range.each do |load|
         h[calculate_index(load)] += 1
       end
     end
-  end
-  
-  def loads_page(page_nr)
-    LoadsPage.new(loads_within_range, page_nr)
   end
   
   def to_uri_hash
@@ -43,6 +39,10 @@ class Graph
       type: @type,
       nr_bars: @nr_bars
     }
+  end
+  
+  def loads
+    @loads ||= Loads.new(@site, @timeframe)
   end
   
   protected
@@ -54,15 +54,8 @@ class Graph
     time_at_bar_start = load.time.to_i - seconds_inside_bar
   end
   
-  def loads
-    @site.loads.desc(:time)
-  end
-  
   def visitors
     @site.visitors
   end
   
-  def loads_within_range
-    loads.where(:time.gt => from, :time.lt => to)
-  end
 end

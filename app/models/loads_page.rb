@@ -1,14 +1,13 @@
 class LoadsPage
-  PER_PAGE = 30
   NR_COLUMNS = 3
   
-  def initialize(loads, page)
-    offset = PER_PAGE * (page - 1)
-    @loads = loads.limit(PER_PAGE).skip(offset)
+  def initialize(loads_within_range, page)
+    offset = Loads::PER_PAGE * (page - 1)
+    @loads_within_range = loads_within_range.limit(Loads::PER_PAGE).skip(offset)
   end
   
   def to_array
-    load_columns = @loads.each_slice(col_size)
+    load_columns = @loads_within_range.each_slice(col_size)
     load_columns.map {|o| o }
   end
   
@@ -25,6 +24,6 @@ class LoadsPage
   
   # hack, due to loads.size giving ALL loads
   def loads_size
-    @loads_size ||= @loads.map(&:object_id).size
+    @loads_within_range.map(&:object_id).size
   end
 end

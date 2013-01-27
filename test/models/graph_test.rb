@@ -27,7 +27,7 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
       @site2.loads.create
       
       visitors = @graph.send :visitors
-      loads = @graph.send :loads
+      loads = @graph.send(:loads).collection
       
       visitors.size.must_equal 1
       loads.size.must_equal 1
@@ -37,14 +37,14 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
       @graph.timeframe.to = Time.now
       @site.loads.create(time: Time.at(30.minutes.ago))
       
-      @graph.send(:loads).size.must_equal 1
-      @graph.send(:loads_within_range).size.must_equal 1
+      @graph.loads.collection.size.must_equal 1
+      @graph.loads.within_range.size.must_equal 1
     end
     
     it "should add one bar" do
       @graph.timeframe.to = Time.now
       @site.loads.create(time: Time.at(30.minutes.ago))
-      @graph.send(:loads).size.must_equal 1
+      @graph.loads.within_range.size.must_equal 1
       @graph.data.keys.size.must_equal 1
     end
     
@@ -74,7 +74,7 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
       @site.loads.create(time: Time.at((0.8).minutes.ago))
       
       total_bars_height = @graph.data_uncached.inject(0) { |sum, (k,v)| sum += v }
-      @graph.data_uncached.size.must_equal 3
+      @graph.data_uncached.size.must_equal 3 # occasionally errs, todo: make absolute times
       total_bars_height.must_equal 6
     end
     
