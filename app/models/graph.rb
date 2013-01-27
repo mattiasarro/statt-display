@@ -1,6 +1,6 @@
 class Graph
   attr_accessor :type, :from, :to, :site, :nr_bars, :bar_duration, :graph_duration
-  PER_PAGE = 10
+  
   
   def self.factory(params)
     return GraphHour.new(nil) if params[:graph].nil?
@@ -34,9 +34,8 @@ class Graph
     end
   end
   
-  def loads_page(nr)
-    offset = PER_PAGE * (nr - 1)
-    loads_within_range.limit(PER_PAGE).skip(offset)
+  def loads_page(page_nr)
+    LoadsPage.new(loads_within_range, page_nr)
   end
   
   protected
@@ -69,4 +68,31 @@ class Graph
     end
   end
 
+end
+
+class LoadsPage
+  PER_PAGE = 30
+  NR_COLUMNS = 3
+  
+  def initialize(loads, page)
+    offset = PER_PAGE * (page - 1)
+    @loads = loads.limit(PER_PAGE).skip(offset)
+  end
+  
+  def to_json
+    return "[]" if col_size == 0
+    load_columns = @loads.each_slice(col_size)
+    load_columns.map {|o| o }.to_json
+  end
+  
+  private
+  
+  def col_size
+    (loads_size / NR_COLUMNS.to_f).ceil
+  end
+  
+  # hack, due to loads.size giving ALL loads
+  def loads_size
+    @loads.map(&:object_id).size
+  end
 end

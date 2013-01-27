@@ -5,8 +5,9 @@ $(document).ready () ->
      <span class="time">' + load.time + '</span>
      <span class="top">' + load.path + '</span>'
   
-  loads_col = d3.select(".loads-col")
-  
-  loads_col.selectAll("div")
-  .data(loads) # loads is defined by graph/_data.erb
+  loads_div = d3.selectAll(".loads-col")
+  .data(loads.reverse())
+  .selectAll(".load")
+  .data((d,i) -> d)
   .enter().append("div").attr("class", "load").html(load_html)
+  

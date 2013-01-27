@@ -41,4 +41,10 @@ class Load
   end
   delegate :path, :query, :fragment, to: :uri
   
+  def as_json(*a)
+    {
+      "path" => self.path,
+      "time" => self.time.strftime("%H:%M:%S")
+    }
+  end
 end

@@ -15,13 +15,8 @@
     data.push({time: <%= k %>, value: <%= v %>});
   <% end %>
   
-  loads = [];
-  <% graph.loads_page(2).each do |load| %>
-    loads.push({ 
-      path: "<%= load.path %>", 
-      time: "<%= load.time.strftime('%H:%M') %>"
-    });
-  <% end %>
+  
+  loads = <%= raw graph.loads_page(1).to_json %>;
   
 </script>
 
