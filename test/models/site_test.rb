@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + "/../minitest_helper"
 class SiteTest < MiniTest::Rails::ActiveSupport::TestCase
   
   it "must add sites to current_user" do
-    @u = User.create
+    @u = FactoryGirl.create :user
     @u.sites.create(title: "asdf")
     
     @u = User.first
