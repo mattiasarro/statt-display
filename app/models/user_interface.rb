@@ -4,33 +4,30 @@ class UserInterface
     @graph, @timeframe = graph, timeframe
   end
   
-  def prev
-    @timeframe = @timeframe.clone.prev_page!
-    reset_pagination
+  def prev_uri_hash
+    self.to_uri_hash(
+      timeframe: @timeframe.clone.prev_page!,
+      tab: "loads",
+      loads_page: 1
+    )
   end
   
-  def next
-    @timeframe = @timeframe.clone.next_page!
-    reset_pagination
+  def next_uri_hash
+    self.to_uri_hash(
+      timeframe: @timeframe.clone.next_page!,
+      tab: "loads",
+      loads_page: 1
+    )
   end
   
-  def to_hash(attr)
-    from = attr[:from] || @graph.from
-    to = attr[:to] || @graph.to
-    type = attr[:type] || @graph.type
-    nr_bars = attr[:nr_bars] || @graph.nr_bars
-
-    ret = { 
-      "type" => type,
-      "nr_bars" => nr_bars
-    }
-    ret.merge!(GraphHelper::pack_time(from, :from))
-    ret.merge!(GraphHelper::pack_time(to, :to))
-  end
-  
-  private
-  
-  def reset_pagination
+  def to_uri_hash(overrides)
+    graph = overrides[:graph] || @graph
+    timeframe = overrides[:timeframe] || @timeframe
     
+    ret = { 
+      graph: graph.to_uri_hash,
+      timeframe: timeframe.to_uri_hash
+    }
   end
+  
 end

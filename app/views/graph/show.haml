@@ -7,13 +7,13 @@
 
 .chart-header
   .prev-container
-    %a.btn{href: site_path(@site, graph: graph_pagination(@graph,:prev))}
+    %a.btn{href: site_path(@site, @ui.prev_uri_hash)}
       %i.icon-chevron-left
   .info-box
     Showing #{distance_of_time_in_words @graph.from, @graph.to } 
     in #{@graph.nr_bars} bars
   .next-container
-    %a.btn{href: site_path(@site, graph: graph_pagination(@graph,:next))}
+    %a.btn{href: site_path(@site, @ui.next_uri_hash)}
       %i.icon-chevron-right
   .timeframe-selection-buttons.btn-group
     %a.btn#daterange-calendar-button{"data-toggle" => "button"}

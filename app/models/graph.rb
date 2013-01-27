@@ -38,6 +38,13 @@ class Graph
     LoadsPage.new(loads_within_range, page_nr)
   end
   
+  def to_uri_hash
+    {
+      type: @type,
+      nr_bars: @nr_bars
+    }
+  end
+  
   protected
   
   # get the timestamp since epoch to the beginning of the bar
