@@ -25,7 +25,7 @@ class UserInterface
   def loads_pages
     Pagination.new(
       nr_pages: @loads.nr_pages,
-      current: lambda { |pg| @loads_pg == pg },
+      current_pg: @loads_pg,
       uri_base: self.to_uri_hash,
       uri_change: :loads_pg
     )
@@ -47,21 +47,45 @@ class Pagination
   
   class Page < Struct.new(:nr, :current, :uri_hash)
     def current?; current; end
+    def disabled?; false; end
+  end
+  
+  class PageDisabled
+    def disabled?; true; end
+    def uri_hash; {}; end
   end
   
   def initialize(attr)
-    @pages = attr[:nr_pages].times.map do |i|
-      pg_nr = i + 1 
-      uri_hash = attr[:uri_base].clone
-      uri_hash[attr[:uri_change]] = pg_nr
-      Page.new(pg_nr, attr[:current].call(pg_nr), uri_hash)
-    end
+    @nr_pages, @current_pg = attr[:nr_pages], attr[:current_pg]
+    @uri_base, @uri_change = attr[:uri_base], attr[:uri_change]
+    @pages = @nr_pages.times.map { |i| new_page(i + 1) }
   end
   
   def each(&block)
     @pages.each(&block)
   end
   
+  def prev
+    if @current_pg == 1
+      PageDisabled.new
+    else
+      new_page(@current_pg - 1)
+    end
+  end
+  
   def next
+    if @current_pg == @nr_pages
+      PageDisabled.new
+    else
+      new_page(@current_pg + 1)
+    end
+  end
+  
+  private
+  
+  def new_page(pg_nr)
+    uri_hash = @uri_base.clone
+    uri_hash[@uri_change] = pg_nr
+    Page.new(pg_nr, (@current_pg == pg_nr), uri_hash)
   end
 end

@@ -8,12 +8,15 @@
       %a{href: "#"} Nodes
   .pagination
     %ul
-      %li= link_to "«", '#'
+      %li{class: ('disabled' if @ui.loads_pages.prev.disabled?)}
+        = link_to "«", @ui.loads_pages.prev.uri_hash
+      
       - @ui.loads_pages.each do |page|
         %li{class: ('active' if page.current?)}
           = link_to page.nr, page.uri_hash
           
-      %li.disabled= link_to "»", '#'
+      %li{class: ('disabled' if @ui.loads_pages.next.disabled?)}
+        = link_to "»", @ui.loads_pages.next.uri_hash
 
 .loads
   .loads-col
