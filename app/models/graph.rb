@@ -7,10 +7,9 @@ class Graph
     duration: 60.minutes
   }
   
-  def initialize(params, timeframe)
-    @timeframe = timeframe
-    @type = :custom
-    @nr_bars = params[:nr_bars] || DEFAULTS[:nr_bars]
+  def initialize(loads, nr_bars)
+    @loads, @timeframe = loads, loads.timeframe
+    @nr_bars = nr_bars || DEFAULTS[:nr_bars]
     @bar_duration = @timeframe.duration / @nr_bars
   end
   
@@ -28,21 +27,14 @@ class Graph
   
   def data_uncached
     Hash.new(0).tap do |h|
-      loads.within_range.each do |load|
+      @loads.within_range.each do |load|
         h[calculate_index(load)] += 1
       end
     end
   end
   
   def to_uri_hash
-    {
-      type: @type,
-      nr_bars: @nr_bars
-    }
-  end
-  
-  def loads
-    @loads ||= Loads.new(@site, @timeframe)
+    { nr_bars: @nr_bars }
   end
   
   protected

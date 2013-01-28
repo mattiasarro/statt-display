@@ -1,9 +1,9 @@
 <script type="text/javascript">
   
-  data_start = "<%= graph.from %>";
-  data_end   = "<%= graph.to %>";
+  data_start = "<%= @timeframe.from %>";
+  data_end   = "<%= @timeframe.to %>";
   
-  from = <%= graph.from.to_i %>;
+  from = <%= @timeframe.from.to_i %>;
   bar_duration = <%= graph.bar_duration.to_i %>;
   nr_bars = <%= graph.nr_bars %>;
   max_value = <%= graph.data.values.max || 0 %>;
@@ -16,7 +16,7 @@
   <% end %>
   
   
-  loads = <%= raw graph.loads.page(1).to_json %>;
+  loads = <%= raw @loads.page(@ui.loads_pg).to_json %>;
   
 </script>
 

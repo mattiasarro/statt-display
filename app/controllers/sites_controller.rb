@@ -8,11 +8,12 @@ class SitesController < InheritedResources::Base
   
   def show
     @timeframe = Timeframe.new(params[:timeframe])
+    @loads = Loads.new(@site, @timeframe)
     
-    @graph = Graph.new(params, @timeframe)
-    @graph.site = @site
+    @graph = Graph.new(@loads, params[:nr_bars])
+    @graph.site = @site # not needed after visitors() refactored
     
-    @ui = UserInterface.new(@graph, @timeframe)
+    @ui = UserInterface.new(params, @timeframe, @graph, @loads)
     render "graph/show"
   end
   
