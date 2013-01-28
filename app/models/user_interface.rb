@@ -55,14 +55,32 @@ class Pagination
     def uri_hash; {}; end
   end
   
+  attr_reader :windows
   def initialize(attr)
     @nr_pages, @current_pg = attr[:nr_pages], attr[:current_pg]
     @uri_base, @uri_change = attr[:uri_base], attr[:uri_change]
-    @pages = @nr_pages.times.map { |i| new_page(i + 1) }
+    @pages = @nr_pages.times.map do |i| 
+      new_page(i + 1).tap do |page|
+        @current_pg_index = i if page.current?
+      end
+    end
   end
   
   def each(&block)
     @pages.each(&block)
+  end
+  
+  def windowed?
+    (@pages.size > 11) && 
+    (6..(@nr_pages-6)).include?(@current_pg_index)
+  end
+  
+  def windows
+    @windows ||= [
+      @pages[0..2],
+      @pages[(@current_pg_index-2)..(@current_pg_index+2)],
+      (@current_pg_index == (@pages.size-7) ? @pages[-4..-1] : @pages[-3..-1])
+    ]
   end
   
   def prev
