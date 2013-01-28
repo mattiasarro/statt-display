@@ -23,8 +23,8 @@ class LoadsPage
   end
   
   # hack, due to loads.size giving ALL loads
-  # can't cache this either?
   def loads_size
-    @loads_on_page.map(&:object_id).size
+    @loads_size ||= @loads_on_page.map(&:object_id).size
+    # @loads_on_page.size
   end
 end

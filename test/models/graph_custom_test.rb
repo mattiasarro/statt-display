@@ -9,7 +9,8 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
   context "hour duration" do
     before do
       @timeframe = Timeframe.new(hour_params.merge({duration: 60.minutes}))
-      @graph = Graph.new({nr_bars: 60}, @timeframe)
+      @loads = Loads.new(@site, @timeframe)
+      @graph = Graph.new(@loads, 60)
       @graph.site = @site
     end
     
@@ -25,8 +26,9 @@ class GraphTest < MiniTest::Rails::ActiveSupport::TestCase
   
   context "day duration" do
     before do
-      @timeframe = Timeframe.new(day_params.merge(duration: 1.day))
-      @graph = Graph.new({nr_bars: 60}, @timeframe)
+      @timeframe = Timeframe.new(day_params.merge({duration: 1.day}))
+      @loads = Loads.new(@site, @timeframe)
+      @graph = Graph.new(@loads, 60)
       @graph.site = @site
     end
     
