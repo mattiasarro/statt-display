@@ -44,7 +44,10 @@ class Load
   def as_json(*a)
     {
       "path" => self.path,
-      "time" => self.time.strftime("%H:%M:%S")
+      "time" => self.time.strftime("%H:%M:%S"),
+      
+      "uri_string" => self.uri_string,
+      "http_referer" => self.http_referer
     }
   end
 end

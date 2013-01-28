@@ -30,11 +30,28 @@
     padding-left: 0;
   }
   .load {
-    font-size: 12px;
-    line-height: 16px;
-    border-bottom: 1px solid #ddd;
-    padding: 5px;
-    
+    a {
+      color: #1A1A1A;
+      display: block;
+      font-size: 12px;
+      line-height: 16px;
+      border-bottom: 1px solid #ddd;
+      padding: 5px;
+      
+      .uid {
+        display: block;
+        background: #2E6ABC;
+        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        margin: 4px;
+        float: left;
+        margin-right: 10px;
+      }
+      .time {
+        color: #9D9D9D;
+      }
+    }
     &:last-child {
       border-bottom: 0;
     }
@@ -42,19 +59,7 @@
       cursor: pointer;
       background: #F9F9F9;
     }
-    .uid {
-      display: block;
-      background: #2E6ABC;
-      border-radius: 50%;
-      width: 8px;
-      height: 8px;
-      margin: 4px;
-      float: left;
-      margin-right: 10px;
-    }
-    .time {
-      color: #9D9D9D;
-    }
+    
   }
 }
 .info-header .nav-tabs .active a, 

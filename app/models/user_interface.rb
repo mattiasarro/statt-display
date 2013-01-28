@@ -85,7 +85,7 @@ class Pagination
     if (0..5).include? @current_pg_index
       @windows << Window.new(@pages[0..7],  false)
       @windows << Window.new(@pages[-3..-1], true)
-    elsif (-5..-1).include? @negative_index
+    elsif (-5..0).include? @negative_index
       @windows << Window.new(@pages[0..2], false)
       @windows << Window.new(@pages[-8..-1], true)
     else
