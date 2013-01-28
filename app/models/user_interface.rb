@@ -75,12 +75,24 @@ class Pagination
     (6..(@nr_pages-6)).include?(@current_pg_index)
   end
   
+  Window = Struct.new(:pages, :separator)
+  
   def windows
-    @windows ||= [
-      @pages[0..2],
-      @pages[(@current_pg_index-2)..(@current_pg_index+2)],
-      (@current_pg_index == (@pages.size-7) ? @pages[-4..-1] : @pages[-3..-1])
-    ]
+    return @windows if @windows
+    @windows = []
+    @negative_index = -(@nr_pages - @current_pg_index - 1)
+        
+    if (0..5).include? @current_pg_index
+      @windows << Window.new(@pages[0..7],  false)
+      @windows << Window.new(@pages[-3..-1], true)
+    elsif (-5..-1).include? @negative_index
+      @windows << Window.new(@pages[0..2], false)
+      @windows << Window.new(@pages[-8..-1], true)
+    else
+      @windows << Window.new(@pages[0..2], false)
+      @windows << Window.new(@pages[(@current_pg_index-2)..(@current_pg_index+2)], true)
+      @windows << Window.new(@pages[-3..-1], true)
+    end
   end
   
   def prev

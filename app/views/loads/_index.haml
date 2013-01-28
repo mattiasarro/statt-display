@@ -10,10 +10,15 @@
     %ul
       %li{class: ('disabled' if @ui.loads_pages.prev.disabled?)}
         = link_to "«", @ui.loads_pages.prev.uri_hash
-
-      = render "pagination_window", pages: @ui.loads_pages.windows[0]
-      = render "pagination_window", pages: @ui.loads_pages.windows[1], separator: (@ui.loads_pg > 6)
-      = render "pagination_window", pages: @ui.loads_pages.windows[2], separator: (@ui.loads_pg < 10)
+      
+      - @ui.loads_pages.windows.each do |window|
+        / window
+        - if window.separator
+          %li.disabled
+            %a ...
+        - window.pages.each do |page|
+          %li{class: ('active' if page.current?)}
+            = link_to page.nr, page.uri_hash
       
       %li{class: ('disabled' if @ui.loads_pages.next.disabled?)}
         = link_to "»", @ui.loads_pages.next.uri_hash
