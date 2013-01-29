@@ -43,10 +43,11 @@ $(document).ready () ->
       else
         y(d.value)
     
-    bars = chart.selectAll("rect")
+    bars = chart.selectAll("rect.bar")
     .data(data, key_function)
     
     bars.enter().insert("rect")
+    .attr("class", "bar")
     # .attr("x", (d,i) -> (x(i+1) - .5)) # entering bars all shifted to the right
     .attr("x", bar_x)
     .attr("y", bar_y)
@@ -65,6 +66,16 @@ $(document).ready () ->
     .duration(1000)
     .attr("x", (d,i) -> (x(i-1) - .5)) # one bar outside of view (left)
     .remove()
+    
+    highlight = chart.selectAll("rect.highlight")
+    .data([{from: 1356220920, to: 1356220800}])
+    .enter().insert("rect")
+    .attr("class", "bar")
+    .attr("x", 1)
+    .attr("y", 1)
+    .attr("width", 20)
+    .attr("height", 20)
+    .style("fill", "black")
   
   draw()
   # setInterval ->
