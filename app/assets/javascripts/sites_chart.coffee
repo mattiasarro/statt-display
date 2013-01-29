@@ -29,6 +29,19 @@ $(document).ready () ->
   .call(xAxis)
   
   draw = ->
+    highlight = chart.selectAll("rect.highlight")
+    .data([{from: earliest_load_on_page, to: latest_load_on_page}])
+    .enter().insert("rect")
+    .attr("class", "highlight")
+    .attr("x", (d) -> (x(d.from - from) - .5))
+    .attr("y", -(padding + 1))
+    .attr("width", (d) -> 
+      duration = d.to - d.from
+      total_width = 920
+      width = duration * (total_width/timeframe_duration)
+    )
+    .attr("height", chart_height + padding)
+    
     key_function = (d) -> (typeof d == undefined ? 0 : d.time) 
     bar_x = (d,i) -> (x(d.time - from) - .5)
     bar_y = (d) -> 
@@ -67,15 +80,6 @@ $(document).ready () ->
     .attr("x", (d,i) -> (x(i-1) - .5)) # one bar outside of view (left)
     .remove()
     
-    highlight = chart.selectAll("rect.highlight")
-    .data([{from: 1356220920, to: 1356220800}])
-    .enter().insert("rect")
-    .attr("class", "bar")
-    .attr("x", 1)
-    .attr("y", 1)
-    .attr("width", 20)
-    .attr("height", 20)
-    .style("fill", "black")
   
   draw()
   # setInterval ->

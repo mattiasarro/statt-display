@@ -35,7 +35,6 @@
       display: block;
       font-size: 12px;
       line-height: 16px;
-      border-bottom: 1px solid #ddd;
       padding: 5px;
       
       .uid {
@@ -52,9 +51,10 @@
         color: #9D9D9D;
       }
     }
-    &:last-child {
-      border-bottom: 0;
-    }
+    
+    border-bottom: 1px solid #ddd;
+    &:last-child { border-bottom: 0; }
+    
     &:hover {
       cursor: pointer;
       background: #F9F9F9;

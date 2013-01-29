@@ -4,6 +4,7 @@
   data_end   = "<%= @timeframe.to %>";
   
   from = <%= @timeframe.from.to_i %>;
+  timeframe_duration = <%= @timeframe.duration.to_i %>;
   bar_duration = <%= graph.bar_duration.to_i %>;
   nr_bars = <%= graph.nr_bars %>;
   max_value = <%= graph.data.values.max || 0 %>;
@@ -16,7 +17,9 @@
   <% end %>
   
   
-  loads = <%= raw @loads.page(@ui.loads_pg).to_json %>;
-  
+  <% loads_page = @loads.page(@ui.loads_pg) %>
+  loads = <%= raw loads_page.to_json %>;
+  earliest_load_on_page = <%= loads_page.earliest_load %>;
+  latest_load_on_page = <%= loads_page.latest_load %>;
 </script>
 

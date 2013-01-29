@@ -2,16 +2,24 @@ svg.chart {
   margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background: #F4F4F4;
+  background: #F8F8F8;
   
   text {
     font-size: 10px;
     font-family: sans-serif;
   }
   
-  rect {
+  rect.bar {
     stroke: white;
-    fill: #A2B8CE;
+    stroke-width: 1px;
+    fill: #6C92C0;
+    fill-opacity: 0.5
+  }
+  
+  rect.highlight {
+    fill: #FFFBCD;
+    stroke: #ddd;
+    stroke-width: 1px;
   }
   
   .values {

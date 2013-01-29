@@ -3,7 +3,7 @@ class UserInterface
   def initialize(params={}, timeframe, graph, loads)
     @graph, @timeframe, @loads = graph, timeframe, loads
     @visitors_pg = params[:visitors_pg] ? params[:visitors_pg].to_i : 1
-    @loads_pg = params[:loads_pg] ? params[:loads_pg].to_i : 1
+    @loads_pg = params[:loads_pg] ? params[:loads_pg].to_i : loads_pages.nr_pages
   end
   
   def prev_uri_hash
@@ -23,7 +23,7 @@ class UserInterface
   end
   
   def loads_pages
-    Pagination.new(
+    @loads_pages = Pagination.new(
       nr_pages: @loads.nr_pages,
       current_pg: @loads_pg,
       uri_base: self.to_uri_hash,
@@ -55,7 +55,7 @@ class Pagination
     def uri_hash; {}; end
   end
   
-  attr_reader :windows
+  attr_reader :windows, :nr_pages
   def initialize(attr)
     @nr_pages, @current_pg = attr[:nr_pages], attr[:current_pg]
     @uri_base, @uri_change = attr[:uri_base], attr[:uri_change]
@@ -81,8 +81,10 @@ class Pagination
     return @windows if @windows
     @windows = []
     @negative_index = -(@nr_pages - @current_pg_index - 1)
-        
-    if (0..5).include? @current_pg_index
+    
+    if @nr_pages <= 13
+      @windows << Window.new(@pages, false)
+    elsif (0..5).include? @current_pg_index
       @windows << Window.new(@pages[0..7],  false)
       @windows << Window.new(@pages[-3..-1], true)
     elsif (-5..0).include? @negative_index

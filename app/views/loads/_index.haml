@@ -6,22 +6,23 @@
       %a{href: "#"} Loads
     %li
       %a{href: "#"} Nodes
-  .pagination
-    %ul
-      %li{class: ('disabled' if @ui.loads_pages.prev.disabled?)}
-        = link_to "«", @ui.loads_pages.prev.uri_hash
+  - if @ui.loads_pages.nr_pages > 1
+    .pagination
+      %ul
+        %li{class: ('disabled' if @ui.loads_pages.prev.disabled?)}
+          = link_to "«", @ui.loads_pages.prev.uri_hash
       
-      - @ui.loads_pages.windows.each do |window|
-        / window
-        - if window.separator
-          %li.disabled
-            %a ...
-        - window.pages.each do |page|
-          %li{class: ('active' if page.current?)}
-            = link_to page.nr, page.uri_hash
+        - @ui.loads_pages.windows.each do |window|
+          / window
+          - if window.separator
+            %li.disabled
+              %a ...
+          - window.pages.each do |page|
+            %li{class: ('active' if page.current?)}
+              = link_to page.nr, page.uri_hash
       
-      %li{class: ('disabled' if @ui.loads_pages.next.disabled?)}
-        = link_to "»", @ui.loads_pages.next.uri_hash
+        %li{class: ('disabled' if @ui.loads_pages.next.disabled?)}
+          = link_to "»", @ui.loads_pages.next.uri_hash
 
 .loads
   .loads-col

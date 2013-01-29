@@ -7,13 +7,22 @@ class LoadsPage
   end
   
   def to_array
+    return @array if @array
     load_columns = @loads_on_page.each_slice(col_size)
-    load_columns.map {|o| o }
+    @array = load_columns.map {|o| o }
   end
   
   def to_json
     return "[]" if col_size == 0
     to_array.to_json
+  end
+  
+  def earliest_load
+    to_array.flatten.last.time.to_i
+  end
+  
+  def latest_load
+    to_array.flatten.first.time.to_i
   end
   
   private
