@@ -18,17 +18,18 @@ class LoadsPage
   end
   
   def earliest_load
-    to_array.flatten.last.time.to_i
+    to_array.flatten.last.try(:time).to_i
   end
   
   def latest_load
-    to_array.flatten.first.time.to_i
+    to_array.flatten.first.try(:time).to_i
   end
   
   private
   
   def col_size
     @col_size ||= (loads_size / NR_COLUMNS.to_f).ceil
+    @col_size == 0 ? 1 : @col_size
   end
   
   # hack, due to loads.size giving ALL loads
