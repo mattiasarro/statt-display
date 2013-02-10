@@ -3,7 +3,8 @@ class UserInterface
   def initialize(params={}, timeframe, graph, loads)
     @graph, @timeframe, @loads = graph, timeframe, loads
     @visitors_pg = params[:visitors_pg] ? params[:visitors_pg].to_i : 1
-    @loads_pg = params[:loads_pg] ? params[:loads_pg].to_i : loads_pages.nr_pages
+    @loads_pg = params[:loads_pg] ? params[:loads_pg].to_i : loads_pagination.nr_pages
+    @site_id = params[:id]
   end
   
   def prev_uri_hash
@@ -22,17 +23,17 @@ class UserInterface
     )
   end
   
-  def loads_pages
-    @loads_pages = Pagination.new(
+  def loads_pagination
+    @loads_pagination ||= PaginationLoads.new(
       nr_pages: @loads.nr_pages,
       current_pg: @loads_pg,
-      uri_base: self.to_uri_hash,
-      uri_change: :loads_pg
+      uri_base: self.to_uri_hash
     )
   end
   
   def to_uri_hash(overrides={})
     { 
+      site_id: @site_id,
       graph: (overrides[:graph] || @graph).to_uri_hash,
       timeframe: (overrides[:timeframe] || @timeframe).to_uri_hash,
       visitors_pg: (overrides[:visitors_pg] || @visitors_pg),
@@ -40,84 +41,4 @@ class UserInterface
     }
   end
   
-end
-
-class Pagination
-  include Enumerable
-  
-  class Page < Struct.new(:nr, :current, :uri_hash)
-    def current?; current; end
-    def disabled?; false; end
-  end
-  
-  class PageDisabled
-    def disabled?; true; end
-    def uri_hash; {}; end
-  end
-  
-  attr_reader :windows, :nr_pages
-  def initialize(attr)
-    @nr_pages, @current_pg = attr[:nr_pages], attr[:current_pg]
-    @uri_base, @uri_change = attr[:uri_base], attr[:uri_change]
-    @pages = @nr_pages.times.map do |i| 
-      new_page(i + 1).tap do |page|
-        @current_pg_index = i if page.current?
-      end
-    end
-  end
-  
-  def each(&block)
-    @pages.each(&block)
-  end
-  
-  def windowed?
-    (@pages.size > 11) && 
-    (6..(@nr_pages-6)).include?(@current_pg_index)
-  end
-  
-  Window = Struct.new(:pages, :separator)
-  
-  def windows
-    return @windows if @windows
-    @windows = []
-    @negative_index = -(@nr_pages - @current_pg_index - 1)
-    
-    if @nr_pages <= 13
-      @windows << Window.new(@pages, false)
-    elsif (0..5).include? @current_pg_index
-      @windows << Window.new(@pages[0..7],  false)
-      @windows << Window.new(@pages[-3..-1], true)
-    elsif (-5..0).include? @negative_index
-      @windows << Window.new(@pages[0..2], false)
-      @windows << Window.new(@pages[-8..-1], true)
-    else
-      @windows << Window.new(@pages[0..2], false)
-      @windows << Window.new(@pages[(@current_pg_index-2)..(@current_pg_index+2)], true)
-      @windows << Window.new(@pages[-3..-1], true)
-    end
-  end
-  
-  def prev
-    if @current_pg == 1
-      PageDisabled.new
-    else
-      new_page(@current_pg - 1)
-    end
-  end
-  
-  def next
-    if @current_pg == @nr_pages
-      PageDisabled.new
-    else
-      new_page(@current_pg + 1)
-    end
-  end
-  
-  private
-  
-  def new_page(pg_nr)
-    uri_hash = @uri_base.clone
-    uri_hash[@uri_change] = pg_nr
-    Page.new(pg_nr, (@current_pg == pg_nr), uri_hash)
-  end
 end

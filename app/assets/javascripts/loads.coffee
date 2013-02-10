@@ -1,5 +1,14 @@
-$(document).ready () ->
+$(document).ready () -> 
   
+  $(".loads-page").click (e) ->
+    url = $(this).attr("data-ajax-uri")
+    jQuery.ajax(url, {
+      dataType: "json", # preferred response data type
+      success: (data,status,xhr) -> (
+        console.log(data)
+      )
+    })
+    false # cancel ordinary click
   
   tooltip_content = (load) ->
     '<table>
@@ -29,7 +38,7 @@ $(document).ready () ->
      </a>'
   
   loads_div = d3.selectAll(".loads-col")
-  .data(loads.reverse())
+  .data(loads_page.loads.reverse())
   .selectAll(".load")
   .data((d,i) -> d)
   .enter().append("div").attr("class", "load").html(load_html)

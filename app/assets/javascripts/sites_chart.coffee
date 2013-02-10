@@ -30,7 +30,7 @@ $(document).ready () ->
   
   draw = ->
     highlight = chart.selectAll("rect.highlight")
-    .data([{from: earliest_load_on_page, to: latest_load_on_page}])
+    .data([{from: loads_page.earliest_load_time, to: loads_page.latest_load_time}])
     .enter().insert("rect")
     .attr("class", "highlight")
     .attr("x", (d) -> (x(d.from - from) - .5))

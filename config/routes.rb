@@ -2,6 +2,7 @@ Display::Application.routes.draw do
   
   resources :sites do
     member { get :tracking_code }
+    resources :loads
   end
   resources :users # application users
   resources :visitors # visitors of tracked websites

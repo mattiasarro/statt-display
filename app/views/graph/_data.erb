@@ -17,9 +17,7 @@
   <% end %>
   
   
-  <% loads_page = @loads.page(@ui.loads_pg) %>
-  loads = <%= raw loads_page.to_json %>;
-  earliest_load_on_page = <%= loads_page.earliest_load %>;
-  latest_load_on_page = <%= loads_page.latest_load %>;
+  loads_page = <%= raw @loads.page(@ui.loads_pg).to_json %>;
+  
 </script>
 

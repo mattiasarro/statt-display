@@ -6,23 +6,27 @@ class LoadsPage
     @loads_on_page = loads.within_range.limit(Loads::PER_PAGE).skip(@skip)
   end
   
-  def to_array
-    return @array if @array
+  def columns_arrays
+    return @columns_arrays if @columns_arrays
     load_columns = @loads_on_page.each_slice(col_size)
-    @array = load_columns.map {|o| o }
+    @columns_arrays = load_columns.map {|o| o }
   end
   
-  def to_json
+  def to_json(options={})
     return "[]" if col_size == 0
-    to_array.to_json
+    {
+      earliest_load_time: earliest_load,
+      latest_load_time: latest_load,
+      loads: columns_arrays
+    }.to_json
   end
   
   def earliest_load
-    to_array.flatten.last.try(:time).to_i
+    columns_arrays.flatten.last.try(:time).to_i
   end
   
   def latest_load
-    to_array.flatten.first.try(:time).to_i
+    columns_arrays.flatten.first.try(:time).to_i
   end
   
   private
