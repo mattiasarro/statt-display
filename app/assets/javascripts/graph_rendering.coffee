@@ -82,17 +82,3 @@ $(document).ready () ->
     
   
   draw()
-  # setInterval ->
-  #   data.shift()
-  #   data.push(next())
-  #   draw()
-  # , 3000 # interval has to be slightly bigger than internal transitions' speed
-  
-  # # x-axis line
-  # chart.append("line")
-  # .attr("x1", 0)
-  # .attr("x2", bar_width * nr_bars)
-  # .attr("y1", chart_height - .5)
-  # .attr("y2", chart_height - .5)
-  # .style("stroke", "steelblue")
-  

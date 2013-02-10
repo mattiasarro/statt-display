@@ -99,8 +99,4 @@ $(document).ready () ->
       $(id + "_4i").val("23")
       $(id + "_5i").val("59")
   
-  # # for future reference
-  # $('.destroy-domain').click () -> 
-  #   hidden_field = $(this).siblings('input[name$="[_destroy]"][type=hidden]')
-  #   hidden_field.val(1)
-  #   $(this).closest("form").submit()
+  

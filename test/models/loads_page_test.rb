@@ -24,7 +24,7 @@ class LoadsPageTest < MiniTest::Rails::ActiveSupport::TestCase
       @site2.loads.create
       @site2.loads.create
       
-      loads_columns = @loads.page(1).to_array
+      loads_columns = @loads.page(1).columns_arrays
       loads_columns.flatten.size.must_equal 1 # one load
       loads_columns[0].size.must_equal 1 # one load in the first subarray
       loads_columns.size.must_equal 1 # only one subarray
@@ -41,14 +41,14 @@ class LoadsPageTest < MiniTest::Rails::ActiveSupport::TestCase
       @loads.page(1).send(:loads_size).must_equal 9
       @loads.page(2).send(:loads_size).must_equal 10
       
-      loads_columns = @loads.page(1).to_array
+      loads_columns = @loads.page(1).columns_arrays
       loads_columns.flatten.size.must_equal 9
       loads_columns.size.must_equal 3
       loads_columns[0].size.must_equal 3
       loads_columns[1].size.must_equal 3
       loads_columns[2].size.must_equal 3
       
-      loads_columns = @loads.page(2).to_array
+      loads_columns = @loads.page(2).columns_arrays
       loads_columns.flatten.size.must_equal 10
       loads_columns.size.must_equal 3
       loads_columns[0].size.must_equal 4
