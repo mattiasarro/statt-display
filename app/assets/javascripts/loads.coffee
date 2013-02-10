@@ -1,15 +1,5 @@
 $(document).ready () -> 
   
-  $(".loads-page").click (e) ->
-    url = $(this).attr("data-ajax-uri")
-    jQuery.ajax(url, {
-      dataType: "json", # preferred response data type
-      success: (data,status,xhr) -> (
-        console.log(data)
-      )
-    })
-    false # cancel ordinary click
-  
   tooltip_content = (load) ->
     '<table>
       <tr>
@@ -37,10 +27,32 @@ $(document).ready () ->
        <span class="top">' + load.path + '</span>
      </a>'
   
-  loads_div = d3.selectAll(".loads-col")
-  .data(loads_page.loads.reverse())
-  .selectAll(".load")
-  .data((d,i) -> d)
-  .enter().append("div").attr("class", "load").html(load_html)
+  
+  update = (loads_columns) ->
+    console.log(loads_columns)
+    loads_div = d3.selectAll(".loads-col")
+    .data(loads_columns.reverse())
+    .selectAll(".load")
+    .data((d,i) -> d)
+    
+    loads_div.html(load_html) # update
+    
+    loads_div.enter()
+    .append("div").attr("class", "load").html(load_html)
+    
+    loads_div.exit().remove()
+    
+  update(loads_page.loads)
   
   $(".load-tooltip").tooltip({trigger: "click", html: true})
+  
+  $(".loads-page").click (e) ->
+    url = $(this).attr("data-ajax-uri")
+    jQuery.ajax(url, {
+      dataType: "json", # preferred response data type
+      success: (loads_page,status,xhr) -> (
+        update(loads_page.loads)
+        console.log(loads_page.loads)
+      )
+    })
+    false # cancel ordinary click
