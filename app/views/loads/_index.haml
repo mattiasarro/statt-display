@@ -6,23 +6,8 @@
       %a{href: "#"} Loads
     %li
       %a{href: "#"} Nodes
-  - if @ui.loads_pagination.nr_pages > 1
-    .pagination
-      %ul
-        %li{class: ('disabled' if @ui.loads_pagination.prev.disabled?)}
-          - prev_page = @ui.loads_pagination.prev
-          = link_to "«", prev_page.uri_hash, "data-ajax-uri" => prev_page.ajax_uri, "class" => "loads-page"
-          
-        - @ui.loads_pagination.windows.each do |window|
-          - if window.separator
-            %li.disabled
-              %a ...
-          - window.pages.each do |page|
-            %li{class: ('active' if page.current?)}
-              = link_to page.nr, page.uri_hash
-      
-        %li{class: ('disabled' if @ui.loads_pagination.next.disabled?)}
-          = link_to "»", @ui.loads_pagination.next.uri_hash
+  
+  = render "pagination", pagination: @ui.loads_pagination
 
 .loads
   .loads-col

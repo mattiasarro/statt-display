@@ -28,21 +28,20 @@ $(document).ready () ->
      </a>'
   
   
-  update = (loads_columns) ->
-    console.log(loads_columns)
+  update_loads_columns = (loads_columns) ->
     loads_div = d3.selectAll(".loads-col")
     .data(loads_columns.reverse())
     .selectAll(".load")
     .data((d,i) -> d)
     
-    loads_div.html(load_html) # update
-    
     loads_div.enter()
     .append("div").attr("class", "load").html(load_html)
     
+    loads_div.html(load_html) # update
+    
     loads_div.exit().remove()
     
-  update(loads_page.loads)
+  update_loads_columns(loads_page.loads)
   
   $(".load-tooltip").tooltip({trigger: "click", html: true})
   
@@ -51,8 +50,7 @@ $(document).ready () ->
     jQuery.ajax(url, {
       dataType: "json", # preferred response data type
       success: (loads_page,status,xhr) -> (
-        update(loads_page.loads)
-        console.log(loads_page.loads)
+        update_loads_columns(loads_page.loads)
       )
     })
     false # cancel ordinary click

@@ -1,0 +1,7 @@
+- if page.disabled?
+  %li.disabled
+    %a= name
+- else
+  %li{class: ("active" if page.current?)}
+    = link_to name, page.uri_hash, 
+      "data-ajax-uri" => page.ajax_uri, "class" => "loads-page"
