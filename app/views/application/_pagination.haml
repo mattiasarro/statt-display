@@ -1,7 +1,7 @@
 - if pagination.nr_pages > 1
   .pagination
     %ul
-      = render "page_link", name: "«", page: pagination.prev
+      = render "page_link", name: "«", page: pagination.prev, li_class: "prev_pg"
       
       - pagination.windows.each do |window|
         - if window.separator
@@ -10,4 +10,4 @@
         - window.pages.each do |page|
           = render "page_link", name: page.nr, page: page
       
-      = render "page_link", name: "»", page: pagination.next
+      = render "page_link", name: "»", page: pagination.next, li_class: "next_pg"

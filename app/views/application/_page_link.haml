@@ -1,7 +1,11 @@
+- li_classes = ""
+- li_classes += li_class  if defined?(li_class)
+
 - if page.disabled?
-  %li.disabled
+  %li.disabled{class: li_classes}
     %a= name
 - else
-  %li{class: ("active" if page.current?)}
-    = link_to name, page.uri_hash, 
+  - li_classes += " active" if page.current?  
+  %li{class: li_classes, "data-page-nr" => page.nr}
+    = link_to name, page.uri_hash,
       "data-ajax-uri" => page.ajax_uri, "class" => "loads-page"
