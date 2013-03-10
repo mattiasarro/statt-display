@@ -48,28 +48,7 @@ $(document).ready () ->
   
   $(".load-tooltip").tooltip({trigger: "click", html: true})
   
-  update_active_page = (page_clicked) ->
-    page_links_list = (selector) -> (page_clicked.parent().parent().find(selector))
-    
-    previously_active = page_links_list("li.active")
-    new_nr = page_clicked.parent().attr("data-page-nr")
-    new_active = page_links_list("li:not(.prev_pg):not(.next_pg)[data-page-nr=" + new_nr + "]")
-    
-    update_link_attributes(page_links_list(".prev_pg"), new_active.prev())
-    update_link_attributes(page_links_list(".next_pg"), new_active.next())
-    
-    previously_active.removeClass("active")
-    new_active.addClass("active")
   
-  update_link_attributes = (to_update, update_with) ->
-    to_update.attr("data-page-nr", update_with.attr("data-page-nr"))
-    a_to   = to_update.find("a")
-    a_from = update_with.find("a")
-    a_to.attr("data-ajax-uri", a_from.attr("data-ajax-uri"))
-    a_to.attr("href", a_from.attr("href"))
-  
-  
-   
   loads_page_listener = (e) ->
     url = $(this).attr("data-ajax-uri")
     clicked_page = $(this)
@@ -84,7 +63,6 @@ $(document).ready () ->
     })
     false # cancel ordinary click
   $(".loads-page").live("click", loads_page_listener)
-  
   
   
   ui_sample = ->
