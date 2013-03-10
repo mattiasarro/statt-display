@@ -1,3 +1,0 @@
-Display.Router.map(function() {
-
-});

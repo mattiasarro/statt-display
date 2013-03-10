@@ -9,7 +9,9 @@
 //= require ember-data
 //= require_self
 //= require display
-Display = Ember.Application.create();
+Display = Ember.Application.create({
+  LOG_TRANSITIONS: true
+});
 //= require_tree .
 $(document).ready(function () {
   $("a[rel=popover]").popover();

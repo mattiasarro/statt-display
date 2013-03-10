@@ -1,4 +1,5 @@
 Display::Application.configure do
+  config.ember.variant = :production
   config.collect_host = 'http://statt-collect.herokuapp.com'
   # Settings specified here will take precedence over those in config/application.rb
 

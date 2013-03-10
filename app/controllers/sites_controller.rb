@@ -17,6 +17,17 @@ class SitesController < InheritedResources::Base
     render "graph/show"
   end
   
+  def show_ember
+    @timeframe = Timeframe.new(params[:timeframe])
+    @loads = Loads.new(@site, @timeframe)
+    
+    @graph = Graph.new(@loads, params[:nr_bars])
+    @graph.site = @site # not needed after visitors() refactored
+    
+    @ui = UserInterface.new(params, @timeframe, @graph, @loads)
+    render "graph/show", layout: "ember"
+  end
+  
   def update
     do_not_create_empty_domain
     update! { edit_site_path(resource) }

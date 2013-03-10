@@ -1,5 +1,5 @@
 Display::Application.configure do
-  
+  config.ember.variant = :development  
   config.collect_host = 'http://localhost:9393'
   
   # Settings specified here will take precedence over those in config/application.rb
