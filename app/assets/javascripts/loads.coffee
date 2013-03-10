@@ -61,22 +61,125 @@ $(document).ready () ->
     previously_active.removeClass("active")
     new_active.addClass("active")
   
-  update_link_attributes = (to_update, update_with) ->    
+  update_link_attributes = (to_update, update_with) ->
     to_update.attr("data-page-nr", update_with.attr("data-page-nr"))
     a_to   = to_update.find("a")
     a_from = update_with.find("a")
     a_to.attr("data-ajax-uri", a_from.attr("data-ajax-uri"))
     a_to.attr("href", a_from.attr("href"))
-    
-    
-  $(".loads-page").click (e) ->
+  
+  
+   
+  loads_page_listener = (e) ->
     url = $(this).attr("data-ajax-uri")
     clicked_page = $(this)
     jQuery.ajax(url, {
       dataType: "json", # preferred response data type
       success: (loads_page,status,xhr) -> (
         update_loads_columns(loads_page.loads)
-        update_active_page(clicked_page)
+        new_load_pg = clicked_page.parent().attr("data-page-nr")
+        ui.loads_pagination.current_pg = parseInt(new_load_pg)
+        draw_pagination(ui)
       )
     })
     false # cancel ordinary click
+  $(".loads-page").live("click", loads_page_listener)
+  
+  
+  
+  ui_sample = ->
+    {
+      site_id: "50d6549e1b47f8a410000002",
+      loads_pagination: {
+        current_pg: 2,
+        nr_pages: 16
+      },
+      visitors_pg: 1,
+      graph: {
+        nr_bars: 1,
+        duration: 360
+      },
+      timeframe: {
+        from: 123,
+        to: 123
+      },
+    }
+  
+  
+  loads_page_ajax_uri = (d) ->
+    ret = jQuery.extend(true, {}, ui) # clone ui object
+    ret.loads_pagination.current_pg = d.nr
+    delete ret.site_id
+    "/sites/#{ui.site_id}/loads?" + jQuery.param(ret)
+  
+  page_windows = (ui) ->
+    nr_pages = ui.loads_pagination.nr_pages
+    current_pg = ui.loads_pagination.current_pg
+    first_pg_of_tail = nr_pages - 2
+    
+    windows = []
+    console.log(current_pg + "/" + nr_pages)
+    get_window = (range) ->
+      get_obj = (pg_nr) -> ({nr: pg_nr, name: pg_nr})
+      get_obj pg for pg in range
+    
+    if nr_pages <= 13
+      [get_window([1..nr_pages])]
+    else if current_pg in [1..6]
+      [
+        get_window([1..8])
+        get_window([(nr_pages-2)..nr_pages])
+      ]
+    else if current_pg in [7..(nr_pages-5)]
+      [
+        get_window([1..3])
+        get_window([(current_pg-2)..(current_pg+2)])
+        get_window([(nr_pages-2)..nr_pages])
+      ]
+    else if current_pg in [(nr_pages-6)..nr_pages]
+      [
+        get_window([1..3])
+        get_window([(nr_pages-7)..nr_pages])
+      ]
+    else
+      console.log("ERROR")
+  
+  
+  draw_pagination = (ui) ->
+    li_class = (d) ->
+      ret = ' '
+      ret += ' active' if d.nr == ui.loads_pagination.current_pg
+      ret += ' disabled' if false
+      ret
+    
+    
+    uls = d3.select(".pagination").selectAll("ul")
+    .data(page_windows(ui)) # from _js_data.erb
+    
+    uls.enter().insert("ul") 
+    uls.exit().remove()
+    
+    lis = uls.selectAll("li").data((d,i) -> d)
+    
+    lis.enter()
+    .insert("li")
+      .attr("class", li_class)
+      .attr("data-page-nr", (d) -> d.nr)
+      .insert("a")
+        .attr("class", "loads-page")
+        .attr("data-ajax-uri", loads_page_ajax_uri)
+        .text((d) -> d.name)
+    
+    lis # update
+      .data((d,i) -> d)
+      .attr("class", li_class)
+      .attr("data-page-nr", (d) -> d.nr)
+      .select("a")
+        .attr("class", "loads-page")
+        .attr("data-ajax-uri", loads_page_ajax_uri)
+        .text((d) -> d.name)
+    
+    lis.exit().remove()
+  
+  draw_pagination(ui)
+  

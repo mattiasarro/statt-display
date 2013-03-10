@@ -41,4 +41,10 @@ class UserInterface
     }
   end
   
+  def to_json
+    ret = to_uri_hash
+    ret["loads_pagination"] = loads_pagination.ui_state
+    ret.to_json
+  end
+  
 end

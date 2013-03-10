@@ -5,6 +5,10 @@ class Pagination
   class Page < Struct.new(:nr, :current, :uri_hash, :ajax_uri)
     def current?; current; end
     def disabled?; false; end
+    
+    def to_json
+      {nr: @nr, name: @nr}
+    end
   end
   
   class PageDisabled
@@ -68,6 +72,10 @@ class Pagination
     else
       new_page(@current_pg + 1)
     end
+  end
+  
+  def ui_state
+    {current_pg: @current_pg, nr_pages: @nr_pages}
   end
   
 end
