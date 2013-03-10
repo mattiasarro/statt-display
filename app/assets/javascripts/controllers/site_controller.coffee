@@ -1,5 +1,7 @@
 Display.SiteController = Ember.ObjectController.extend
-  who: "site"
-  whoelse: "site2"
-  setupController: (controller) -> 
-    controller.set('content', {one: "two"})
+  nr_bars: 60
+  loads: {page_nr: 8, nr_pages: 16}
+  loads_data: [{time: "123", top: "asdf"}, {time: "123", top: "asdf"}]
+  
+  bottomTab: "loads"
+  

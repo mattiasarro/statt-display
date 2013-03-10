@@ -2,7 +2,7 @@ Display::Application.routes.draw do
   
   resources :sites do
     member { 
-      get :tracking_code
+      get :tracking_code 
       get :show_ember
     }
     resources :loads
