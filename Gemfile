@@ -12,6 +12,7 @@ gem 'omniauth-twitter'
 
 gem 'inherited_resources'
 gem 'haml-rails'
+gem 'ember-rails'
 gem 'quiet_assets'
 gem 'dotiw' # distance of time in words
 
