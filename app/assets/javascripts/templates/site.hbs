@@ -1,3 +1,23 @@
 <h1>{{site_name}}</h1>
-<p>site_id {{site_id}}</p>
+
+<div class="hidden">
+  <!-- more to come -->
+</div>
+<div class="chart_header">
+  <!-- more to come -->
+</div>
+<div class="row">
+  <div class="span12">
+    <div id="chart_container"></div>
+  </div>
+</div>
+
+<div class="info-header">
+  <ul class="nav nav-tabs">
+    {{view Display.BottomTab name="Visitors" activeBinding=""}}
+    {{view Display.BottomTab name="Loads"}}
+  </ul>
+  <div class="pagination">
+  </div>
+</div>  
 {{view Display.LoadsListView}}

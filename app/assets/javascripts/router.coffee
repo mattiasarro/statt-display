@@ -1,5 +1,5 @@
 Display.Router.map ->
-  @route "site", path: '/'
+  @resource "site", path: '/sites/:site_id'
   @resource "loads", path: '/loads', ->
     @route "list", path: '/show' # expanded tooltip
 
@@ -8,5 +8,5 @@ Display.SiteRoute = Ember.Route.extend
     controller.set('site_name', "Sample Site")
     controller.set('content', site)
   model: (params) ->
-    # Display.Site.find(params.site_id)
-    {site_id: "50d6549e1b47f8a410000002"}
+    # Display.Site.find()
+    {site_id: params.site_id}
