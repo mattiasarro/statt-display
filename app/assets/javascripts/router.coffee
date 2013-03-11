@@ -1,4 +1,4 @@
-Display.Router.map ->
+Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
     @resource "loads", path: '/loads/:page_nr', ->
       @route "show", path: '/show' # expanded tooltip
@@ -7,22 +7,22 @@ Display.Router.map ->
       @route "show", path: '/show' # dunno really
     
 
-Display.ApplicationRoute = Ember.Route.extend
+Statt.ApplicationRoute = Ember.Route.extend
   setupController: (controller) ->
     controller.set('title', "my app")
   
 
-Display.SiteRoute = Ember.Route.extend
+Statt.SiteRoute = Ember.Route.extend
   setupController: (controller, site) ->
     controller.set('site_name', "Sample Site")
     controller.set('content', site)
   
   model: (params) ->
-    # Display.Site.find()
+    # Statt.Site.find()
     {id: params.site_id}
   
 
-Display.LoadsIndexRoute = Ember.Route.extend
+Statt.LoadsIndexRoute = Ember.Route.extend
   setupController: (controller, model) ->
     controller.set('active', true)
     controller.set('content', model)

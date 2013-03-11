@@ -1,4 +1,7 @@
-Display.SiteController = Ember.ObjectController.extend
+Statt.ApplicationController = Ember.Controller.extend
+  who: "me"
+
+Statt.SiteController = Ember.ObjectController.extend
   graph: {
     nr_bars: 60
     bar_duration: 60
@@ -9,4 +12,3 @@ Display.SiteController = Ember.ObjectController.extend
     to: 1356224340
     duration: 3600
   }
-  

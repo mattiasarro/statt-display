@@ -1,3 +1,3 @@
-Display.Store = DS.Store.extend({
+Statt.Store = DS.Store.extend({
   revision: 11
 });
