@@ -14,10 +14,15 @@
 
 <div class="info-header">
   <ul class="nav nav-tabs">
-    {{view Display.BottomTab name="Visitors" activeBinding=""}}
+    <li>
+      {{#linkTo "loads" 1}}Loadz{{/linkTo}}
+    </li>
+    {{view Display.BottomTab name="Visitors"}}
     {{view Display.BottomTab name="Loads"}}
   </ul>
   <div class="pagination">
   </div>
-</div>  
-{{view Display.LoadsListView}}
+</div>
+
+<!-- loads/index.hbs -->
+{{outlet}}

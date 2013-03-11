@@ -4,4 +4,4 @@ Display.BottomTab = Ember.View.extend
   classNameBindings: ["active"]
   bubbles: false
   click: (event) ->
-    @get('controller').send('changeBottomTab', @name)
+    @get('controller').send('changeTab', @name)
