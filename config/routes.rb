@@ -1,5 +1,8 @@
 Display::Application.routes.draw do
   
+  resources :conversions
+
+
   resources :sites do
     member { 
       get :tracking_code 

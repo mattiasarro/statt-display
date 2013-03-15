@@ -21,9 +21,9 @@
       {{#linkTo "loads" 1}}Loads{{/linkTo}}
     </li>
   </ul>
-  <div class="pagination">
-  </div>
+  {{outlet "pagination"}}
 </div>
 
 <!-- loads/index.hbs -->
+{{outlet "bottomcontent"}}
 {{outlet}}

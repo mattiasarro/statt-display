@@ -1,6 +1,7 @@
 Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
-    @resource "loads", path: '/loads/:page_nr', ->
+    @resource "loads", path: '/loads', ->
+      @route "page", path: "/page/:page_nr"
       @route "show", path: '/show' # expanded tooltip
     
     @resource "visitors", path: '/visitors/:page_nr', ->
@@ -24,15 +25,22 @@ Statt.SiteRoute = Ember.Route.extend
 
 Statt.LoadsIndexRoute = Ember.Route.extend
   setupController: (controller, model) ->
-    controller.set('active', true)
+    controller.set("something", "overwrite")
     controller.set('content', model)
+  
+  renderTemplate: ->
+    @render(
+      into: "site"
+      outlet: "bottomcontent"
+    )
   
   model: (params) ->
     # m = @site.graph.loads_pagination(params.page_nr)
     m = {
-      id: 8
-      page_nr: params.page_nr
-      nr_pages: 16
+      pagination: {
+        page_nr: 1 # params.page_nr
+        nr_pages: 16
+      }
       load_cols: [
         [
           {time: "1", top: "asdf"}
@@ -49,3 +57,34 @@ Statt.LoadsIndexRoute = Ember.Route.extend
       ]
     }
   
+
+Statt.LoadsPageRoute = Ember.Route.extend
+  setupController: (controller, model) ->
+    console.log("asdf")
+    controller.set("something", "overwrite")
+    controller.set('content', model)
+  
+  
+  model: (params) ->
+    console.log("asdfasdf")
+    # m = @site.graph.loads_pagination(params.page_nr)
+    m = {
+      pagination: {
+        page_nr: 1 # params.page_nr
+        nr_pages: 16
+      }
+      load_cols: [
+        [
+          {time: "1", top: "asdf"}
+          {time: "2", top: "asdf"}
+        ]
+        [
+          {time: "3", top: "asdf"}
+          {time: "4", top: "asdf"}
+        ]
+        [
+          {time: "5", top: "asdf"}
+          {time: "6", top: "asdf"}
+        ]
+      ]
+    }
