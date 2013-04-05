@@ -14,9 +14,9 @@ Statt.ApplicationRoute = Ember.Route.extend
   
 
 Statt.SiteRoute = Ember.Route.extend
-  setupController: (controller, site) ->
+  setupController: (controller, site_model) ->
     controller.set('site_name', "Sample Site")
-    controller.set('content', site)
+    controller.set('content', site_model)
   
   model: (params) ->
     # Statt.Site.find()
@@ -25,7 +25,6 @@ Statt.SiteRoute = Ember.Route.extend
 
 Statt.LoadsIndexRoute = Ember.Route.extend
   setupController: (controller, model) ->
-    controller.set("something", "overwrite")
     controller.set('content', model)
   
   renderTemplate: ->
@@ -37,6 +36,7 @@ Statt.LoadsIndexRoute = Ember.Route.extend
   model: (params) ->
     # m = @site.graph.loads_pagination(params.page_nr)
     m = {
+      some: [1,2,3]
       pagination: {
         page_nr: 1 # params.page_nr
         nr_pages: 16
@@ -55,6 +55,7 @@ Statt.LoadsIndexRoute = Ember.Route.extend
           {time: "6", top: "asdf"}
         ]
       ]
+      
     }
   
 
@@ -63,7 +64,6 @@ Statt.LoadsPageRoute = Ember.Route.extend
     console.log("asdf")
     controller.set("something", "overwrite")
     controller.set('content', model)
-  
   
   model: (params) ->
     console.log("asdfasdf")
@@ -88,3 +88,5 @@ Statt.LoadsPageRoute = Ember.Route.extend
         ]
       ]
     }
+  
+  

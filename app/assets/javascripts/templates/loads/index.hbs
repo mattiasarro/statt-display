@@ -1,14 +1,15 @@
-{{something}}
 <div class="loads">
-  {{#each load_cols}}
-    <div class="loads-col">
-      {{#each this}}
+  {{#each loadColumnsWithIndices}}
+    <div {{bindAttr class=":loads-col first:loads-col-first"}}>
+      {{#each this.item}}
         <!-- each of these will become a view later -->
-        <a rel="tooltip" title="we have some html here as well">
-          <span class="uid"></span>
-          <span class="time">{{time}}</span>
-          <span class="top">{{top}}</span>
-        </a>
+        <div class="load">
+          <a rel="tooltip" title="we have some html here as well">
+            <span class="uid"></span>
+            <span class="time">{{time}}</span>
+            <span class="top">{{top}}</span>
+          </a>
+        </div>
       {{/each}}
     </div>
   {{/each}}

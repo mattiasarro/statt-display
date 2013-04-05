@@ -14,6 +14,14 @@ Statt.SiteController = Ember.ObjectController.extend
   }
 
 Statt.LoadsIndexController = Ember.ObjectController.extend
-  something: "default"
+  loadColumnsWithIndices: (() ->
+    
+    @get("content.load_cols").map(
+      (item,index, enumerable) ->
+        item: item
+        first: (index == 0)
+    
+    )).property('content.load_cols')
+  
 
 Statt.PaginationController = Ember.ObjectController.extend
