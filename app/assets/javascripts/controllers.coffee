@@ -24,5 +24,7 @@ Statt.LoadsIndexController = Ember.ObjectController.extend
     
     )).property('content.load_cols')
   
+Statt.VisitorsIndexController = Ember.ObjectController.extend
+  visitorsTabActive: true
 
 Statt.PaginationController = Ember.ObjectController.extend
