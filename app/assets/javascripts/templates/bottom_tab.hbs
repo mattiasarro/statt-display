@@ -1,0 +1,14 @@
+<div class="info-header">
+  <ul class="nav nav-tabs">
+    <li {{bindAttr class="visitorsTabActive:active"}}>
+      {{#linkTo "visitors"}}Visitors{{/linkTo}}
+    </li>
+    <li {{bindAttr class="loadsTabActive:active"}}>
+      {{#linkTo "loads"}}Loads{{/linkTo}}
+    </li>
+  </ul>
+  {{outlet "pagination"}}
+</div>
+
+<!-- loads/index.hbs -->
+{{outlet "bottomcontent"}}

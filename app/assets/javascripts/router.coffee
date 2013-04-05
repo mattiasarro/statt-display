@@ -1,10 +1,12 @@
 Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
     @resource "loads", path: '/loads', ->
+      # implicit /index
       @route "page", path: "/page/:page_nr"
       @route "show", path: '/show' # expanded tooltip
     
-    @resource "visitors", path: '/visitors/:page_nr', ->
+    @resource "visitors", path: '/visitors', ->
+      @route "page", path: "/page/:page_nr"
       @route "show", path: '/show' # dunno really
     
 
@@ -28,15 +30,16 @@ Statt.LoadsIndexRoute = Ember.Route.extend
     controller.set('content', model)
   
   renderTemplate: ->
+    @render("bottom_tab")
     @render(
-      into: "site"
+      "loads.index"
+      into: "bottom_tab"
       outlet: "bottomcontent"
     )
   
   model: (params) ->
     # m = @site.graph.loads_pagination(params.page_nr)
     m = {
-      some: [1,2,3]
       pagination: {
         page_nr: 1 # params.page_nr
         nr_pages: 16

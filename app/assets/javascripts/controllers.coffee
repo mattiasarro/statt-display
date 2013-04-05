@@ -14,6 +14,7 @@ Statt.SiteController = Ember.ObjectController.extend
   }
 
 Statt.LoadsIndexController = Ember.ObjectController.extend
+  loadsTabActive: true
   loadColumnsWithIndices: (() ->
     
     @get("content.load_cols").map(
