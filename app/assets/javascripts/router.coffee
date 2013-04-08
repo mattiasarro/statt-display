@@ -27,30 +27,42 @@ Statt.SiteRoute = Ember.Route.extend
     {id: params.site_id}
   
 
-Statt.SiteLoadsRoute = Ember.Route.extend
-  # transition into LoadsPage.first?
+
+Statt.LoadsRoute = Ember.Route.extend
+  setupController: (controller,model) ->
+    console.log("LoadsRoute::setupController")
+    controller.set("content", model)
+    controller.set("loadsTabActive", true)
+    
+  model: (params) ->
+    console.log("LoadsRoute::model")
+    Ember.Object.create
+      nr_pages: 12 
+      pages: [
+        {nr: 1}
+        {nr: 2}
+        {nr: 3}
+      ]
+    
 
 Statt.LoadsIndexRoute = Ember.Route.extend
+  redirect: () -> @transitionTo("loads.page", @get("pagination.page_nr"))
+  
+Statt.VisitorsIndexRoute = Ember.Route.extend
+  redirect: () -> @transitionTo("visitors.page", @get("pagination.page_nr"))
+
+Statt.LoadsPageRoute = Ember.Route.extend
   setupController: (controller, model) ->
+    console.log("LoadsPageRoute::setupController")
     controller.set('content', model)
-  
-  renderTemplate: ->
-    @render(
-      "bottom_tab"
-      outlet: "bottom_tab"
-    )
-    @render(
-      "loads.index"
-      into: "bottom_tab"
-    )
-  
+    @controllerFor("loads").set("page_nr", model.page_nr)
+    
   model: (params) ->
+    console.log("LoadsPageRoute::model")
     # m = @site.graph.loads_pagination(params.page_nr)
-    m = {
-      pagination: {
-        page_nr: 1 # params.page_nr
-        nr_pages: 16
-      }
+    Ember.Object.create
+      nr_pages: 12
+      page_nr: params["page_nr"]
       load_cols: [
         [
           {time: "1", top: "asdf"}
@@ -65,8 +77,7 @@ Statt.LoadsIndexRoute = Ember.Route.extend
           {time: "6", top: "asdf"}
         ]
       ]
-      
-    }
+    Statt.LoadsPage.find(params.page_nr)
   
 
 Statt.VisitorsIndexRoute = Ember.Route.extend

@@ -14,10 +14,22 @@ Statt.SiteController = Ember.ObjectController.extend
   }
 
 Statt.LoadsIndexController = Ember.ObjectController.extend
-  loadsTabActive: true
+  needs: "loads"
+  loadsTabActive: "true"
+
+Statt.LoadsController = Ember.ObjectController.extend
+  needs: "loads.page"
+
+Statt.LoadsPageController = Ember.ObjectController.extend
+  #loadsTabActive: "asdf"
+  needs: "loads"
   loadColumnsWithIndices: (() ->
+    console.log("LoadsPageController::loadColumnsWithIndices")
+    console.log(@get("content"))
     
-    @get("content.load_cols").map(
+    cols = @get("content.load_cols")
+    # return [] unless cols
+    cols.map(
       (item,index, enumerable) ->
         item: item
         first: (index == 0)

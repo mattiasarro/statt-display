@@ -4,11 +4,20 @@
       {{#linkTo "visitors"}}Visitors{{/linkTo}}
     </li>
     <li {{bindAttr class="loadsTabActive:active"}}>
-      {{#linkTo "loads.page" pagination.page_nr}}Loads{{/linkTo}}
+      {{#linkTo "loads.page" page_nr}}Loads{{/linkTo}}
     </li>
   </ul>
+  
   {{outlet "pagination"}}
+  <div class="pagination">
+    <ul>
+      {{#each pages}}
+      <li>{{#linkTo "loads.page" nr}}{{nr}}{{/linkTo}}</li>
+      {{/each}}
+    </ul>
+  </div>
 </div>
-
-<!-- loads/index.hbs -->
 {{outlet}}
+
+
+{{page_nr}}
