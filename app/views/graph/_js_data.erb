@@ -16,8 +16,7 @@
     data.push({time: <%= k %>, value: <%= v %>});
   <% end %>
   
-  
-  loads_page = <%= raw @loads.page(@ui.loads_pg).to_json %>;
+  loads_page = <%= raw @loads.page(@ui.loads_pagination.current_pg).to_json %>;
   
   ui = <%= raw @ui.to_json %>;
   
