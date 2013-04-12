@@ -18,7 +18,7 @@
     .navbar.navbar-top
       .navbar-inner
         .container
-          - if @site
+          - if @site && !@site.new_record?
             %a.brand{href: site_path(@site)}= @site.name
             %ul.nav
               %li= link_to "Settings", edit_site_path(@site)
