@@ -102,7 +102,10 @@ $(document).ready () ->
       get_obj pg for pg in range
     
     if nr_pages <= 13
-      [get_window([1..nr_pages])]
+      if nr_pages > 1
+        [get_window([1..nr_pages])]
+      else
+        []
     else if current_pg in [1..6]
       [
         get_window([1..8])

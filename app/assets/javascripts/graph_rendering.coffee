@@ -20,13 +20,29 @@ $(document).ready () ->
   .append("g")
   .attr("transform", "translate(" + padding + "," + padding + ")")
   
-  xAxis = d3.svg.axis().scale(y).orient("left")
-  xAxis.ticks(5)
-  
-  
-  chart.append("g")
-  .attr("class", "axis")
-  .call(xAxis)
+  bottom_axis = () ->
+    from_time = new Date(data_start)
+    to_time = new Date(data_end)
+    console.log(from_time)
+    console.log(to_time)
+    
+    xScale = d3.time.scale()
+    .domain([from_time, to_time])
+    .range([10, chart_width])
+    
+    xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom")
+    
+    axis = d3.select("#chart_container").append("svg")
+    .attr("class", "axis")
+    .attr("width", chart_width)
+    .attr("height", 20)
+    
+    axis.append("g")
+    .attr("class", "axis")
+    .call(xAxis)
+  bottom_axis()
   
   draw = ->
     highlight = chart.selectAll("rect.highlight")
@@ -50,11 +66,12 @@ $(document).ready () ->
       else 
         chart_height - y(d.value) - 1
         
-    bar_height = (d) -> 
+    bar_height = (d) ->
       if typeof d == undefined
         0
       else
         y(d.value)
+    
     
     bars = chart.selectAll("rect.bar")
     .data(data, key_function)
@@ -80,5 +97,11 @@ $(document).ready () ->
     .attr("x", (d,i) -> (x(i-1) - .5)) # one bar outside of view (left)
     .remove()
     
+    labels = chart.selectAll("text.label")
+    .data(data).enter().append("text")
+      .text((d) -> d.value)
+      .attr("class", "label")
+      .attr("x", (d,i) -> (bar_x(d,i) + 2))
+      .attr("y", (d) -> (bar_y(d) + 10))
   
   draw()
