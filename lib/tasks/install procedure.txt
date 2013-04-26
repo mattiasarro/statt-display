@@ -6,6 +6,7 @@ mongoid.yml
 Gemfile
   :assets => :development
 bundle install
+git commit
 git push heroku master
 
 

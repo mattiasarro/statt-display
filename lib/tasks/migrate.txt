@@ -1,8 +1,10 @@
 # statt-display.heroku: 5c58cf8b04cc07dfc090146b1756f7ab3ae4d78e
 # statt-collect.heroku: 128fb6ccbd82e1be5a1892d97b3083f9d384c788
 
+cd ~/tmp
 mongodump --host ds039737.mongolab.com --port 39737 --username heroku_app8278754 --password taj0lgc7qv3nrcg0bj56t63see --db heroku_app8278754 --out .
-mongorestore .
+cd heroku_app8278754
+mongorestore -d heroku_app8278754 --drop .
 
 # mongo console:
 use heroku_app8278754;
