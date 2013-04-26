@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'uri'
 
 class Load
@@ -37,7 +38,8 @@ class Load
   
   attr_accessor :uri
   after_initialize do
-    self.uri = URI(uri_string) if uri_string
+    us = uri_string.gsub("’", "") # hackety hack
+    self.uri = URI(us) if us
   end
   delegate :path, :query, :fragment, to: :uri
   
