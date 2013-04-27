@@ -43,24 +43,14 @@ $(document).ready () ->
   bottom_axis()
   
   from_to_info = () ->
-    zero_pad = (x) ->
-      if x < 10 then '0'+x else ''+x
-
-    Date::pretty_string = ->
-      d = zero_pad(this.getDate())
-      m = zero_pad(this.getMonth() + 1)
-      y = this.getFullYear()
-      hh = zero_pad(this.getHours())
-      mm = zero_pad(this.getMinutes())
-      y + "." + m + "." + d + " " + hh + ":" + mm
     
     chart.insert("text").attr("class", "info")
     .attr("x", 0).attr("y", 10)
-    .text("from: " + from_time.pretty_string())
+    .text("from: " + from_time.full())
     
     chart.insert("text").attr("class", "info")
     .attr("x", 12.6).attr("y", 20)
-    .text("to: " + to_time.pretty_string())
+    .text("to: " + to_time.full())
     
     chart.insert("text").attr("class", "info")
     .attr("x", 0).attr("y", 30)

@@ -1,29 +1,27 @@
 $(document).ready () -> 
   
+  top = (load) ->
+    if load.time_on_page
+      load.time_on_page + " seconds"
+    else
+      till_now = new Date() - new Date(load.time)
+      if till_now < 360
+        till_now + " seconds"
+      else
+        "unknown"
+
   tooltip_content = (load) ->
-    '<table>
-      <tr>
-        <td>Title:</td>
-        <td>' + load.title + '</td>
-      </tr>
-      <tr>
-        <td>User agent:</td>
-        <td>' + load.user_agent + '</td>
-      </tr>
-      <tr>
-        <td>User ID:</td>
-        <td>' + load.cl_user_id + '</td>
-      </tr>
-      <tr>
-        <td>Time on page:</td>
-        <td>' + load.time_on_page + '</td>
-      </tr>
-    </table>'
+    ret = '<table>'
+    ret += '  <tr><td>Title:</td><td>' + load.title + '</td></tr>'
+    ret += '  <tr><td>Browser:</td><td>' + load.user_agent + '</td></tr>'
+    ret += '  <tr><td>UserID:</td><td>' + load.cl_user_id + '</td></tr>' if load.cl_user_id
+    ret += '  <tr><td>On&nbsp;page:</td><td>' + top(load) + '</td></tr>'
+    ret += '</table>'
   
-  load_html = (load) -> 
+  load_html = (load) ->
     '<a rel="tooltipo" title="' + tooltip_content(load) + '" class="load-tooltip">
-       <span class="uid"> </span>
-       <span class="time">' + load.time + '</span>
+       <span class="uid" style="background: #' + load.color + ';"> </span>
+       <span class="time">' + new Date(load.time).time() + '</span>
        <span class="top">' + load.path + '</span>
      </a>'
   

@@ -5,6 +5,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require d3
+//= require patches
 //= require daterange_selector
 //= require graph_daterange
 //= require graph_rendering
