@@ -20,12 +20,10 @@ $(document).ready () ->
   .append("g")
   .attr("transform", "translate(" + padding + "," + padding + ")")
   
+  from_time = new Date(data_start)
+  to_time = new Date(data_end)
+  
   bottom_axis = () ->
-    from_time = new Date(data_start)
-    to_time = new Date(data_end)
-    console.log(from_time)
-    console.log(to_time)
-    
     xScale = d3.time.scale()
     .domain([from_time, to_time])
     .range([10, chart_width])
@@ -43,6 +41,31 @@ $(document).ready () ->
     .attr("class", "axis")
     .call(xAxis)
   bottom_axis()
+  
+  from_to_info = () ->
+    zero_pad = (x) ->
+      if x < 10 then '0'+x else ''+x
+
+    Date::pretty_string = ->
+      d = zero_pad(this.getDate())
+      m = zero_pad(this.getMonth() + 1)
+      y = this.getFullYear()
+      hh = zero_pad(this.getHours())
+      mm = zero_pad(this.getMinutes())
+      y + "." + m + "." + d + " " + hh + ":" + mm
+    
+    chart.insert("text").attr("class", "info")
+    .attr("x", 0).attr("y", 10)
+    .text("from: " + from_time.pretty_string())
+    
+    chart.insert("text").attr("class", "info")
+    .attr("x", 12.6).attr("y", 20)
+    .text("to: " + to_time.pretty_string())
+    
+    chart.insert("text").attr("class", "info")
+    .attr("x", 0).attr("y", 30)
+    .text("bars: " + nr_bars)
+  
   
   draw = ->
     highlight = chart.selectAll("rect.highlight")
@@ -103,5 +126,7 @@ $(document).ready () ->
       .attr("class", "label")
       .attr("x", (d,i) -> (bar_x(d,i) + 2))
       .attr("y", (d) -> (bar_y(d) + 10))
+    
+    from_to_info()
   
   draw()
