@@ -8,8 +8,11 @@
 //= require ember
 //= require ember-data
 //= require d3
+//= require daterange_selector
 //= require_self
 //= require ./statt
+//= require graph_rendering
+//= require graph_daterange
 Statt = Ember.Application.create({
   LOG_TRANSITIONS: true
 });

@@ -2,8 +2,8 @@ class SitesController < InheritedResources::Base
   
   actions :all
   
-  before_filter :authenticate_user!
-  before_filter :ensure_ownership!, except: [:index, :new, :create]
+  before_filter :authenticate_user!, except: [:show_ember]
+  before_filter :ensure_ownership!, except: [:index, :new, :create, :show_ember]
   before_filter :do_not_create_empty_domain, only: :update
   
   def show
@@ -18,7 +18,7 @@ class SitesController < InheritedResources::Base
   end
   
   def show_ember
-    render "graph/show_ember", layout: "ember"
+    render "graph/show_ember"
   end
   
   def update
