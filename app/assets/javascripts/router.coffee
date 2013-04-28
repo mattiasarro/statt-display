@@ -77,7 +77,7 @@ Statt.LoadsPageRoute = Ember.Route.extend
           {time: "6", top: "asdf"}
         ]
       ]
-    Statt.LoadsPage.find(params.page_nr)
+    # Statt.LoadsPage.find(params.page_nr)
   
 
 Statt.VisitorsIndexRoute = Ember.Route.extend
