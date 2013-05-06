@@ -63,20 +63,7 @@ Statt.LoadsPageRoute = Ember.Route.extend
     Ember.Object.create
       nr_pages: 12
       page_nr: params["page_nr"]
-      load_cols: [
-        [
-          {time: "1", top: "asdf"}
-          {time: "2", top: "asdf"}
-        ]
-        [
-          {time: "3", top: "asdf"}
-          {time: "4", top: "asdf"}
-        ]
-        [
-          {time: "5", top: "asdf"}
-          {time: "6", top: "asdf"}
-        ]
-      ]
+      load_cols: loads_page.loads
     # Statt.LoadsPage.find(params.page_nr)
   
 

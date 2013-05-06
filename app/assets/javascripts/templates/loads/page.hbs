@@ -5,9 +5,9 @@
         <!-- each of these will become a view later -->
         <div class="load">
           <a rel="tooltip" title="we have some html here as well">
-            <span class="uid"></span>
+            <span class="uid" {{bindAttr style="background"}}></span>
             <span class="time">{{time}}</span>
-            <span class="top">{{top}}</span>
+            <span class="top">{{path}}</span>
           </a>
         </div>
       {{/each}}
