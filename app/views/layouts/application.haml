@@ -22,7 +22,7 @@
             %a.brand{href: site_path(@site)}= @site.name
             %ul.nav
               %li= link_to "Settings", edit_site_path(@site)
-              %li= link_to "Tracking code", action: :tracking_code
+              %li= link_to "Tracking code", tracking_code_site_path(@site)
           - else
             %a.brand{href: "/"} statt
                 

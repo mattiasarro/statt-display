@@ -18,7 +18,50 @@ class SitesController < InheritedResources::Base
   end
   
   def show_ember
+    params = mock_params
+    @site = Site.find(params[:id])
+    @timeframe = Timeframe.new(params[:timeframe])
+    @loads = Loads.new(@site, @timeframe)
+    
+    @graph = Graph.new(@loads, params[:nr_bars])
+    @graph.site = @site # not needed after visitors() refactored
+    
+    @ui = UserInterface.new(params, @timeframe, @graph, @loads)
     render "graph/show_ember"
+  end
+  
+  def mock_params
+    g = {"nr_bars"=>"60", "type"=>"custom", :nr_bars => "60", :type => "custom"}
+    t = {
+      "from(3i)"=>"26", 
+      "from(2i)"=>"1", 
+      "from(1i)"=>"2013", 
+      "from(4i)"=>"00", 
+      "from(5i)"=>"00", 
+      "to(3i)"=>"26", 
+      "to(2i)"=>"1", 
+      "to(1i)"=>"2013", 
+      "to(4i)"=>"23", 
+      "to(5i)"=>"59",
+      "from(3i)".to_sym => "26", 
+      "from(2i)".to_sym => "1", 
+      "from(1i)".to_sym => "2013", 
+      "from(4i)".to_sym => "00", 
+      "from(5i)".to_sym => "00", 
+      "to(3i)".to_sym => "26", 
+      "to(2i)".to_sym => "1", 
+      "to(1i)".to_sym => "2013", 
+      "to(4i)".to_sym => "23", 
+      "to(5i)".to_sym => "59"
+    }
+    {
+      "graph" => g, 
+      :graph  => g,
+      "timeframe" => t,
+      :timeframe  => t, 
+      "id" => "5168608d763c55ea58000003",
+      :id  => "5168608d763c55ea58000003"
+    }
   end
   
   def update
