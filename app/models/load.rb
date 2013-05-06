@@ -43,8 +43,7 @@ class Load
   
   attr_accessor :uri
   after_initialize do
-    us = uri_string.gsub("’", "") # hackety hack
-    self.uri = URI(us) if us
+    self.uri = URI.parse(URI.encode(uri_string))
   end
   delegate :path, :query, :fragment, to: :uri
   
