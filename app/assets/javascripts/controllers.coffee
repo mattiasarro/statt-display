@@ -1,6 +1,3 @@
-Statt.ApplicationController = Ember.Controller.extend
-  who: "me"
-
 Statt.SiteController = Ember.ObjectController.extend
   graph: {
     nr_bars: 60

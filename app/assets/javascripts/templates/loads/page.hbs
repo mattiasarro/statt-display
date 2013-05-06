@@ -2,14 +2,7 @@
   {{#each loadColumnsWithIndices}}
     <div {{bindAttr class=":loads-col first:loads-col-first"}}>
       {{#each this.item}}
-        <!-- each of these will become a view later -->
-        <div class="load">
-          <a rel="tooltip" title="we have some html here as well">
-            <span class="uid" {{bindAttr style="background"}}></span>
-            <span class="time">{{time}}</span>
-            <span class="top">{{path}}</span>
-          </a>
-        </div>
+        {{view Statt.LoadView}}
       {{/each}}
     </div>
   {{/each}}
