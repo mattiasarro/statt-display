@@ -42,7 +42,7 @@ group :assets do
   
   gem "less-rails" # adds .less support for asset pipeline
   gem 'therubyracer' # allow Ruby programs to call the V8 JS engine
-  gem 'twitter-bootstrap-rails' # vendor/assets/bootstrap.less etc.
+  # vendor/assets/javascripts/twitter contains .less files from twitter-bootstrap-rails gem
   
   gem 'uglifier', '>= 1.0.3'
 end
