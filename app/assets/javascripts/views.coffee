@@ -6,8 +6,19 @@ Statt.LoadView = Ember.View.extend
   tagName: "div"
   classNames: ["load"]
   didInsertElement: (e) ->
-    a = this.$()
-    a.tooltip()
+    load = this._context
+    a = this.$().find("a")
+    a.tooltip({
+      trigger: "manual"
+      html: true
+      title: () ->
+        ret = '<table>'
+        ret += '  <tr><td>Title:</td><td>' + load.title + '</td></tr>'
+        ret += '  <tr><td>Browser:</td><td>' + load.user_agent + '</td></tr>'
+        ret += '  <tr><td>UserID:</td><td>' + load.cl_user_id + '</td></tr>' if load.cl_user_id
+        ret += '  <tr><td>On&nbsp;page:</td><td>' + load.top + '</td></tr>'
+        ret += '</table>'
+    })
   click: (event) ->
-    console.log($(event.target))
-    $(event.target).tooltip("show")
+    $(event.target).tooltip("toggle")
+    

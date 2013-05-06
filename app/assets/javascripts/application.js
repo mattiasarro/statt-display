@@ -17,11 +17,6 @@
 Statt = Ember.Application.create({
   LOG_TRANSITIONS: true
 });
-$(document).ready(function () {
-  $("a[rel=popover]").popover();
-  $(".tooltip").tooltip();
-  $("a[rel=tooltip]").tooltip();
-});
 // these will not work at the moment, waiting to be refactored into the Ember-based system
 //= require ./graph_daterange
 //= require ./graph_rendering
