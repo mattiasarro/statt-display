@@ -18,7 +18,7 @@
     .navbar.navbar-top
       .navbar-inner
         .container
-          - if @site
+          - if @site && !@site.new_record?
             %a.brand{href: site_path(@site)}= @site.name
             %ul.nav
               %li= link_to "Settings", edit_site_path(@site)
@@ -32,7 +32,9 @@
                 %a.dropdown-toggle{"data-toggle" => "dropdown", href: sites_path} My Sites
                 %ul.dropdown-menu
                   - current_user.sites.each do |site|
+                    - next if site.new_record?
                     %li= link_to site.name, site_path(site)
+                  %li= link_to "Create New Site >", new_site_path
               %li.dropdown
                 %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
                   = current_user

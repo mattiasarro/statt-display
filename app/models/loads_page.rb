@@ -2,7 +2,7 @@ class LoadsPage
   NR_COLUMNS = 3
   
   def initialize(loads, page, nr_pages)
-    @skip = Loads::PER_PAGE * (nr_pages - page)
+    @skip = nr_pages > 1 ? Loads::PER_PAGE * (nr_pages - page) : 0
     @loads_on_page = loads.within_range.limit(Loads::PER_PAGE).skip(@skip)
   end
   

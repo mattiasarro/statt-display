@@ -16,7 +16,7 @@ class Pagination
     def uri_hash; {}; end
   end
   
-  attr_reader :windows, :nr_pages
+  attr_reader :windows, :nr_pages, :current_pg
   def initialize(attr)
     @nr_pages, @current_pg = attr[:nr_pages], attr[:current_pg]
     @uri_base = attr[:uri_base]

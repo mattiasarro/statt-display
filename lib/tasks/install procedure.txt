@@ -1,0 +1,18 @@
+## deploy ##
+
+b rake assets:precompile
+mongoid.yml
+  MONGOLAB_URI
+Gemfile
+  :assets => :development
+bundle install
+git commit
+git push heroku master
+
+
+## back to dev ##
+
+Gemfile
+  :development => :assets
+bundle install
+b rake assets:clean

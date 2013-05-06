@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'uri'
 
 class Load
@@ -35,16 +36,25 @@ class Load
   field :time, type: Time
   field :time_on_page, type: Integer # in seconds
   
+  def color
+    md5 = Digest::MD5.hexdigest(self.id)
+    md5[0,6]
+  end
+  
   attr_accessor :uri
   after_initialize do
-    self.uri = URI(uri_string) if uri_string
+    self.uri = URI.parse(URI.encode(uri_string))
   end
   delegate :path, :query, :fragment, to: :uri
   
   def as_json(*a)
     {
       "path" => self.path,
-      "time" => self.time.strftime("%H:%M:%S"),
+      "time" => self.time,
+      "color" => self.color,
+      "time_on_page" => self.time_on_page,
+      "user_agent" => self.user_agent,
+      "title" => self.title,
       
       "uri_string" => self.uri_string,
       "http_referer" => self.http_referer

@@ -1,10 +1,15 @@
 class UserInterface
-  attr_accessor :graph, :timeframe, :visitors_pg, :loads_pg
+  attr_accessor :graph, :timeframe, :visitors_pg, :loads_pagination
   def initialize(params={}, timeframe, graph, loads)
     @graph, @timeframe, @loads = graph, timeframe, loads
     @visitors_pg = params[:visitors_pg] ? params[:visitors_pg].to_i : 1
-    @loads_pg = params[:loads_pg] ? params[:loads_pg].to_i : loads_pagination.nr_pages
     @site_id = params[:id]
+    
+    @loads_pagination = PaginationLoads.new(
+      nr_pages: @loads.nr_pages,
+      current_pg: (params[:loads_pg] ? params[:loads_pg].to_i : @loads.nr_pages),
+      uri_base: self.to_uri_hash
+    )
   end
   
   def prev_uri_hash
@@ -23,14 +28,6 @@ class UserInterface
     )
   end
   
-  def loads_pagination
-    @loads_pagination ||= PaginationLoads.new(
-      nr_pages: @loads.nr_pages,
-      current_pg: @loads_pg,
-      uri_base: self.to_uri_hash
-    )
-  end
-  
   def to_uri_hash(overrides={})
     { 
       site_id: @site_id,
@@ -43,7 +40,7 @@ class UserInterface
   
   def to_json
     ret = to_uri_hash
-    ret["loads_pagination"] = loads_pagination.ui_state
+    ret["loads_pagination"] = @loads_pagination.ui_state
     ret.to_json
   end
   

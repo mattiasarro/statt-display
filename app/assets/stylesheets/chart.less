@@ -5,8 +5,16 @@ svg.chart {
   background: #F8F8F8;
   
   text {
-    font-size: 10px;
+    font-size: 9px;
     font-family: sans-serif;
+    fill:#fff;
+  }
+  .axis text {
+    fill: #000;
+  }
+  text.info {
+    fill: #1B1B1B;
+    font-size: 11px;
   }
   
   rect.bar {
@@ -30,23 +38,22 @@ svg.chart {
     fill: #7C7C7C;
   }
   
-  .axis {
-    path, line {
-      fill: none;
-      stroke: black;
-      shape-rendering: crispEdges;
-    }
-    text {
-        font-family: sans-serif;
-        font-size: 11px;
-    }
-
-    g line.tick {
-      fill: none;
-      stroke: black;
-    }
-  }
 }
+
+.axis {
+  path, line {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+  }
+  text {
+      font-family: sans-serif;
+      font-size: 11px;
+      fill: #323232;
+  }
+  
+}
+
 
 .chart-header {
   margin-top: 20px;

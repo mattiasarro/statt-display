@@ -9,7 +9,7 @@ class User
   field :name
   field :email
   
-  validates :email, presence: true, email: true
+  #validates :email, presence: true, email: true
   
   def self.create_with_omniauth(auth)
     create! do |u|

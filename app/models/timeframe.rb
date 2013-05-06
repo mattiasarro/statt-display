@@ -4,8 +4,14 @@ class Timeframe
     attr = {} if attr.nil?
     @from = parse_time(attr, :from)
     @to   = parse_time(attr, :to)
-    @duration = attr[:duration] ? attr[:duration].to_i : Graph::DEFAULTS[:duration]
     
+    
+    if @from && @to
+      @duration = @to - @from
+    else
+      @duration = attr[:duration] ? attr[:duration].to_i : Graph::DEFAULTS[:duration]
+    end
+
     if @from && (not @to)
       @to = @from + @duration
     elsif (not @from)
