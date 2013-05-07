@@ -1,3 +1,4 @@
+DEBUG = false
 Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
     
@@ -10,11 +11,6 @@ Statt.Router.map ->
       # implicit /index
       @route "page", path: "/page/:page_nr"
       @route "show", path: '/show' # dunno really
-    
-
-Statt.ApplicationRoute = Ember.Route.extend
-  setupController: (controller) ->
-    controller.set('title', "my app")
   
 
 Statt.SiteRoute = Ember.Route.extend
@@ -30,12 +26,12 @@ Statt.SiteRoute = Ember.Route.extend
 
 Statt.LoadsRoute = Ember.Route.extend
   setupController: (controller,model) ->
-    console.log("LoadsRoute::setupController")
+    console.log("LoadsRoute::setupController") if DEBUG
     controller.set("content", model)
     controller.set("loadsTabActive", true)
     
   model: (params) ->
-    console.log("LoadsRoute::model")
+    console.log("LoadsRoute::model") if DEBUG
     Ember.Object.create
       nr_pages: 12 
       pages: [
@@ -47,45 +43,18 @@ Statt.LoadsRoute = Ember.Route.extend
 
 Statt.LoadsIndexRoute = Ember.Route.extend
   redirect: () -> @transitionTo("loads.page", @get("pagination.page_nr"))
-  
-Statt.VisitorsIndexRoute = Ember.Route.extend
-  redirect: () -> @transitionTo("visitors.page", @get("pagination.page_nr"))
 
 Statt.LoadsPageRoute = Ember.Route.extend
   setupController: (controller, model) ->
-    console.log("LoadsPageRoute::setupController")
+    console.log("LoadsPageRoute::setupController") if DEBUG
     controller.set('content', model)
     @controllerFor("loads").set("page_nr", model.page_nr)
     
   model: (params) ->
-    console.log("LoadsPageRoute::model")
+    console.log("LoadsPageRoute::model") if DEBUG
     # m = @site.graph.loads_pagination(params.page_nr)
+    Statt.LoadsPage.find(1, {id: params.page_nr})
     Ember.Object.create
       nr_pages: 12
       page_nr: params["page_nr"]
       load_cols: loads_page.loads
-    # Statt.LoadsPage.find(params.page_nr)
-  
-
-Statt.VisitorsIndexRoute = Ember.Route.extend
-  setupController: (controller, model) ->
-    controller.set('content', model)
-  
-  renderTemplate: ->
-    @render(
-      "bottom_tab"
-      outlet: "bottom_tab"
-    )
-    @render(
-      "visitors.index",
-      into: "bottom_tab"
-    )
-  model: (params) ->
-    m = {
-      pagination: {
-        page_nr: 3
-        nr_pages: 8
-      }
-    }
-  
-  

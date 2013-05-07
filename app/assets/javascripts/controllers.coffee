@@ -1,3 +1,4 @@
+DEBUG = false
 Statt.SiteController = Ember.ObjectController.extend
   graph: {
     nr_bars: 60
@@ -20,8 +21,7 @@ Statt.LoadsController = Ember.ObjectController.extend
 Statt.LoadsPageController = Ember.ObjectController.extend
   needs: "loads"
   loadColumnsWithIndices: (() ->
-    console.log("LoadsPageController::loadColumnsWithIndices")
-    console.log(@get("content"))
+    console.log("LoadsPageController::loadColumnsWithIndices") if DEBUG
     decorate_loads = (col) ->
       top = (load) ->
         if load.time_on_page
@@ -48,7 +48,6 @@ Statt.LoadsPageController = Ember.ObjectController.extend
     
     )).property('content.load_cols')
   
-Statt.VisitorsIndexController = Ember.ObjectController.extend
-  visitorsTabActive: true
+  
 
 Statt.PaginationController = Ember.ObjectController.extend
