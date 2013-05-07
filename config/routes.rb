@@ -14,6 +14,7 @@ Display::Application.routes.draw do
   resources :visitors # visitors of tracked websites
   
   root :to => 'sites#show_ember'
+  match '/loads_pages' => 'loads#index'
   
   match '/auth/:provider/callback' => 'sessions#create'
   match '/auth/failure' => 'sessions#failure'

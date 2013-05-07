@@ -2,9 +2,16 @@ Statt.Site = DS.Model.extend
   do_something: () -> "asdf"
 
 Statt.LoadsPage = DS.Model.extend
-  page_nr: DS.attr("number")
-  nr_pages: DS.attr("number")
+  earliestLoadTime: DS.attr("number")
+  latestLoadTime: DS.attr("number")
+  pageNr: DS.attr("number")
+  nrPages: DS.attr("number")
   loads: DS.hasMany("Statt.Load")
-
+  load_cols: [[{"path":"p","time":"2013-04-26T19:46:35Z","color":"608c84","time_on_page":null,"user_agent":"ua","title":"t"}]]
+  didCreate: -> (console.log "did create")
+  didLoad: -> (console.log "did load")
+  
+  
+  
 Statt.Load = DS.Model.extend
   page: DS.belongsTo("Statt.LoadsPage")

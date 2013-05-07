@@ -49,12 +49,32 @@ Statt.LoadsPageRoute = Ember.Route.extend
     console.log("LoadsPageRoute::setupController") if DEBUG
     controller.set('content', model)
     @controllerFor("loads").set("page_nr", model.page_nr)
-    
+  mock_params: {
+    site_id: "5168608d763c55ea58000003"
+    graph: {
+      nr_bars: 60
+      type: "custom"
+    }
+    timeframe: {
+      "from(3i)": "24"
+      "from(2i)": "4" 
+      "from(1i)": "2013"
+      "from(4i)": "00"
+      "from(5i)": "00"
+      "to(3i)": "28"
+      "to(2i)": "4"
+      "to(1i)": "2013"
+      "to(4i)": "23"
+      "to(5i)": "59"
+    }
+  }
   model: (params) ->
     console.log("LoadsPageRoute::model") if DEBUG
-    # m = @site.graph.loads_pagination(params.page_nr)
-    Statt.LoadsPage.find(1, {id: params.page_nr})
+    #p = @mock_params
+    #p.loads_pg_nr = params.page_nr
+    #Statt.LoadsPage.find(p)
     Ember.Object.create
       nr_pages: 12
       page_nr: params["page_nr"]
       load_cols: loads_page.loads
+    
