@@ -1,5 +1,7 @@
 Statt.Site = DS.Model.extend
-  do_something: () -> "asdf"
+  site_id: DS.attr("string")
+  didCreate: -> (console.log "yes")
+  didLoad: -> (console.log "mhm")
 
 Statt.LoadsPage = DS.Model.extend
   earliestLoadTime: DS.attr("number")

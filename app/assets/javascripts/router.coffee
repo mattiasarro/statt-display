@@ -15,14 +15,11 @@ Statt.Router.map ->
 
 Statt.SiteRoute = Ember.Route.extend
   setupController: (controller, site_model) ->
-    controller.set('site_name', "Sample Site")
     controller.set('content', site_model)
-  
   model: (params) ->
-    # Statt.Site.find()
-    {id: params.site_id}
+    Statt.Site.find(params.site_id)
+    {}
   
-
 
 Statt.LoadsRoute = Ember.Route.extend
   setupController: (controller,model) ->

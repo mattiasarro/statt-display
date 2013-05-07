@@ -6,7 +6,7 @@ class SitesController < InheritedResources::Base
   before_filter :ensure_ownership!, except: [:index, :new, :create, :show_ember]
   before_filter :do_not_create_empty_domain, only: :update
   
-  def show
+  def show_old
     @timeframe = Timeframe.new(params[:timeframe])
     @loads = Loads.new(@site, @timeframe)
     
@@ -15,6 +15,11 @@ class SitesController < InheritedResources::Base
     
     @ui = UserInterface.new(params, @timeframe, @graph, @loads)
     render "graph/show"
+  end
+  
+  respond_to :json, :html
+  def show
+    respond_with({site: {one: "two"}})
   end
   
   def show_ember
