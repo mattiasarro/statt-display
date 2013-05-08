@@ -11,15 +11,12 @@ Statt.Router.map ->
       # implicit /index
       @route "page", path: "/page/:page_nr"
       @route "show", path: '/show' # dunno really
-  
 
 Statt.SiteRoute = Ember.Route.extend
   setupController: (controller, site_model) ->
     controller.set('content', site_model)
   model: (params) ->
     Statt.Site.find(params.site_id)
-    {}
-  
 
 Statt.LoadsRoute = Ember.Route.extend
   setupController: (controller,model) ->

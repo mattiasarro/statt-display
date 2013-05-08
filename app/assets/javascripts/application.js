@@ -18,6 +18,4 @@ Statt = Ember.Application.create({
   LOG_TRANSITIONS: true
 });
 // these will not work at the moment, waiting to be refactored into the Ember-based system
-//= require ./graph_daterange
-//= require ./graph_rendering
 //= require ./loads

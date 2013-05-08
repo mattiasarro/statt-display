@@ -19,7 +19,7 @@ class SitesController < InheritedResources::Base
   
   respond_to :json, :html
   def show
-    respond_with({site: {one: "two"}})
+    respond_with({site: {onetwo: "three"}})
   end
   
   def show_ember
