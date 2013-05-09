@@ -3,7 +3,7 @@
 //= require jquery.ui.selectable
 //= require daterange_selector
 
-$(document).ready () ->
+window.daterange_setup = ->
   setup_daterange_selector = -> 
     get_graph_date = (from_to) ->
       year = $("#timeframe_#{from_to}_1i").val()
@@ -55,7 +55,7 @@ $(document).ready () ->
         <a id="dp_next"><i class="icon-chevron-right"></i></a>
       </div>'
   })
-  
+
   $('a#daterange-calendar-button').click ->
     poppedOver = $(this).next('div.popover:visible').length
     if (poppedOver)

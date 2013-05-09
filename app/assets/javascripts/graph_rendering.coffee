@@ -1,4 +1,4 @@
-$(document).ready () ->
+window.graph_rendering_setup = ->
   
   chart_width = 938  # including padding
   chart_height = 193 # including padding

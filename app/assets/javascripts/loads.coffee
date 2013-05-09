@@ -94,7 +94,6 @@ $(document).ready () ->
     first_pg_of_tail = nr_pages - 2
     
     windows = []
-    console.log(current_pg + "/" + nr_pages)
     get_window = (range) ->
       get_obj = (pg_nr) -> ({nr: pg_nr, name: pg_nr})
       get_obj pg for pg in range

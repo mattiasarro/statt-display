@@ -1,5 +1,9 @@
 Statt.ApplicationView = Ember.View.extend
   classNames: ["container"]
+  didInsertElement: ->
+    window.daterange_setup()
+    window.graph_rendering_setup()
+  
 
 Statt.LoadView = Ember.View.extend
   templateName: "loads/load"
