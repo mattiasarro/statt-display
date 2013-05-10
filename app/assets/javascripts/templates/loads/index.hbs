@@ -9,14 +9,14 @@
       {{#linkTo "visitors"}}Visitors{{/linkTo}}
     </li>
     <li class="active">
-      {{#linkTo "loads.index" pageNr}}Loads{{/linkTo}}
+      {{#linkTo "loads" pageNr}}Loads{{/linkTo}}
     </li>
   </ul>
   
   <div class="pagination">
     <ul>
       {{#each pages}}
-      <li>{{#linkTo "loads.index" nr}}{{nr}}{{/linkTo}}</li>
+      <li>{{#linkTo "loads" nr}}{{nr}}{{/linkTo}}</li>
       {{/each}}
     </ul>
   </div>

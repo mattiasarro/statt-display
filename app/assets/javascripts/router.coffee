@@ -1,11 +1,16 @@
 DEBUG = true
 Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
+    @resource "graph", path: "/graph/:from/:to/:nr_bars", ->
+      @resource "loads", path: '/loads/:page_nr', ->
+        # implicit index
+      @resource "visitors", path: "/visitors/:page_nr", ->
+        # implicit index
     
-    @resource "loads", path: '/loads/:page_nr', ->
-      # implicit /index
-    
-    @resource "visitors", path: "/visitors/:page_nr"
+
+Statt.GraphRoute = Ember.Route.extend
+  model: (p) ->
+    {from: p.from, to: p.to, nrBars: p.nr_bars}
 
 Statt.LoadsIndexRoute = Ember.Route.extend
   setupController: (c,m) ->
@@ -13,6 +18,7 @@ Statt.LoadsIndexRoute = Ember.Route.extend
     c.set("pageNr", 12)
     c.set("nrPages", 60)
     c.set("pages", [{id: 1, nr: 1}, {id: 2, nr: 2}])
+    console.log "123"
   
   mock_params: {
     site_id: "5168608d763c55ea58000003"
