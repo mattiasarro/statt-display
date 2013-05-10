@@ -12,12 +12,6 @@ Statt.Router.map ->
       @route "page", path: "/page/:page_nr"
       @route "show", path: '/show' # dunno really
 
-Statt.SiteRoute = Ember.Route.extend
-  setupController: (controller, site_model) ->
-    controller.set('content', site_model)
-  model: (params) ->
-    Statt.Site.find(params.site_id)
-
 Statt.LoadsRoute = Ember.Route.extend
   setupController: (controller,model) ->
     console.log("LoadsRoute::setupController") if DEBUG
@@ -36,13 +30,13 @@ Statt.LoadsRoute = Ember.Route.extend
     
 
 Statt.LoadsIndexRoute = Ember.Route.extend
-  redirect: () -> @transitionTo("loads.page", @get("pagination.page_nr"))
+  redirect: () -> @transitionTo("loads.page", @get("pagination.pageNr"))
 
 Statt.LoadsPageRoute = Ember.Route.extend
   setupController: (controller, model) ->
     console.log("LoadsPageRoute::setupController") if DEBUG
     controller.set('content', model)
-    @controllerFor("loads").set("page_nr", model.page_nr)
+    @controllerFor("loads").set("pageNr", model.pageNr)
   mock_params: {
     site_id: "5168608d763c55ea58000003"
     graph: {
@@ -64,11 +58,9 @@ Statt.LoadsPageRoute = Ember.Route.extend
   }
   model: (params) ->
     console.log("LoadsPageRoute::model") if DEBUG
-    #p = @mock_params
-    #p.loads_pg_nr = params.page_nr
-    #Statt.LoadsPage.find(p)
-    Ember.Object.create
-      nr_pages: 12
-      page_nr: params["page_nr"]
-      load_cols: loads_page.loads
+    p = @mock_params
+    p.loads_pg_nr = params.page_nr
+    ret = Statt.LoadsPage.find(p)
+    ret.load_cols = loads_page.loads
+    ret
     
