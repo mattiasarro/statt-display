@@ -1,21 +1,21 @@
 DEBUG = true
 Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
-    @resource "graph", path: "/graph/:from/:to/:nr_bars", ->
-      @resource "loads", path: '/loads/:page_nr', ->
-        # implicit index
-      @resource "visitors", path: "/visitors/:page_nr", ->
-        # implicit index
-    
+    @resource "chart", path: "/chart/:nr_bars", ->
+      @resource "bars", path: "/bars/:from/:to", ->
+        @resource "loads", path: '/loads/:page_nr', ->
+          # implicit index
+        @resource "visitors", path: "/visitors/:page_nr", ->
+          # implicit index
 
-Statt.GraphRoute = Ember.Route.extend
+Statt.BarsRoute = Ember.Route.extend
   model: (p) ->
-    {from: p.from, to: p.to, nrBars: p.nr_bars}
+    Statt.Bar.find({nr_bars: p.nr_bars, from: p.from, to: p.to})
 
 Statt.LoadsIndexRoute = Ember.Route.extend
   setupController: (c,m) ->
     c.set("content", m)
-    c.set("pageNr", 12)
+    c.set("pageNr", 13)
     c.set("nrPages", 60)
     c.set("pages", [{id: 1, nr: 1}, {id: 2, nr: 2}])
     console.log "123"
@@ -44,5 +44,8 @@ Statt.LoadsIndexRoute = Ember.Route.extend
     p.loads_pg_nr = params.page_nr
     Statt.Load.find(p)
   
-  
-  
+  renderTemplate:
+    @render({
+      into: "chart"
+      outlet: "bottom"
+    })

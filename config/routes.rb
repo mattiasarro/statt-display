@@ -15,6 +15,7 @@ Display::Application.routes.draw do
   
   root :to => 'sites#show_ember'
   match '/loads' => 'loads#index'
+  match '/bars' => 'bars#index'
   
   match '/auth/:provider/callback' => 'sessions#create'
   match '/auth/failure' => 'sessions#failure'
