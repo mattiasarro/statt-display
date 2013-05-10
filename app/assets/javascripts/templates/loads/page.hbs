@@ -1,3 +1,4 @@
+{{#each controller}}
 <div>
   pageNr: {{pageNr}}
   <br/>
@@ -21,13 +22,4 @@
     </ul>
   </div>
 </div>
-
-<div class="loads">
-  {{#each loadColumnsWithIndices}}
-    <div {{bindAttr class=":loads-col first:loads-col-first"}}>
-      {{#each this.item}}
-        {{view Statt.LoadView}}
-      {{/each}}
-    </div>
-  {{/each}}
-</div>
+{{/each}}

@@ -12,7 +12,7 @@ class LoadsController < ApplicationController
   end
   
   def index
-    respond_with({loads_pages: [{page_nr: 3, nr_pages: 5}]})
+    respond_with({loads_pages: [{page_nr: 8, nr_pages: 15}]})
   end
 
 end

@@ -39,9 +39,7 @@ Statt.LoadsPageRoute = Ember.Route.extend
     console.log("LoadsPageRoute::model") if DEBUG
     p = @mock_params
     p.loads_pg_nr = params.page_nr
-    ret = Statt.LoadsPage.find(p)
-    ret.load_cols = loads_page.loads
-    console.log("ret.get('pageNr')", ret.get("pageNr"))
-    ret.pageNr = 32
-    ret
     
+    loads_page_model = Statt.LoadsPage.find(p)
+    loads_page_model.pageNr = 1
+    loads_page_model
