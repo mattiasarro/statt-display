@@ -1,25 +1,6 @@
-DEBUG = false
-Statt.SiteController = Ember.ObjectController.extend
-  graph: {
-    nr_bars: 60
-    bar_duration: 60
-    max_value: 16
-  }
-  timeframe: {
-    from:  1356220740
-    to: 1356224340
-    duration: 3600
-  }
-
-Statt.LoadsIndexController = Ember.ObjectController.extend
-  needs: "loads"
-  loadsTabActive: "true"
-
-Statt.LoadsController = Ember.ObjectController.extend
-  needs: "loads.page"
+DEBUG = true
 
 Statt.LoadsPageController = Ember.ObjectController.extend
-  needs: "loads"
   loadColumnsWithIndices: (() ->
     console.log("LoadsPageController::loadColumnsWithIndices") if DEBUG
     decorate_loads = (col) ->
@@ -48,6 +29,3 @@ Statt.LoadsPageController = Ember.ObjectController.extend
     
     )).property('content.load_cols')
   
-  
-
-Statt.PaginationController = Ember.ObjectController.extend

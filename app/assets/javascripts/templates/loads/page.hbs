@@ -1,3 +1,27 @@
+<div>
+  pageNr: {{pageNr}}
+  <br/>
+  nrPages: {{nrPages}}
+</div>
+<div class="info-header">
+  <ul class="nav nav-tabs">
+    <li>
+      {{#linkTo "visitors"}}Visitors{{/linkTo}}
+    </li>
+    <li class="active">
+      {{#linkTo "loads.page" pageNr}}Loads{{/linkTo}}
+    </li>
+  </ul>
+  
+  <div class="pagination">
+    <ul>
+      {{#each pages}}
+      <li>{{#linkTo "loads.page" nr}}{{nr}}{{/linkTo}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
 <div class="loads">
   {{#each loadColumnsWithIndices}}
     <div {{bindAttr class=":loads-col first:loads-col-first"}}>
