@@ -1,6 +1,15 @@
 Statt.Site = DS.Model.extend
   onetwo: DS.attr("string")
 
+Statt.Load = DS.Model.extend
+  path: DS.attr("string")
+  user_agent: DS.attr("string")
+
+Statt.Page = DS.Model.extend
+  nr: DS.attr("number")
+  active: ->
+    false
+
 Statt.LoadsPage = DS.Model.extend
   earliestLoadTime: DS.attr("number") # compute in a function
   latestLoadTime: DS.attr("number") # compute in a function

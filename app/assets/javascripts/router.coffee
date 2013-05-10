@@ -2,20 +2,18 @@ DEBUG = true
 Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
     
-    @resource "loads", path: '/loads', ->
+    @resource "loads", path: '/loads/:page_nr', ->
       # implicit /index
-      @route "page", path: "/page/:page_nr"
     
-    @resource "visitors", path: '/visitors', ->
-      # implicit /index
-      @route "page", path: "/page/:page_nr"
-      @route "show", path: '/show' # dunno really
-    
+    @resource "visitors", path: "/visitors/:page_nr"
 
 Statt.LoadsIndexRoute = Ember.Route.extend
-  redirect: () -> @transitionTo("loads.page", @get("pagination.pageNr"))
-
-Statt.LoadsPageRoute = Ember.Route.extend
+  setupController: (c,m) ->
+    c.set("content", m)
+    c.set("pageNr", 12)
+    c.set("nrPages", 60)
+    c.set("pages", [{id: 1, nr: 1}, {id: 2, nr: 2}])
+  
   mock_params: {
     site_id: "5168608d763c55ea58000003"
     graph: {
@@ -36,10 +34,9 @@ Statt.LoadsPageRoute = Ember.Route.extend
     }
   }
   model: (params) ->
-    console.log("LoadsPageRoute::model") if DEBUG
     p = @mock_params
     p.loads_pg_nr = params.page_nr
-    
-    loads_page_model = Statt.LoadsPage.find(p)
-    loads_page_model.pageNr = 1
-    loads_page_model
+    Statt.Load.find(p)
+  
+  
+  

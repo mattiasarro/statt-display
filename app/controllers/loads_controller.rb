@@ -12,7 +12,11 @@ class LoadsController < ApplicationController
   end
   
   def index
-    respond_with({loads_pages: [{page_nr: 8, nr_pages: 15}]})
+    l = {path: "/news/2013/04/26/car/", user_agent: "Mozilla/5.0"}
+    respond_with({
+      loads: [l,l,l,l,l,l]
+#      , pages: {{id: 1, nr: 1},{id: 2, nr: 2}}
+    })
   end
 
 end

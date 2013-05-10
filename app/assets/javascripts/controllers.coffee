@@ -1,4 +1,4 @@
 DEBUG = true
 
-Statt.LoadsPageController = Ember.ArrayController.extend
+Statt.LoadsIndexController = Ember.ArrayController.extend
   something: 1
