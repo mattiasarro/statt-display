@@ -17,10 +17,12 @@
   </div>
 </div>
 
-{{#each controller}} {{path}} {{/each}}
-
-<div>
-  pageNr: {{pageNr}}
-  <br/>
-  nrPages: {{nrPages}}
+<div class="loads">
+  {{#each loadColsWithIndex}}
+    <div {{bindAttr class=":loads-col first:loads-col-first"}}>
+      {{#each this.col}}
+        {{view Statt.LoadView}}
+      {{/each}}
+    </div>
+  {{/each}}
 </div>

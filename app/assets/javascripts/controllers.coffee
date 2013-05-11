@@ -70,7 +70,7 @@ Statt.ChartController = Ember.ArrayController.extend
     @reduce(sumLoadNumbers, 0)
   ).property("@each.value")
   
-# no need to set property("keys"), values never updated
+
 Statt.BarController = Ember.ObjectController.extend
   needs: "chart"
   chart: -> @parentController
@@ -112,34 +112,20 @@ Statt.LoadsPageController = Ember.ArrayController.extend
   pages: (->
     [{id: 1, nr: 1}, {id: 2, nr: 2}, {id: 3, nr: 3}]
   ).property()
-  loadColumnsWithIndices: (() ->
-    console.log("LoadsPageController::loadColumnsWithIndices")
-    decorate_loads = (col) ->
-      top = (load) ->
-        if load.time_on_page
-          load.time_on_page + " seconds"
-        else
-          till_now = new Date() - new Date(load.time)
-          if till_now < 360
-            till_now + " seconds"
-          else
-            "unknown"
-      
-
-      col.map (load_item, index, enumerable) ->
-        load_item.time = new Date(load_item.time).time()
-        load_item.background = "background: #" + load_item.color + ";"
-        load_item.top = top(load_item)
-        load_item
-      
-
-    cols = @get("content.load_cols")
-    # return [] unless cols
-    cols.map(
-      (item,index, enumerable) ->
-        item: decorate_loads(item)
-        first: (index == 0)
-      
-
-    )).property()
+  
+  loadColsWithIndex: (->
+    @get("loadCols").map(
+      (col,i) ->
+        col: col
+        first: (i == 0)
+    )
+  ).property()
+  
+  loadCols: (->
+    [
+      @get("content")[0...10]
+      @get("content")[10...20]
+      @get("content")[20...30]
+    ]
+  ).property("@each")
   
