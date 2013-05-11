@@ -3,7 +3,25 @@ Statt.ApplicationView = Ember.View.extend
   didInsertElement: ->
     window.daterange_setup()
     window.graph_rendering_setup()
-  
+
+Statt.ChartView = Ember.View.extend
+  didInsertElement: (e) ->
+    from_time = new Date(@get("controller").from * 1000)
+    to_time   = new Date(@get("controller").to * 1000)
+    chart_width = @get("controller").width
+    
+    xScale = d3.time.scale()
+    .domain([from_time, to_time])
+    .range([10, chart_width])
+    
+    xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom")
+    
+    axis = d3.select("div#chart_container svg.axis")
+    .append("g")
+    .attr("class", "axis")
+    .call(xAxis)
 
 Statt.LoadView = Ember.View.extend
   templateName: "loads/load"

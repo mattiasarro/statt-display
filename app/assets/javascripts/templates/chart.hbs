@@ -1,17 +1,26 @@
-<svg class="chart2" {{bindAttr width="width" height="height"}}>
-  <g {{bindAttr transform="transform"}}>
-    {{#each controller}}
-      <rect class="bar" {{
-        bindAttr x="x" 
-        y="y" 
-        width="width" 
-        height="height" 
-      }}></rect>
-    {{/each}}
-    <text class="info" x="0" y="10">from: {{fromStr}}</text>
-    <text class="info" x="0" y="20">to: {{toStr}}</text>
-    <text class="info" x="0" y="30">bars: {{nrBars}}</text>
-  </g>
-</svg>
+<div class="row">
+  <div class="span12">
+    <div id="chart_container">
+      <svg class="chart2" {{bindAttr width="width" height="height"}}>
+        <g {{bindAttr transform="transform"}}>
+          {{#each controller}}
+            <rect class="bar" {{
+              bindAttr x="x" 
+              y="y" 
+              width="width" 
+              height="height" 
+            }}></rect>
+          {{/each}}
+          <text class="info" x="0" y="10">from: {{fromStr}}</text>
+          <text class="info" x="0" y="20">to: {{toStr}}</text>
+          <text class="info" x="0" y="30">bars: {{nrBars}}</text>
+        </g>
+      </svg>
+      <svg class="axis" {{bindAttr width="width"}} height="20">
+        {{! the D3 axis is defined in ChartView.didInsertElement() }}
+      </svg>
+    </div>
+  </div>
+</div>
 
 {{outlet bottom}}

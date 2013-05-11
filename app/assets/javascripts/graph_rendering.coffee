@@ -23,25 +23,6 @@ window.graph_rendering_setup = ->
   from_time = new Date(data_start)
   to_time = new Date(data_end)
   
-  bottom_axis = () ->
-    xScale = d3.time.scale()
-    .domain([from_time, to_time])
-    .range([10, chart_width])
-    
-    xAxis = d3.svg.axis()
-    .scale(xScale)
-    .orient("bottom")
-    
-    axis = d3.select("#chart_container").append("svg")
-    .attr("class", "axis")
-    .attr("width", chart_width)
-    .attr("height", 20)
-    
-    axis.append("g")
-    .attr("class", "axis")
-    .call(xAxis)
-  bottom_axis()
-  
   from_to_info = () ->
     
     chart.insert("text").attr("class", "info")
