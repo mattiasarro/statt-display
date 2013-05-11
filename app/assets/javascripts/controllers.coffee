@@ -68,6 +68,11 @@ Statt.BarController = Ember.ObjectController.extend
     .rangeRound([@chart().padding, @chart().height])
   ).property().cacheable()
   
-
-
+  labelX: (->
+    @get("x") + 2
+  ).property()
+  
+  labelY: (->
+    @get("y") + 10
+  ).property()
   
