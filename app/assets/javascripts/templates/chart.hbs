@@ -2,6 +2,12 @@
   <div class="span12">
     <div id="chart_container">
       <svg class="chart2" {{bindAttr width="width" height="height"}}>
+        <rect class="highlight" {{bindAttr
+          x="highlightX"
+          y="highlightY"
+          width="highlightWidth"
+          height="highlightHeight"
+        }}></rect>
         <g {{bindAttr transform="transform"}}>
           {{#each controller}}
             <rect class="bar" {{

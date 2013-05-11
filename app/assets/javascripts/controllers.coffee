@@ -1,7 +1,7 @@
 DEBUG = true
 
 Statt.LoadsIndexController = Ember.ArrayController.extend
-  something: 1
+  foo: "bar"
 
 Statt.ChartController = Ember.ArrayController.extend
   itemController: "bar"
@@ -35,38 +35,61 @@ Statt.ChartController = Ember.ArrayController.extend
     )
   ).property("@each.item")
   
-
+  highlightX: (->
+    #@get("xScale")(earliest_load_time - @get("from")) - .5
+    532.7094179747188
+  ).property()
+  
+  highlightY: (->
+    -11
+  ).property()  
+  
+  highlightWidth: (->
+    30
+  ).property()
+  
+  highlightHeight: (->
+    203
+  ).property()
+  
+  barWidth: (->
+    (@width - (2 * @padding)) / @nrBars
+  ).property().cacheable()
+  
+  xScale: (->
+    d3.scale.linear() # index * bar_width
+    .domain([0, @get("barDuration")])
+    .range([@padding, @get("barWidth") + @padding])
+  ).property().cacheable()
+  
+  yScale: (->
+    d3.scale.linear()
+    .domain([0, @get("maxLoads")])
+    .rangeRound([@padding, @height])
+  ).property().cacheable()
+  
 # no need to set property("keys"), values never updated
 Statt.BarController = Ember.ObjectController.extend
   needs: "chart"
   chart: -> @parentController
   x: (-> 
-    @get("xScale")(@get("time") - @chart().get("from"))
+    scale = @chart().get("xScale")
+    scale(@get("time") - @chart().get("from"))
   ).property()
   
   y: (->
-    @chart().height - @get("yScale")(@get("value")) - 1
+    scale = @chart().get("yScale")
+    @chart().height - scale(@get("value")) - 1
   ).property()
   
   width: (->
-    (@chart().width - (2 * @chart().padding)) / @chart().nrBars
+    @chart().get("barWidth")
   ).property()
   
   height: (->
-    @get("yScale")(@get("value"))
+    scale = @chart().get("yScale")
+    scale(@get("value"))
   ).property()
-  
-  xScale: (->
-    d3.scale.linear() # index * bar_width
-    .domain([0, @chart().get("barDuration")])
-    .range([@chart().padding, @get("width") + @chart().padding])
-  ).property().cacheable()
-  
-  yScale: (->
-    d3.scale.linear()
-    .domain([0, @chart().get("maxLoads")])
-    .rangeRound([@chart().padding, @chart().height])
-  ).property().cacheable()
   
   labelX: (->
     @get("x") + 2

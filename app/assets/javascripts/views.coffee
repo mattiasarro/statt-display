@@ -5,7 +5,8 @@ Statt.ApplicationView = Ember.View.extend
     window.graph_rendering_setup()
 
 Statt.ChartView = Ember.View.extend
-  didInsertElement: (e) ->
+  didInsertElement: -> @defineBottomAxis()
+  defineBottomAxis: ->
     from_time = new Date(@get("controller").from * 1000)
     to_time   = new Date(@get("controller").to * 1000)
     chart_width = @get("controller").width
@@ -22,6 +23,7 @@ Statt.ChartView = Ember.View.extend
     .append("g")
     .attr("class", "axis")
     .call(xAxis)
+  
 
 Statt.LoadView = Ember.View.extend
   templateName: "loads/load"
