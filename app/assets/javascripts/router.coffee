@@ -42,9 +42,15 @@ Statt.LoadsIndexRoute = Ember.Route.extend
     }
   }
   model: (params) ->
+    console.log params
+    console.log "here"
+    controller = @controllerFor("loads.index")
+    controller.set("pageNr", params.page_nr)
+    controller.set("nrPages", 12)
+    controller.set("pages", [{id: 1, nr: 1}, {id: 2, nr: 2}])
     p = @mock_params
     p.loads_pg_nr = params.page_nr
-    Statt.Load.find(p)
+    loads = Statt.Load.find(p)
   
   renderTemplate: -> 
     @render({

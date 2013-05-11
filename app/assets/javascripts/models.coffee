@@ -12,6 +12,7 @@ Statt.Bar = DS.Model.extend
 Statt.Load = DS.Model.extend
   path: DS.attr("string")
   user_agent: DS.attr("string")
+  time: DS.attr("number")
 
 Statt.Page = DS.Model.extend
   nr: DS.attr("number")
