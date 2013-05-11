@@ -2,7 +2,8 @@ DEBUG = true
 Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
     @resource "chart", path: "/chart/:nr_bars/:from/:to", ->
-      @resource "loads", path: '/loads/:page_nr', ->
+      @resource "loads", path: '/loads', ->
+        @route "page", path: '/page/:page_nr'
         # implicit index
       @resource "visitors", path: "/visitors/:page_nr", ->
         # implicit index
@@ -15,13 +16,7 @@ Statt.ChartRoute = Ember.Route.extend
     cc.set("to", params.to)
     Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
 
-Statt.LoadsIndexRoute = Ember.Route.extend
-  setupController: (controller,model) ->
-    controller.set("content", model)
-    controller.set("pageNr", 13)
-    controller.set("nrPages", 60)
-    controller.set("pages", [{id: 1, nr: 1}, {id: 2, nr: 2}])
-  
+Statt.LoadsPageRoute = Ember.Route.extend
   mock_params: {
     site_id: "5168608d763c55ea58000003"
     graph: {
@@ -42,12 +37,8 @@ Statt.LoadsIndexRoute = Ember.Route.extend
     }
   }
   model: (params) ->
-    console.log params
-    console.log "here"
-    controller = @controllerFor("loads.index")
+    controller = @controllerFor("loads.page")
     controller.set("pageNr", params.page_nr)
-    controller.set("nrPages", 12)
-    controller.set("pages", [{id: 1, nr: 1}, {id: 2, nr: 2}])
     p = @mock_params
     p.loads_pg_nr = params.page_nr
     loads = Statt.Load.find(p)

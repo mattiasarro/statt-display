@@ -1,10 +1,6 @@
-DEBUG = true
-
-Statt.LoadsIndexController = Ember.ArrayController.extend
-  foo: "bar"
-
 Statt.ChartController = Ember.ArrayController.extend
   itemController: "bar"
+  needs: "loads.page"
   width: 938 # including padding
   height: 193 # including padding
   padding: 10
@@ -33,7 +29,7 @@ Statt.ChartController = Ember.ArrayController.extend
       else
         item.get("value")
     )
-  ).property("@each.item")
+  ).property("@each.value")
   
   highlightX: (->
     #@get("xScale")(earliest_load_time - @get("from")) - .5
@@ -68,6 +64,12 @@ Statt.ChartController = Ember.ArrayController.extend
     .rangeRound([@padding, @height])
   ).property().cacheable()
   
+  nrLoads: (->
+    sumLoadNumbers = (previousValue, item) ->
+      previousValue = previousValue + item.get("value")
+    @reduce(sumLoadNumbers, 0)
+  ).property("@each.value")
+  
 # no need to set property("keys"), values never updated
 Statt.BarController = Ember.ObjectController.extend
   needs: "chart"
@@ -99,3 +101,14 @@ Statt.BarController = Ember.ObjectController.extend
     @get("y") + 10
   ).property()
   
+
+Statt.LoadsPageController = Ember.ArrayController.extend
+  needs: "chart"
+  perPage: 30
+  nrPages: (->
+    nr_loads = @get("controllers.chart.nrLoads")
+    Math.ceil(nr_loads / @perPage)
+  ).property("controllers.chart.nrLoads")
+  pages: (->
+    [{id: 1, nr: 1}, {id: 2, nr: 2}, {id: 3, nr: 3}]
+  ).property()
