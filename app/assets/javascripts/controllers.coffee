@@ -12,49 +12,61 @@ Statt.ChartController = Ember.ArrayController.extend
     "translate(" + @padding + ", " + @padding + ")"
   ).property()
   
-  bar_duration: (->
-    7199
-  ).property("nrBars")
+  barDuration: (->
+    (@get("to") - @get("from")) / @get("nrBars")
+  ).property("nrBars", "from", "to")
+  
+  fromStr: (->
+    f = new Date(@get("from") * 1000)
+    f.full()
+  ).property("from")
+  
+  toStr: (->
+    f = new Date(@get("to") * 1000)
+    f.full()
+  ).property("to")
+  
+  maxLoads: (->
+    @reduce((previousValue, item) ->
+      if previousValue > item.get("value")
+        previousValue
+      else
+        item.get("value")
+    )
+  ).property("@each.item")
   
 
-# TODO: set property("") dependencies    
+# no need to set property("keys"), values never updated
 Statt.BarController = Ember.ObjectController.extend
   needs: "chart"
-  chart: 
-    width: 938 # including padding
-    height: 193 # including padding
-    padding: 10
-    nr_bars: 60
-    bar_duration: 7199
-  timeframe: # this will get dynamic
-    from: 1366758000
-    timeframe_duration: 431940
-    max_value: 450
+  chart: -> @parentController
   x: (-> 
-    @xScale()(@get("time") - @get("timeframe.from"))
+    @get("xScale")(@get("time") - @chart().get("from"))
   ).property()
   
   y: (->
-    @parentController.height - @yScale()(@get("value")) - 1
+    @chart().height - @get("yScale")(@get("value")) - 1
   ).property()
   
   width: (->
-    (@parentController.width - (2 * @chart.padding)) / @parentController.nrBars
+    (@chart().width - (2 * @chart().padding)) / @chart().nrBars
   ).property()
   
   height: (->
-    @yScale()(@get("value"))
+    @get("yScale")(@get("value"))
   ).property()
   
-  xScale: ->
+  xScale: (->
     d3.scale.linear() # index * bar_width
-    .domain([0, @chart.bar_duration])
-    .range([@chart.padding, @get("width") + @chart.padding])
+    .domain([0, @chart().get("barDuration")])
+    .range([@chart().padding, @get("width") + @chart().padding])
+  ).property().cacheable()
   
-  yScale: ->
+  yScale: (->
     d3.scale.linear()
-    .domain([0, @timeframe.max_value])
-    .rangeRound([@chart.padding, @chart.height])
+    .domain([0, @chart().get("maxLoads")])
+    .rangeRound([@chart().padding, @chart().height])
+  ).property().cacheable()
   
 
 

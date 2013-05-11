@@ -8,11 +8,11 @@ Statt.Router.map ->
         # implicit index
 
 Statt.ChartRoute = Ember.Route.extend
-  setupController: (controller, model) ->
-    controller.set("content", model)
-    controller.set("nrBars", @nrBars)
   model: (params) ->
-    @nrBars = params.nr_bars
+    cc = @controllerFor("chart")
+    cc.set("nrBars", params.nr_bars)
+    cc.set("from", params.from)
+    cc.set("to", params.to)
     Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
 
 Statt.LoadsIndexRoute = Ember.Route.extend
