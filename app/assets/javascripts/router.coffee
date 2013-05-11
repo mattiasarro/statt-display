@@ -1,24 +1,26 @@
 DEBUG = true
 Statt.Router.map ->
   @resource "site", path: '/sites/:site_id', ->
-    @resource "chart", path: "/chart/:nr_bars", ->
-      @resource "bars", path: "/bars/:from/:to", ->
-        @resource "loads", path: '/loads/:page_nr', ->
-          # implicit index
-        @resource "visitors", path: "/visitors/:page_nr", ->
-          # implicit index
+    @resource "chart", path: "/chart/:nr_bars/:from/:to", ->
+      @resource "loads", path: '/loads/:page_nr', ->
+        # implicit index
+      @resource "visitors", path: "/visitors/:page_nr", ->
+        # implicit index
 
-Statt.BarsRoute = Ember.Route.extend
-  model: (p) ->
-    Statt.Bar.find({nr_bars: p.nr_bars, from: p.from, to: p.to})
+Statt.ChartRoute = Ember.Route.extend
+  setupController: (controller, model) ->
+    controller.set("content", model)
+    controller.set("nrBars", @nrBars)
+  model: (params) ->
+    @nrBars = params.nr_bars
+    Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
 
 Statt.LoadsIndexRoute = Ember.Route.extend
-  setupController: (c,m) ->
-    c.set("content", m)
-    c.set("pageNr", 13)
-    c.set("nrPages", 60)
-    c.set("pages", [{id: 1, nr: 1}, {id: 2, nr: 2}])
-    console.log "123"
+  setupController: (controller,model) ->
+    controller.set("content", model)
+    controller.set("pageNr", 13)
+    controller.set("nrPages", 60)
+    controller.set("pages", [{id: 1, nr: 1}, {id: 2, nr: 2}])
   
   mock_params: {
     site_id: "5168608d763c55ea58000003"
@@ -44,8 +46,9 @@ Statt.LoadsIndexRoute = Ember.Route.extend
     p.loads_pg_nr = params.page_nr
     Statt.Load.find(p)
   
-  renderTemplate:
+  renderTemplate: -> 
     @render({
       into: "chart"
       outlet: "bottom"
     })
+  

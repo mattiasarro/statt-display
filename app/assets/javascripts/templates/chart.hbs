@@ -1,6 +1,16 @@
 <svg class="chart2" {{bindAttr width="width" height="height"}}>
   <g {{bindAttr transform="transform"}}>
-    {{outlet}}
+    {{#each controller}}
+      <rect class="bar" {{
+        bindAttr x="x" 
+        y="y" 
+        width="width" 
+        height="height" 
+      }}></rect>
+    {{/each}}
+    <text class="info" x="0" y="10">from: 2013.04.24 00:00</text>
+    <text class="info" x="0" y="20">to: 2013.04.28 23:59</text>
+    <text class="info" x="0" y="30">bars: {{nrBars}}</text>
   </g>
 </svg>
 
