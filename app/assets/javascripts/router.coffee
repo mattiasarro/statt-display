@@ -28,7 +28,7 @@ Statt.ChartRoute = Ember.Route.extend
       to = controller.get("content.to") - controller.get("chartDuration")
 
       chart = @getModel({nr_bars: nrBars, from: from, to: to})
-      @transitionTo("chart", chart)
+      @transitionTo("loads.page", chart, @getLoadsModel(1))
     
     next: ->
       controller = @controllerFor("chart")
@@ -37,7 +37,7 @@ Statt.ChartRoute = Ember.Route.extend
       to = controller.get("content.to") + controller.get("chartDuration")
 
       chart = @getModel({nr_bars: nrBars, from: from, to: to})
-      @transitionTo("chart", chart)
+      @transitionTo("loads.page", chart, @getLoadsModel(1))
     
   getModel: (params) ->
     chart = Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
@@ -45,6 +45,33 @@ Statt.ChartRoute = Ember.Route.extend
     chart.set("from", parseInt(params.from))
     chart.set("to", parseInt(params.to))
     chart
+  
+  mock_params: {
+    site_id: "5168608d763c55ea58000003"
+    graph: {
+      nr_bars: 60
+      type: "custom"
+    }
+    timeframe: {
+      "from(3i)": "24"
+      "from(2i)": "4" 
+      "from(1i)": "2013"
+      "from(4i)": "00"
+      "from(5i)": "00"
+      "to(3i)": "28"
+      "to(2i)": "4"
+      "to(1i)": "2013"
+      "to(4i)": "23"
+      "to(5i)": "59"
+    }
+  }
+  getLoadsModel: (page_nr) ->
+    controller = @controllerFor("loads.page")
+    controller.set("pageNr", page_nr)
+    p = @mock_params
+    p.loads_pg_nr = page_nr
+    loads = Statt.Load.find(p)
+    loads.set("pageNr", page_nr)
 
 Statt.LoadsPageRoute = Ember.Route.extend
   renderTemplate: ->
