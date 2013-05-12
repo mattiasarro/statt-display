@@ -1,6 +1,6 @@
 <div class="chart-header">
   <div class="prev-container">
-    <a href="#" class="btn"><i class="icon-chevron-left"></i></a>
+    <a class="btn" {{action "prev"}}><i class="icon-chevron-left"></i></a>
   </div>
   <div class="info-box">
     Showing 4 hours in 60 bars. onetwo: {{onetwo}}
@@ -40,7 +40,7 @@
           {{/each}}
           <text class="info" x="0" y="10">from: {{fromStr}}</text>
           <text class="info" x="0" y="20">to: {{toStr}}</text>
-          <text class="info" x="0" y="30">bars: {{nrBars}}</text>
+          <text class="info" x="0" y="30">bars: {{content.nrBars}}</text>
         </g>
       </svg>
       <svg class="axis" {{bindAttr width="width"}} height="20">

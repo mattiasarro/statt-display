@@ -4,27 +4,33 @@ Statt.Router.map ->
     @resource "chart", path: "/chart/:nr_bars/:from/:to", ->
       @resource "loads", path: '/loads', ->
         @route "page", path: '/page/:page_nr'
-        # implicit index
-      @resource "visitors", path: "/visitors/:page_nr", ->
-        # implicit index
+        # last page (that would redirect)
+      @resource "visitors", path: "/visitors", ->
+        @route "page", path: '/page/:page_nr'
 
 Statt.SiteRoute = Ember.Route.extend()
 
 Statt.ChartRoute = Ember.Route.extend
-  model: (params) ->
-    cc = @controllerFor("chart")
-    cc.set("nrBars", params.nr_bars)
-    cc.set("from", params.from)
-    cc.set("to", params.to)
-    ret = Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
-    ret.set("nrBars", params.nr_bars)
-    ret.set("from", params.from)
-    ret.set("to", params.to)
-    ret
+  renderTemplate: ->
+    @render({into: "application"})
+  
   serialize: (model) ->
     { nr_bars: model.nrBars, from: model.from, to: model.to }
+  
+  model: (params) ->
+    controller = @controllerFor("chart")
+    chart = Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
+    chart.set("nrBars", params.nr_bars)
+    chart.set("from", params.from)
+    chart.set("to", params.to)
+    chart
+  
+  
 
 Statt.LoadsPageRoute = Ember.Route.extend
+  renderTemplate: -> 
+    @render({into: "chart"})
+  
   mock_params: {
     site_id: "5168608d763c55ea58000003"
     graph: {
@@ -44,7 +50,7 @@ Statt.LoadsPageRoute = Ember.Route.extend
       "to(5i)": "59"
     }
   }
-  model:  (params) -> @setupModel(params.page_nr)
+  model:  (params)  -> @setupModel(params.page_nr)
   events:
     goto: (page_nr) -> @setupModel(page_nr, true)
   setupModel: (page_nr, transition = false) ->

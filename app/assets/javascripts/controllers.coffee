@@ -7,20 +7,22 @@ Statt.ChartController = Ember.ArrayController.extend
   transform: (->
     "translate(" + @padding + ", " + @padding + ")"
   ).property()
-  
+  chartDuration: (-> 
+    @get("content.to") - @get("content.from")
+  ).property("content.to", "content.from")
   barDuration: (->
-    (@get("to") - @get("from")) / @get("nrBars")
-  ).property("nrBars", "from", "to")
+    (@get("content.to") - @get("content.from")) / @get("content.nrBars")
+  ).property("content.nrBars", "content.from", "content.to")
   
   fromStr: (->
-    f = new Date(@get("from") * 1000)
+    f = new Date(@get("content.from") * 1000)
     f.full()
-  ).property("from")
+  ).property("content.from")
   
   toStr: (->
-    f = new Date(@get("to") * 1000)
+    f = new Date(@get("content.to") * 1000)
     f.full()
-  ).property("to")
+  ).property("content.to")
   
   maxLoads: (->
     @reduce((previousValue, item) ->
@@ -49,7 +51,7 @@ Statt.ChartController = Ember.ArrayController.extend
   ).property()
   
   barWidth: (->
-    (@width - (2 * @padding)) / @nrBars
+    (@width - (2 * @padding)) / @get("content.nrBars")
   ).property().cacheable()
   
   xScale: (->
@@ -76,7 +78,7 @@ Statt.BarController = Ember.ObjectController.extend
   chart: -> @parentController
   x: (-> 
     scale = @chart().get("xScale")
-    scale(@get("time") - @chart().get("from"))
+    scale(@get("time") - @chart().get("content.from"))
   ).property()
   
   y: (->
