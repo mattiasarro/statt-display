@@ -47,8 +47,11 @@ Statt.ChartRoute = Ember.Route.extend
     chart
 
 Statt.LoadsPageRoute = Ember.Route.extend
-  renderTemplate: -> 
+  renderTemplate: ->
     @render({into: "chart"})
+  
+  serialize: (model) ->
+    {page_nr: model.pageNr}
   
   mock_params: {
     site_id: "5168608d763c55ea58000003"
@@ -78,5 +81,6 @@ Statt.LoadsPageRoute = Ember.Route.extend
     p = @mock_params
     p.loads_pg_nr = page_nr
     loads = Statt.Load.find(p)
+    loads.set("pageNr", page_nr)
     if transition then @transitionTo("loads.page", loads) else loads
   
