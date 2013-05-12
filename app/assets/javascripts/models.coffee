@@ -10,14 +10,17 @@ Statt.Bar = DS.Model.extend
   value: DS.attr("number")
 
 Statt.Load = DS.Model.extend
+  title: DS.attr("string")
   path: DS.attr("string")
-  user_agent: DS.attr("string")
+  userAgent: DS.attr("string")
+  clUserId: DS.attr("string")
   time: DS.attr("number")
   color: DS.attr("string")
   timeStr: (-> 
     new Date(@get("time") * 1000).time()
   ).property()
-  timeOnPage: (-> 
+  
+  timeOnPageStr: (->
     if @get("timeOnPage")
       @get("timeOnPage") + " seconds"
     else
@@ -30,7 +33,7 @@ Statt.Load = DS.Model.extend
   
   background: (->
     "background: #" + @get("color") + ";"
-  ).property()
+  ).property("color")
   
 
 Statt.Page = DS.Model.extend

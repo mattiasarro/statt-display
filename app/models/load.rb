@@ -50,7 +50,7 @@ class Load
   def as_json(*a)
     {
       "path" => self.path,
-      "time" => self.time,
+      "time" => self.time.to_i,
       "color" => self.color,
       "time_on_page" => self.time_on_page,
       "user_agent" => self.user_agent,
