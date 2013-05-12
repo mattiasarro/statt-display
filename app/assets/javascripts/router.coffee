@@ -8,13 +8,21 @@ Statt.Router.map ->
       @resource "visitors", path: "/visitors/:page_nr", ->
         # implicit index
 
+Statt.SiteRoute = Ember.Route.extend()
+
 Statt.ChartRoute = Ember.Route.extend
   model: (params) ->
     cc = @controllerFor("chart")
     cc.set("nrBars", params.nr_bars)
     cc.set("from", params.from)
     cc.set("to", params.to)
-    Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
+    ret = Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
+    ret.set("nrBars", params.nr_bars)
+    ret.set("from", params.from)
+    ret.set("to", params.to)
+    ret
+  serialize: (model) ->
+    { nr_bars: model.nrBars, from: model.from, to: model.to }
 
 Statt.LoadsPageRoute = Ember.Route.extend
   mock_params: {

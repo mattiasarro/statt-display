@@ -135,10 +135,16 @@ Statt.PaginationController = Ember.ArrayController.extend
   itemController: "page"
 
 Statt.PageController = Ember.ObjectController.extend
-  needs: "loads_page"
+  needs: ["loads_page", "site", "chart"]
   active: (->
     activePage  = (Number) @get("controllers.loads_page").get("pageNr")
     currentPage = (Number) @get("id")
     activePage == currentPage
   ).property()
   
+  site: (->
+    @get("controllers.site").get("content")
+  ).property()
+  chart: (->
+    @get("controllers.chart").get("content")
+  ).property()
