@@ -11,8 +11,7 @@
 //= require patches
 //= require daterange_selector
 //= require_self
-//= require ./statt
-//= require graph_rendering
+//= require ./statt-ember
 //= require graph_daterange
 Statt = Ember.Application.create({
   LOG_TRANSITIONS: true
