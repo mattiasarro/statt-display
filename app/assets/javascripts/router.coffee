@@ -11,6 +11,7 @@ Statt.Router.map ->
 Statt.SiteRoute = Ember.Route.extend
   model: (params) ->
     Statt.site_id = params.site_id # TODO: make RESTful
+    {id: params.site_id}
   
 
 Statt.ChartRoute = Ember.Route.extend
@@ -52,22 +53,8 @@ Statt.ChartRoute = Ember.Route.extend
   
   mock_params: {
     site_id: "5168608d763c55ea58000003"
-    graph: {
-      nr_bars: 60
-      type: "custom"
-    }
-    timeframe: {
-      "from(3i)": "24"
-      "from(2i)": "4" 
-      "from(1i)": "2013"
-      "from(4i)": "00"
-      "from(5i)": "00"
-      "to(3i)": "28"
-      "to(2i)": "4"
-      "to(1i)": "2013"
-      "to(4i)": "23"
-      "to(5i)": "59"
-    }
+    from: 1366758000
+    to: 1367189930
   }
   getLoadsModel: (page_nr) ->
     controller = @controllerFor("loads.page")
@@ -86,22 +73,8 @@ Statt.LoadsPageRoute = Ember.Route.extend
   
   mock_params: {
     site_id: "5168608d763c55ea58000003"
-    graph: {
-      nr_bars: 60
-      type: "custom"
-    }
-    timeframe: {
-      "from(3i)": "24"
-      "from(2i)": "4" 
-      "from(1i)": "2013"
-      "from(4i)": "00"
-      "from(5i)": "00"
-      "to(3i)": "28"
-      "to(2i)": "4"
-      "to(1i)": "2013"
-      "to(4i)": "23"
-      "to(5i)": "59"
-    }
+    from: 1366758000
+    to: 1367189930
   }
   model:  (params)  -> @setupModel(params.page_nr)
   events:
