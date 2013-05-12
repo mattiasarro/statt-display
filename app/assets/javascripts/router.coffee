@@ -8,7 +8,10 @@ Statt.Router.map ->
       @resource "visitors", path: "/visitors", ->
         @route "page", path: '/page/:page_nr'
 
-Statt.SiteRoute = Ember.Route.extend()
+Statt.SiteRoute = Ember.Route.extend
+  model: (params) ->
+    Statt.site_id = params.site_id # TODO: make RESTful
+  
 
 Statt.ChartRoute = Ember.Route.extend
   renderTemplate: ->
@@ -40,7 +43,8 @@ Statt.ChartRoute = Ember.Route.extend
       @transitionTo("loads.page", chart, @getLoadsModel(1))
     
   getModel: (params) ->
-    chart = Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
+    p = {nr_bars: params.nr_bars, from: params.from, to: params.to, site_id: Statt.site_id}
+    chart = Statt.Bar.find(p)
     chart.set("nrBars", parseInt(params.nr_bars))
     chart.set("from", parseInt(params.from))
     chart.set("to", parseInt(params.to))

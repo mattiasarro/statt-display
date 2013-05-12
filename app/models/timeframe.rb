@@ -2,8 +2,8 @@ class Timeframe
   attr_accessor :from, :to, :duration
   def initialize(attr={})
     attr = {} if attr.nil?
-    @from = parse_time(attr, :from)
-    @to   = parse_time(attr, :to)
+    @from = attr[:from] || parse_time(attr, :from)
+    @to   = attr[:to] || parse_time(attr, :to)
     
     
     if @from && @to
