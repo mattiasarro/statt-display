@@ -51,18 +51,18 @@ Statt.ChartRoute = Ember.Route.extend
     chart.set("to", parseInt(params.to))
     chart
   
-  mock_params: {
-    site_id: "5168608d763c55ea58000003"
-    from: 1366758000
-    to: 1367189930
-  }
+  
+  
   getLoadsModel: (page_nr) ->
-    controller = @controllerFor("loads.page")
-    controller.set("pageNr", page_nr)
-    p = @mock_params
-    p.loads_pg_nr = page_nr
-    loads = Statt.Load.find(p)
+    params = {
+        site_id: Statt.site_id
+        from: @modelFor("chart").get("from")
+        to: @modelFor("chart").get("to")
+        loads_pg_nr: page_nr
+    }
+    loads = Statt.Load.find(params)
     loads.set("pageNr", page_nr)
+  
 
 Statt.LoadsPageRoute = Ember.Route.extend
   renderTemplate: ->
@@ -71,18 +71,20 @@ Statt.LoadsPageRoute = Ember.Route.extend
   serialize: (model) ->
     {page_nr: model.pageNr}
   
-  mock_params: {
-    site_id: "5168608d763c55ea58000003"
-    from: 1366758000
-    to: 1367189930
-  }
-  model:  (params)  -> @setupModel(params.page_nr)
+  paramsBase: ->
+    {
+      site_id: Statt.site_id
+      from: @modelFor("chart").get("from")
+      to: @modelFor("chart").get("to")
+    }
+  
+  model:  (params)  -> 
+    console.log params
+    @setupModel(params.page_nr)
   events:
     goto: (page_nr) -> @setupModel(page_nr, true)
   setupModel: (page_nr, transition = false) ->
-    controller = @controllerFor("loads.page")
-    controller.set("pageNr", page_nr)
-    p = @mock_params
+    p = @paramsBase()
     p.loads_pg_nr = page_nr
     loads = Statt.Load.find(p)
     loads.set("pageNr", page_nr)
