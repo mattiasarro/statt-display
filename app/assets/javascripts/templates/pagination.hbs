@@ -1,7 +1,9 @@
 <div class="pagination">
   <ul>
     {{#each controller}}
-    <li {{bindAttr class="active"}}>{{#linkTo "loads.page" site chart id}}{{id}}{{/linkTo}}</li>
+    <li {{bindAttr class="active"}}>
+      <a {{action "goto" id}}>{{id}}</a>
+    </li>
     {{/each}}
   </ul>
 </div>

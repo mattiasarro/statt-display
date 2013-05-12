@@ -44,16 +44,14 @@ Statt.LoadsPageRoute = Ember.Route.extend
       "to(5i)": "59"
     }
   }
-  model: (params) ->
+  model:  (params) -> @setupModel(params.page_nr)
+  events:
+    goto: (page_nr) -> @setupModel(page_nr, true)
+  setupModel: (page_nr, transition = false) ->
     controller = @controllerFor("loads.page")
-    controller.set("pageNr", params.page_nr)
+    controller.set("pageNr", page_nr)
     p = @mock_params
-    p.loads_pg_nr = params.page_nr
+    p.loads_pg_nr = page_nr
     loads = Statt.Load.find(p)
-  
-  renderTemplate: -> 
-    @render({
-      into: "chart"
-      outlet: "bottom"
-    })
+    if transition then @transitionTo("loads.page", loads) else loads
   

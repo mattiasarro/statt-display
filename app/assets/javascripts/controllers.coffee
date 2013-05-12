@@ -120,7 +120,7 @@ Statt.LoadsPageController = Ember.ArrayController.extend
         col: col
         first: (i == 0)
     )
-  ).property()
+  ).property("@each")
   
   loadCols: (->
     [
@@ -145,6 +145,8 @@ Statt.PageController = Ember.ObjectController.extend
   site: (->
     @get("controllers.site").get("content")
   ).property()
+  
   chart: (->
     @get("controllers.chart").get("content")
   ).property()
+  
