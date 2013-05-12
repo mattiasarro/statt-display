@@ -8,13 +8,7 @@
     </li>
   </ul>
   
-  <div class="pagination">
-    <ul>
-      {{#each pages}}
-      <li>{{#linkTo "loads" nr}}{{nr}}{{/linkTo}}</li>
-      {{/each}}
-    </ul>
-  </div>
+  {{render "pagination" pages}}
 </div>
 
 <div class="loads">

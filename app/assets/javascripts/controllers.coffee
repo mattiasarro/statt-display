@@ -109,8 +109,9 @@ Statt.LoadsPageController = Ember.ArrayController.extend
     nr_loads = @get("controllers.chart.nrLoads")
     Math.ceil(nr_loads / @perPage)
   ).property("controllers.chart.nrLoads")
+  
   pages: (->
-    [{id: 1, nr: 1}, {id: 2, nr: 2}, {id: 3, nr: 3}]
+    Ember.Object.create {id: nr} for nr in [1..5]
   ).property()
   
   loadColsWithIndex: (->
@@ -128,4 +129,16 @@ Statt.LoadsPageController = Ember.ArrayController.extend
       @get("content")[20...30]
     ]
   ).property("@each")
+  
+
+Statt.PaginationController = Ember.ArrayController.extend
+  itemController: "page"
+
+Statt.PageController = Ember.ObjectController.extend
+  needs: "loads_page"
+  active: (->
+    activePage  = (Number) @get("controllers.loads_page").get("pageNr")
+    currentPage = (Number) @get("id")
+    activePage == currentPage
+  ).property()
   
