@@ -18,14 +18,33 @@ Statt.ChartRoute = Ember.Route.extend
     { nr_bars: model.nrBars, from: model.from, to: model.to }
   
   model: (params) ->
-    controller = @controllerFor("chart")
+    @getModel(params)
+  
+  events:
+    prev: ->
+      controller = @controllerFor("chart")
+      nrBars = controller.get("content.nrBars")
+      from = controller.get("content.from") - controller.get("chartDuration")
+      to = controller.get("content.to") - controller.get("chartDuration")
+
+      chart = @getModel({nr_bars: nrBars, from: from, to: to})
+      @transitionTo("chart", chart)
+    
+    next: ->
+      controller = @controllerFor("chart")
+      nrBars = controller.get("content.nrBars")
+      from = controller.get("content.from") + controller.get("chartDuration")
+      to = controller.get("content.to") + controller.get("chartDuration")
+
+      chart = @getModel({nr_bars: nrBars, from: from, to: to})
+      @transitionTo("chart", chart)
+    
+  getModel: (params) ->
     chart = Statt.Bar.find({nr_bars: params.nr_bars, from: params.from, to: params.to})
-    chart.set("nrBars", params.nr_bars)
-    chart.set("from", params.from)
-    chart.set("to", params.to)
+    chart.set("nrBars", parseInt(params.nr_bars))
+    chart.set("from", parseInt(params.from))
+    chart.set("to", parseInt(params.to))
     chart
-  
-  
 
 Statt.LoadsPageRoute = Ember.Route.extend
   renderTemplate: -> 

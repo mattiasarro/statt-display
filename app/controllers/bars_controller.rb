@@ -9,6 +9,7 @@ class BarsController < ApplicationController
   end
   
   def page1
+    logger.debug "-- page 1 --"
     [
       {time: 1367002766, value: 62},
       {time: 1366995567, value: 354},
@@ -49,6 +50,7 @@ class BarsController < ApplicationController
   end
   
   def page2
+    logger.debug "-- page 2 --"
     [
       {time: 1367002766, value: 0},
       {time: 1366995567, value: 0},

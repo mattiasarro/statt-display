@@ -6,7 +6,7 @@
     Showing 4 hours in 60 bars. onetwo: {{onetwo}}
   </div>
   <div class="next-container">
-    <a href="#" class="btn"><i class="icon-chevron-right"></i></a>
+    <a class="btn" {{action "next"}}><i class="icon-chevron-right"></i></a>
   </div>
   <div class="timeframe-selection-buttons btn-group">
     <a class="btn" data-toggle="button" id="daterange-calendar-button" data-original-title="">
@@ -21,7 +21,7 @@
 <div class="row">
   <div class="span12">
     <div id="chart_container">
-      <svg class="chart2" {{bindAttr width="width" height="height"}}>
+      <svg class="chart" {{bindAttr width="width" height="height"}}>
         <rect class="highlight" {{bindAttr
           x="highlightX"
           y="highlightY"
@@ -49,5 +49,6 @@
     </div>
   </div>
 </div>
+
 
 {{outlet}}

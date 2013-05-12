@@ -7,12 +7,18 @@ Statt.ChartController = Ember.ArrayController.extend
   transform: (->
     "translate(" + @padding + ", " + @padding + ")"
   ).property()
+  
   chartDuration: (-> 
     @get("content.to") - @get("content.from")
   ).property("content.to", "content.from")
+  
   barDuration: (->
     (@get("content.to") - @get("content.from")) / @get("content.nrBars")
   ).property("content.nrBars", "content.from", "content.to")
+  
+  barWidth: (->
+    (@width - (2 * @padding)) / @get("content.nrBars")
+  ).property("content.nrBars").cacheable()
   
   fromStr: (->
     f = new Date(@get("content.from") * 1000)
@@ -50,21 +56,17 @@ Statt.ChartController = Ember.ArrayController.extend
     203
   ).property()
   
-  barWidth: (->
-    (@width - (2 * @padding)) / @get("content.nrBars")
-  ).property().cacheable()
-  
   xScale: (->
     d3.scale.linear() # index * bar_width
     .domain([0, @get("barDuration")])
     .range([@padding, @get("barWidth") + @padding])
-  ).property().cacheable()
+  ).property("barDuration", "barWidth").cacheable()
   
   yScale: (->
     d3.scale.linear()
     .domain([0, @get("maxLoads")])
     .rangeRound([@padding, @height])
-  ).property().cacheable()
+  ).property("maxLoads").cacheable()
   
   nrLoads: (->
     sumLoadNumbers = (previousValue, item) ->
