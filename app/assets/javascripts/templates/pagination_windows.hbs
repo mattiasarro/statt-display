@@ -1,0 +1,11 @@
+<div class="pagination">
+  {{#each controller}}
+    <ul>
+      {{#each pages}}
+      <li {{bindAttr class="active"}}>
+        <a {{action "goto" id}}>{{id}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  {{/each}}
+</div>

@@ -8,7 +8,7 @@ Statt.ChartController = Ember.ArrayController.extend
     "translate(" + @padding + ", " + @padding + ")"
   ).property()
   
-  chartDuration: (-> 
+  chartDuration: (->
     @get("content.to") - @get("content.from")
   ).property("content.to", "content.from")
   
@@ -105,6 +105,11 @@ Statt.BarController = Ember.ObjectController.extend
     @get("y") + 10
   ).property()
   
+Statt.PageLink = Ember.Object.extend
+  active: ->
+    console.log this
+    
+  
 
 Statt.LoadsPageController = Ember.ArrayController.extend
   needs: "chart"
@@ -114,9 +119,46 @@ Statt.LoadsPageController = Ember.ArrayController.extend
     Math.ceil(nr_loads / @perPage)
   ).property("controllers.chart.nrLoads")
   
-  pages: (->
-    Ember.Object.create {id: nr} for nr in [1..5]
-  ).property()
+  windows: (->
+    nr_pages = (Number) @get("nrPages")
+    current_pg = (Number) parseInt(@get("content.pageNr"))
+    first_pg_of_tail = nr_pages - 2
+    
+    get_window = (range) ->
+      page_obj = (pg) ->
+        Ember.Object.create
+          id: pg
+          active: (current_pg == pg)
+      
+      pages  = (page_obj pg for pg in range)
+      window = Ember.Object.create({pages: pages})
+    
+    if nr_pages <= 13
+      if nr_pages > 1
+        arr = [get_window([1..nr_pages])]
+      else
+        arr = []
+    else if current_pg in [1..6]
+      arr = [
+        get_window([1..8])
+        get_window([(nr_pages-2)..nr_pages])
+      ]
+    else if current_pg in [7..(nr_pages-5)]
+      arr = [
+        get_window([1..3])
+        get_window([(current_pg-2)..(current_pg+2)])
+        get_window([(nr_pages-2)..nr_pages])
+      ]
+    else if current_pg in [(nr_pages-6)..nr_pages]
+      arr = [
+        get_window([1..3])
+        get_window([(nr_pages-7)..nr_pages])
+      ]
+    else
+      console.log("ERROR getting pagination sliding windows")
+    
+    arr
+  ).property("nrPages", "content.pageNr")
   
   loadColsWithIndex: (->
     @get("loadCols").map(
@@ -144,13 +186,5 @@ Statt.PageController = Ember.ObjectController.extend
     activePage  = (Number) @get("controllers.loads_page.content.pageNr")
     currentPage = (Number) @get("id")
     activePage == currentPage
-  ).property()
-  
-  site: (->
-    @get("controllers.site").get("content")
-  ).property()
-  
-  chart: (->
-    @get("controllers.chart").get("content")
   ).property()
   

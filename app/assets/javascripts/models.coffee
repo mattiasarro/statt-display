@@ -38,5 +38,3 @@ Statt.Load = DS.Model.extend
 
 Statt.Page = DS.Model.extend
   nr: DS.attr("number")
-  active: ->
-    false
