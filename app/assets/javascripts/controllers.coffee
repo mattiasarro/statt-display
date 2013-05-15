@@ -78,38 +78,6 @@ Statt.ChartController = Ember.ArrayController.extend
 Statt.BarController = Ember.ObjectController.extend
   needs: "chart"
   chart: -> @parentController
-  x: (-> 
-    scale = @chart().get("xScale")
-    scale(@get("time") - @chart().get("content.from"))
-  ).property()
-  
-  y: (->
-    scale = @chart().get("yScale")
-    @chart().height - scale(@get("value")) - 1
-  ).property()
-  
-  width: (->
-    @chart().get("barWidth")
-  ).property()
-  
-  height: (->
-    scale = @chart().get("yScale")
-    scale(@get("value"))
-  ).property()
-  
-  labelX: (->
-    @get("x") + 2
-  ).property()
-  
-  labelY: (->
-    @get("y") + 10
-  ).property()
-  
-Statt.PageLink = Ember.Object.extend
-  active: ->
-    console.log this
-    
-  
 
 Statt.LoadsPageController = Ember.ArrayController.extend
   needs: "chart"
