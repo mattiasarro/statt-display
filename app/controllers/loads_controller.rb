@@ -12,7 +12,7 @@ class LoadsController < ApplicationController
     @loads = Loads.new(@site, @timeframe)
     @loads_page = @loads.page(params[:loads_pg_nr].to_i)
     
-    respond_with({loads: @loads_page.loads_on_page.all})
+    respond_with({loads: @loads_page.loads_on_page.reverse})
   end
   
 end

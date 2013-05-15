@@ -40,21 +40,24 @@ Statt.ChartController = Ember.ArrayController.extend
   ).property("@each.value")
   
   highlightX: (->
-    #@get("xScale")(earliest_load_time - @get("from")) - .5
-    532.7094179747188
-  ).property()
+    chartFrom = @get("content.from")
+    firstLoadFrom = @get("firstLoad.time")
+    @get("xScale")(firstLoadFrom - chartFrom) - .5  
+  ).property("firstLoad", "content.from", "xScale")
   
   highlightY: (->
-    -11
-  ).property()  
+    -(@padding + 1)
+  ).property()
   
   highlightWidth: (->
-    30
+    duration = @get("lastLoad.time") - @get("firstLoad.time")
+    total_width = @width - (2 * @padding) - 2
+    width = duration * (total_width/timeframe_duration)
   ).property()
   
   highlightHeight: (->
-    203
-  ).property()
+    @height + @padding
+  ).property().cacheable()
   
   xScale: (->
     d3.scale.linear() # index * bar_width
@@ -143,16 +146,4 @@ Statt.LoadsPageController = Ember.ArrayController.extend
       @get("content")[20...30]
     ]
   ).property("@each")
-  
-
-Statt.PaginationController = Ember.ArrayController.extend
-  itemController: "page"
-
-Statt.PageController = Ember.ObjectController.extend
-  needs: ["loads_page", "site", "chart"]
-  active: (->
-    activePage  = (Number) @get("controllers.loads_page.content.pageNr")
-    currentPage = (Number) @get("id")
-    activePage == currentPage
-  ).property()
   

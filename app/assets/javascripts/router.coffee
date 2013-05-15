@@ -32,6 +32,7 @@ Statt.ChartRoute = Ember.Route.extend
       to = controller.get("content.to") - controller.get("chartDuration")
 
       chart = @getModel({nr_bars: nrBars, from: from, to: to})
+      
       @transitionTo("loads.page", chart, @getLoadsModel(1))
     
     next: ->
@@ -51,19 +52,24 @@ Statt.ChartRoute = Ember.Route.extend
     chart.set("to", parseInt(params.to))
     chart
   
-  
-  
   getLoadsModel: (page_nr) ->
     params = {
-        site_id: Statt.site_id
         from: @modelFor("chart").get("from")
         to: @modelFor("chart").get("to")
         loads_pg_nr: page_nr
     }
-    loads = Statt.Load.find(params)
-    loads.set("pageNr", page_nr)
+    Statt.getLoads(params, @controllerFor("chart"))
   
-
+Statt.getLoads = (params, chartController) ->
+  params.site_id = Statt.site_id
+  loads = Statt.Load.find(params)
+  loads.set("pageNr", params.loads_pg_nr)
+  loads.on "didLoad", ->
+    firstLoad = @get("content")[0].record
+    lastLoad = @get("content")[@get("content").length - 1].record
+    chartController.set("firstLoad", firstLoad)
+    chartController.set("lastLoad", lastLoad)
+    
 Statt.LoadsPageRoute = Ember.Route.extend
   renderTemplate: ->
     @render({into: "chart"})
@@ -71,22 +77,16 @@ Statt.LoadsPageRoute = Ember.Route.extend
   serialize: (model) ->
     {page_nr: model.pageNr}
   
-  paramsBase: ->
-    {
-      site_id: Statt.site_id
-      from: @modelFor("chart").get("from")
-      to: @modelFor("chart").get("to")
-    }
-  
-  model:  (params)  -> 
-    console.log params
+  model:  (params)  ->
     @setupModel(params.page_nr)
   events:
     goto: (page_nr) -> @setupModel(page_nr, true)
   setupModel: (page_nr, transition = false) ->
-    p = @paramsBase()
-    p.loads_pg_nr = page_nr
-    loads = Statt.Load.find(p)
-    loads.set("pageNr", page_nr)
+    params = {
+      from: @modelFor("chart").get("from")
+      to: @modelFor("chart").get("to")
+      loads_pg_nr: page_nr
+    }
+    loads = Statt.getLoads(params, @controllerFor("chart"))
     if transition then @transitionTo("loads.page", loads) else loads
   
