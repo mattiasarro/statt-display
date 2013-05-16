@@ -1,0 +1,79 @@
+<div id="daterange-select-container">
+  <div id="daterange-select-dropdowns" style="">
+      <form accept-charset="UTF-8" class="form-horizontal" method="get">
+      <fieldset>
+        <legend>Select a precise timeframe</legend>
+        <div class="control-group">
+          <label class="control-label" for="timeframe_from_1i">From:</label>
+          <div class="controls">
+            <select id="timeframe_from_3i" name="fromDay">
+              {{#each fromDays}}
+                <option {{bindAttr selected="selected" value="id"}}>{{id}}</option>
+              {{/each}}
+            </select>
+            <select id="timeframe_from_2i" name="fromMonth">
+              {{#each fromMonths}}
+                <option {{bindAttr selected="selected" value="id"}}>{{name}}</option>
+              {{/each}}
+            </select>
+            <select id="timeframe_from_1i" name="fromYear">
+              {{#each fromYears}}
+                <option {{bindAttr selected="selected" value="id"}}>{{id}}</option>
+              {{/each}}
+            </select>
+             — 
+            <select id="timeframe_from_4i" name="fromHour">
+              {{#each fromHours}}
+                <option {{bindAttr selected="selected" value="id"}}>{{trailingZero}}</option>
+              {{/each}}
+            </select>
+             : 
+            <select id="timeframe_from_5i" name="fromMinute">
+              {{#each fromMinutes}}
+                <option {{bindAttr selected="selected" value="id"}}>{{trailingZero}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="timeframe_to_1i">To:</label>
+          <div class="controls">
+            <select id="timeframe_to_3i" name="toDay">
+              {{#each toDays}}
+                <option {{bindAttr selected="selected" value="id"}}>{{id}}</option>
+              {{/each}}
+            </select>
+            <select id="timeframe_to_2i" name="toMonth">
+              {{#each toMonths}}
+                <option {{bindAttr selected="selected" value="id"}}>{{name}}</option>
+              {{/each}}
+            </select>
+            <select id="timeframe_to_1i" name="toYear">
+              {{#each toYears}}
+                <option {{bindAttr selected="selected" value="id"}}>{{id}}</option>
+              {{/each}}
+            </select>
+             — 
+            <select id="timeframe_to_4i" name="toHour">
+              {{#each toHours}}
+                <option {{bindAttr selected="selected" value="id"}}>{{trailingZero}}</option>
+              {{/each}}
+            </select>
+             : 
+            <select id="timeframe_to_5i" name="toMinute">
+              {{#each toMinutes}}
+                <option {{bindAttr selected="selected" value="id"}}>{{trailingZero}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group btn-control-group">
+          <div class="controls">
+            <button class="btn" type="submit">Update Graph</button>
+          </div>
+        </div>
+      </fieldset>
+  </form>
+    </div>
+</div>

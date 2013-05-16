@@ -1,6 +1,11 @@
 Statt.Site = DS.Model.extend
   onetwo: DS.attr("string")
 
+Statt.Timeframe = Ember.Object.extend
+  init: (fromInt, toInt) ->
+    @set "from", (new Date(fromInt * 1000))
+    @set "to", (new Date(toInt * 1000))
+
 Statt.Bar = DS.Model.extend
   #from: DS.attr("date")
   #to: DS.attr("date")

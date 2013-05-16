@@ -161,7 +161,7 @@ Statt.DaterangeCalendarButton = Ember.View.extend
     data_end = ""
     
     a = @$()
-    a.popover({
+    a.popover
       html: true,
       placement: "left",
       trigger: "manual",
@@ -172,8 +172,8 @@ Statt.DaterangeCalendarButton = Ember.View.extend
           <a id="dp_prev"><i class="icon-chevron-left"></i></a>
           <a id="dp_next"><i class="icon-chevron-right"></i></a>
         </div>'
-    })
-
+  
+  
 Statt.DaterangeSelectButton = Ember.View.extend
   tagName: "a"
   classNames: ["btn"]
@@ -192,15 +192,14 @@ Statt.DaterangeSelectButton = Ember.View.extend
   
   didInsertElement: ->
     a = @$()
-    a.popover({
-      html: true,
-      placement: "left",
-      trigger: "manual",
-      title: false,
+    a.popover
+      html: true
+      placement: "left"
+      trigger: "manual"
+      title: false
       content: ->
         $('#daterange-select-dropdowns').show()
         $('#daterange-select-container').html()
-    })
   
   
   update_rails_datetime_select: (id, time, start_end) ->
@@ -237,6 +236,7 @@ Statt.LoadView = Ember.View.extend
         ret += '  <tr><td>On&nbsp;page:</td><td>' + load.get("timeOnPageStr") + '</td></tr>'
         ret += '</table>'
     })
+  
   click: (event) ->
     $(event.target).tooltip("toggle")
-    
+  

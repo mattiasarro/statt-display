@@ -1,3 +1,92 @@
+Statt.TimeframeController = Ember.ObjectController.extend
+  fromDays: (-> 
+    @days(@get("content.from"))
+  ).property("content.from")
+  
+  fromMonths: (->
+    @months(@get("content.from"))
+  ).property("content.from")
+  
+  fromYears: (->
+    @years(@get("content.from"))
+  ).property("content.from")
+  
+  fromHours: (->
+    @hours(@get("content.from"))
+  ).property("content.from")
+  
+  fromMinutes: (->
+    @minutes(@get("content.from"))
+  ).property("content.from")
+  
+  toDays: (-> 
+    @days(@get("content.to"))
+  ).property("content.to")
+  
+  toMonths: (->
+    @months(@get("content.to"))
+  ).property("content.to")
+  
+  toYears: (->
+    @years(@get("content.to"))
+  ).property("content.to")
+  
+  toHours: (->
+    @hours(@get("content.to"))
+  ).property("content.to")
+  
+  toMinutes: (->
+    @minutes(@get("content.to"))
+  ).property("content.to")
+    
+  days: (time) ->
+    day = time.getDate()
+    get_obj = (nr) ->
+      Ember.Object.create
+        id: nr
+        selected: (day == nr)
+    get_obj nr for nr in [1...31]
+  
+  months: (time) ->
+    month = time.getMonth() + 1
+    monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+    get_obj = (nr) ->
+      Ember.Object.create
+        id: nr
+        name: monthNames[nr - 1]
+        selected: (month == nr)
+    get_obj nr for nr in [1...12]
+  
+  years: (time) ->
+    year = time.getFullYear()
+    get_obj = (nr) ->
+      Ember.Object.create
+        id: nr
+        selected: (year == nr)
+    get_obj nr for nr in [2010...2015]
+  
+  hours: (time) ->
+    hour = time.getHours()
+    get_obj = (nr) ->
+      trailingZero = (if nr < 10 then "0#{nr}" else nr)
+      Ember.Object.create
+        id: nr
+        selected: (hour == nr)
+        trailingZero: trailingZero
+    get_obj nr for nr in [0...23]
+  
+  minutes: (time) ->
+    minute = time.getMinutes()
+    get_obj = (nr) ->
+      trailingZero = (if nr < 10 then "0#{nr}" else nr)
+      Ember.Object.create
+        id: nr
+        selected: (minute == nr)
+        trailingZero: trailingZero
+    get_obj nr for nr in [0...59]
+  
+  
+
 Statt.ChartController = Ember.ArrayController.extend
   itemController: "bar"
   needs: "loads.page"

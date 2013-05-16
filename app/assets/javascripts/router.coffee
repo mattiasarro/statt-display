@@ -46,6 +46,8 @@ Statt.ChartRoute = Ember.Route.extend
     
   getModel: (params) ->
     p = {nr_bars: params.nr_bars, from: params.from, to: params.to, site_id: Statt.site_id}
+    timeframe = new Statt.Timeframe(parseInt(params.from), parseInt(params.to))
+    @controllerFor("chart").set("timeframe", timeframe)
     chart = Statt.Bar.find(p)
     chart.set("nrBars", parseInt(params.nr_bars))
     chart.set("from", parseInt(params.from))
