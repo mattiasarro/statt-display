@@ -9,11 +9,12 @@
     <a class="btn" {{action "next"}}><i class="icon-chevron-right"></i></a>
   </div>
   <div class="timeframe-selection-buttons btn-group">
-    <a class="btn" data-toggle="button" id="daterange-calendar-button" data-original-title="">
+    {{#view Statt.DaterangeCalendarButton}}
       <i class="icon-calendar"></i>
-    </a>
-    <a class="btn" data-toggle="button" id="daterange-select-button" data-original-title="">
+    {{/view}}
+    {{#view Statt.DaterangeSelectButton}}
       <i class="icon-time"></i>
+    {{/view}}
     </a>
   </div>
 </div>

@@ -9,10 +9,12 @@
 //= require ember-data
 //= require d3
 //= require patches
+//= require jquery.ui.core
+//= require jquery.ui.datepicker
+//= require jquery.ui.selectable
 //= require daterange_selector
 //= require_self
 //= require ./statt-ember
-//= require graph_daterange
 Statt = Ember.Application.create({
   LOG_TRANSITIONS: true
 });

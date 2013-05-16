@@ -52,8 +52,8 @@ Statt.ChartController = Ember.ArrayController.extend
   highlightWidth: (->
     duration = @get("lastLoad.time") - @get("firstLoad.time")
     total_width = @width - (2 * @padding) - 2
-    width = duration * (total_width/timeframe_duration)
-  ).property()
+    width = Math.ceil(duration * (total_width/timeframe_duration))
+  ).property("lastLoad", "firstLoad", "content.from")
   
   highlightHeight: (->
     @height + @padding
