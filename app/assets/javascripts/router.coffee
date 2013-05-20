@@ -44,14 +44,21 @@ Statt.ChartRoute = Ember.Route.extend
       chart = @getModel({nr_bars: nrBars, from: from, to: to})
       @transitionTo("loads.page", chart, @getLoadsModel(1))
     
+    newTimeframe: (from, to) ->
+      chart = @getModel({from: (from / 1000), to: (to / 1000)})
+      @transitionTo("loads.page", chart, @getLoadsModel(1))
+    
   getModel: (params) ->
-    p = {nr_bars: params.nr_bars, from: params.from, to: params.to, site_id: Statt.site_id}
-    timeframe = new Statt.Timeframe(parseInt(params.from), parseInt(params.to))
+    nr_bars = parseInt(params.nr_bars || @controllerFor("chart").get("content.nrBars"))
+    from = parseInt(params.from)
+    to = parseInt(params.to)
+    p = { nr_bars: nr_bars, from: from, to: to, site_id: Statt.site_id }
+    timeframe = new Statt.Timeframe(from, to)
     @controllerFor("chart").set("timeframe", timeframe)
     chart = Statt.Bar.find(p)
-    chart.set("nrBars", parseInt(params.nr_bars))
-    chart.set("from", parseInt(params.from))
-    chart.set("to", parseInt(params.to))
+    chart.set("nrBars", nr_bars)
+    chart.set("from", from)
+    chart.set("to", to)
     chart
   
   getLoadsModel: (page_nr) ->

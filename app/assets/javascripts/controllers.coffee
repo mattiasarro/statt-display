@@ -1,5 +1,6 @@
 Statt.TimeframeController = Ember.ObjectController.extend
-  fromDays: (-> 
+  needs: "chart"
+  fromDays: (->
     @days(@get("content.from"))
   ).property("content.from")
   
@@ -19,7 +20,7 @@ Statt.TimeframeController = Ember.ObjectController.extend
     @minutes(@get("content.from"))
   ).property("content.from")
   
-  toDays: (-> 
+  toDays: (->
     @days(@get("content.to"))
   ).property("content.to")
   
@@ -38,7 +39,7 @@ Statt.TimeframeController = Ember.ObjectController.extend
   toMinutes: (->
     @minutes(@get("content.to"))
   ).property("content.to")
-    
+  
   days: (time) ->
     day = time.getDate()
     get_obj = (nr) ->
@@ -73,7 +74,7 @@ Statt.TimeframeController = Ember.ObjectController.extend
         id: nr
         selected: (hour == nr)
         trailingZero: trailingZero
-    get_obj nr for nr in [0...23]
+    get_obj nr for nr in [0..23]
   
   minutes: (time) ->
     minute = time.getMinutes()
@@ -83,7 +84,7 @@ Statt.TimeframeController = Ember.ObjectController.extend
         id: nr
         selected: (minute == nr)
         trailingZero: trailingZero
-    get_obj nr for nr in [0...59]
+    get_obj nr for nr in [0..59]
   
   
 
@@ -169,7 +170,6 @@ Statt.ChartController = Ember.ArrayController.extend
 
 Statt.BarController = Ember.ObjectController.extend
   needs: "chart"
-  chart: -> @parentController
 
 Statt.LoadsPageController = Ember.ArrayController.extend
   needs: "chart"
@@ -214,8 +214,6 @@ Statt.LoadsPageController = Ember.ArrayController.extend
         get_window([1..3])
         get_window([(nr_pages-7)..nr_pages])
       ]
-    else
-      console.log("ERROR getting pagination sliding windows")
     
     arr
   ).property("nrPages", "content.pageNr")

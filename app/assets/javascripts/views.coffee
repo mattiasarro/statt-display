@@ -108,6 +108,8 @@ Statt.DaterangeCalendarButton = Ember.View.extend
   "data-original-title": ""
   id: "daterange-calendar-button"
   click: ->
+    chartController = @get("controller")
+    
     setup_daterange_selector = ->
       get_graph_date = (from_to) ->
         year = $("#timeframe_#{from_to}_1i").val()
@@ -119,18 +121,22 @@ Statt.DaterangeCalendarButton = Ember.View.extend
         selector: "#datepicker", 
         nr_months: 2,
         start_date: () -> (
+          # currently need this for start-of-day
           get_graph_date("from")
         ),
         end_date: () -> (
+          # currently need this for start-of-day
           get_graph_date("to")
         ),
         start_date_selected: (time) -> (
-          update_rails_datetime_select("#timeframe_from", time, "start")
+          @fromTmp = time
         ),
         end_date_selected: (time) -> (
-          update_rails_datetime_select("#timeframe_to", time, "end")
-          $("#graph_type").val("custom")
-          $("#daterange-select-dropdowns form").submit()
+          @toTmp = time
+          # go to end of day
+          dayInSeconds = (60*60*24) - 1
+          @toTmp.setSeconds(@toTmp.getSeconds() + dayInSeconds)
+          chartController.send("newTimeframe", @fromTmp, @toTmp)
         )
       })
       
@@ -157,9 +163,6 @@ Statt.DaterangeCalendarButton = Ember.View.extend
       setup_daterange_selector()
   
   didInsertElement: ->
-    data_start = ""
-    data_end = ""
-    
     a = @$()
     a.popover
       html: true,
@@ -168,7 +171,7 @@ Statt.DaterangeCalendarButton = Ember.View.extend
       title: false,
       content: ->
         '<div id="picker">
-          <div id="datepicker" data-start="' + data_start + '" data-end="' + data_end + '"></div>
+          <div id="datepicker"></div>
           <a id="dp_prev"><i class="icon-chevron-left"></i></a>
           <a id="dp_next"><i class="icon-chevron-right"></i></a>
         </div>'
@@ -217,6 +220,38 @@ Statt.DaterangeSelectButton = Ember.View.extend
       $(id + "_4i").val("23")
       $(id + "_5i").val("59")
   
+
+Statt.TimeframeForm = Ember.View.extend
+  tagName: "form"
+  getDate: (year, month, day, hour, minute) ->
+    year = parseInt(year)
+    month = parseInt(month) - 1
+    day = parseInt(day)
+    hour = parseInt(hour)
+    minute = parseInt(minute)
+    new Date(year,month,day,hour,minute)
+  
+  submit: (event) ->
+    newValueOf = (selector) ->
+      $(event.currentTarget).find(selector).val()
+    
+    from = @getDate(
+      newValueOf("#timeframe_from_1i")
+      newValueOf("#timeframe_from_2i")
+      newValueOf("#timeframe_from_3i")
+      newValueOf("#timeframe_from_4i")
+      newValueOf("#timeframe_from_5i")
+    )
+    to = @getDate(
+      newValueOf("#timeframe_to_1i")
+      newValueOf("#timeframe_to_2i")
+      newValueOf("#timeframe_to_3i")
+      newValueOf("#timeframe_to_4i")
+      newValueOf("#timeframe_to_5i")
+    )
+    chartController = @get("controller.controllers.chart")
+    chartController.send("newTimeframe", from, to)
+    false
 
 Statt.LoadView = Ember.View.extend
   templateName: "loads/load"
