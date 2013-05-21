@@ -33,8 +33,8 @@ group :test do
 
   gem 'guard-minitest'
   gem 'rb-fsevent', :require => false
-end
-group :assets do
+#end
+#group :assets do
   # Assets - can't explicitly exclude assets group in Heroku
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
