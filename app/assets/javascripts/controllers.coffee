@@ -132,7 +132,7 @@ Statt.ChartController = Ember.ArrayController.extend
   highlightX: (->
     chartFrom = @get("content.from")
     firstLoadFrom = @get("firstLoad.time")
-    @get("xScale")(firstLoadFrom - chartFrom) - .5  
+    @get("xScale")(firstLoadFrom - chartFrom) - .5
   ).property("firstLoad", "content.from", "xScale")
   
   highlightY: (->
@@ -141,8 +141,7 @@ Statt.ChartController = Ember.ArrayController.extend
   
   highlightWidth: (->
     duration = @get("lastLoad.time") - @get("firstLoad.time")
-    total_width = @width - (2 * @padding) - 2
-    width = Math.ceil(duration * (total_width/timeframe_duration))
+    @get("xScale")(duration) - .5
   ).property("lastLoad", "firstLoad", "content.from")
   
   highlightHeight: (->
@@ -167,6 +166,13 @@ Statt.ChartController = Ember.ArrayController.extend
     @reduce(sumLoadNumbers, 0)
   ).property("@each.value")
   
+  durationStr: (->
+    from = @get("content.from")
+    to = @get("content.to")
+    duration = to - from
+    hours  = duration / 60 / 60
+    parseInt(hours)
+  ).property("content.from", "content.to")
 
 Statt.BarController = Ember.ObjectController.extend
   needs: "chart"

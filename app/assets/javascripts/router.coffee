@@ -32,7 +32,6 @@ Statt.ChartRoute = Ember.Route.extend
       to = controller.get("content.to") - controller.get("chartDuration")
 
       chart = @getModel({nr_bars: nrBars, from: from, to: to})
-      
       @transitionTo("loads.page", chart, @getLoadsModel(1))
     
     next: ->

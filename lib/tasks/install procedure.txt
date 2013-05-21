@@ -1,8 +1,6 @@
 ## deploy ##
 
 b rake assets:precompile
-mongoid.yml
-  MONGOLAB_URI
 Gemfile
   :assets => :development
 bundle install
