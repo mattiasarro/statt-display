@@ -1,1 +1,0 @@
-Ember.TEMPLATES.application=Ember.Handlebars.template(function(t,n,r,i,s){this.compilerInfo=[2,">= 1.0.0-rc.3"],r=r||Ember.Handlebars.helpers,s=s||{};var o="",u,a=this.escapeExpression;return u={},s.buffer.push(a(r._triageMustache.call(n,"outlet",{hash:{},contexts:[n],types:["ID"],hashTypes:u,data:s}))),s.buffer.push("\n"),o});
