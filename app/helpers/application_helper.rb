@@ -5,4 +5,10 @@ module ApplicationHelper
     options[:html] = {class: "form-horizontal"}
     form_for(object, options, &block)
   end
+  
+  def ember_site_path(site)
+    from = Date.today.to_time.to_i
+    to = Time.now.to_i
+    "/ember/#/sites/#{site.id}/chart/60/#{from}/#{to}/loads/page/1"
+  end
 end

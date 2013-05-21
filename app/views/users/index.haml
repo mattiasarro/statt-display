@@ -1,13 +1,14 @@
-%h1 Users
-%table#users
-  %tr
-    %th Name
-    %th E-mail
-    %th Provider
-    %th UID
-  - User.all.each do |u|
+.container
+  %h1 Users
+  %table#users
     %tr
-      %td= u.name
-      %td= u.email
-      %td= u.provider
-      %td= u.uid
+      %th Name
+      %th E-mail
+      %th Provider
+      %th UID
+    - User.all.each do |u|
+      %tr
+        %td= u.name
+        %td= u.email
+        %td= u.provider
+        %td= u.uid

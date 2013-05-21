@@ -13,7 +13,8 @@ Display::Application.routes.draw do
   resources :users # application users
   resources :visitors # visitors of tracked websites
   
-  root :to => 'sites#show_ember'
+  root :to => 'root#index'
+  match '/ember' => 'sites#show_ember'
   match '/loads' => 'loads#index'
   match '/bars' => 'bars#index'
   

@@ -1,7 +1,8 @@
-= bootstrap_form_for @user do |f|
-  = f.fieldset "User Account Settings" do
-    = f.text_field :name, disabled: true
-    = f.text_field :provider, disabled: true, label: "Authentication provider:"
-    = f.text_field :uid, disabled: true, label: "User ID:"
-    = f.email_field :email, label: "E-mail:"
-    = f.submit "Save changes"
+.container
+  = bootstrap_form_for @user do |f|
+    = f.fieldset "User Account Settings" do
+      = f.text_field :name, disabled: true
+      = f.text_field :provider, disabled: true, label: "Authentication provider:"
+      = f.text_field :uid, disabled: true, label: "User ID:"
+      = f.email_field :email, label: "E-mail:"
+      = f.submit "Save changes"

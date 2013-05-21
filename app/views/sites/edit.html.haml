@@ -1,7 +1,8 @@
-%h1 Editing site
+.container
+  %h1 Editing site
 
-= render 'form'
+  = render 'form'
 
-= link_to 'Show', @site
-\|
-= link_to 'Delete', @site, method: :delete, data: { confirm: 'Are you sure?' }
+  = link_to 'Show', @site
+  \|
+  = link_to 'Delete', @site, method: :delete, data: { confirm: 'Are you sure?' }
